@@ -51,6 +51,555 @@
         </div>
     </div>
 
+    <!-- KARAOKE: Booking Type Selection -->
+    <div id="page-karaoke-type" class="page">
+        <div class="header-small">
+            <button class="back-btn" onclick="goBack()">← Back</button>
+            <img src="https://images.squarespace-cdn.com/content/v1/65dec516adff7d2580b90124/37d9d0fb-8085-41bd-9f5c-aa354f22470c/012+Logo+Transparent.ai.png?format=1500w" alt="Ocean 12" class="logo-small">
+            <div style="width: 80px;"></div>
+        </div>
+        
+        <div class="container">
+            <h1>Choose Booking Type</h1>
+            
+            <div class="selection-grid">
+                <div class="selection-card" onclick="selectKaraokeType('night')">
+                    <span class="emoji">🌙</span>
+                    <h2>Book the Night</h2>
+                    <p>Minimum spend booking</p>
+                </div>
+                
+                <div class="selection-card" onclick="selectKaraokeType('session')">
+                    <span class="emoji">⏰</span>
+                    <h2>Book a Session</h2>
+                    <p>Per hour (minimum 2 hours)</p>
+                </div>
+                
+                <div class="selection-card" onclick="selectKaraokeType('package')">
+                    <span class="emoji">📦</span>
+                    <h2>Book a Package</h2>
+                    <p>Cocktail, Signature, or Diamond</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- KARAOKE NIGHT: Details -->
+    <div id="page-karaoke-night-details" class="page">
+        <div class="header-small">
+            <button class="back-btn" onclick="goBack()">← Back</button>
+            <img src="https://images.squarespace-cdn.com/content/v1/65dec516adff7d2580b90124/37d9d0fb-8085-41bd-9f5c-aa354f22470c/012+Logo+Transparent.ai.png?format=1500w" alt="Ocean 12" class="logo-small">
+            <div style="width: 80px;"></div>
+        </div>
+        
+        <div class="container">
+            <h1>Book the Night</h1>
+            
+            <form id="karaoke-night-form" class="form">
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Full Name</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" id="kn-name" required class="input">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Phone Number</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="tel" id="kn-phone" required class="input" placeholder="+61 4XX XXX XXX">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Email Address</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="email" id="kn-email" required class="input">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Date</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="date" id="kn-date" required class="input">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Time of Arrival</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="time" id="kn-time" required class="input">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Room Size</span>
+                        <span class="required">*</span>
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="kn-room-size" value="small" class="radio-input" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Small (6 pax max)</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="kn-room-size" value="medium" class="radio-input">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Medium (8 pax max)</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="kn-room-size" value="large" class="radio-input">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Large (12 pax max)</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    <strong>Note:</strong>
+                    If you bring more guests than the room capacity, you will be charged extra per person.
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Continue to Add-ons →</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- KARAOKE NIGHT: Upgrades -->
+    <div id="page-karaoke-night-upgrades" class="page">
+        <div class="header-small">
+            <button class="back-btn" onclick="goBack()">← Back</button>
+            <img src="https://images.squarespace-cdn.com/content/v1/65dec516adff7d2580b90124/37d9d0fb-8085-41bd-9f5c-aa354f22470c/012+Logo+Transparent.ai.png?format=1500w" alt="Ocean 12" class="logo-small">
+            <div style="width: 80px;"></div>
+        </div>
+        
+        <div class="container">
+            <h1>Upgrades & Add-ons</h1>
+            
+            <form id="karaoke-night-upgrades-form" class="form">
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Optional Add-ons</span>
+                    </label>
+                    
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="kn-addon-1" class="checkbox-input">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">Premium Sound System Upgrade (+$100) (+$100)</span>
+                        </label>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="kn-addon-2" class="checkbox-input">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">Decorations Package (+$150) (+$150)</span>
+                        </label>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="kn-addon-3" class="checkbox-input">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">Extra Drinks Package (+$200)</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Continue to Terms →</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- KARAOKE SESSION: Details -->
+    <div id="page-karaoke-session-details" class="page">
+        <div class="header-small">
+            <button class="back-btn" onclick="goBack()">← Back</button>
+            <img src="https://images.squarespace-cdn.com/content/v1/65dec516adff7d2580b90124/37d9d0fb-8085-41bd-9f5c-aa354f22470c/012+Logo+Transparent.ai.png?format=1500w" alt="Ocean 12" class="logo-small">
+            <div style="width: 80px;"></div>
+        </div>
+        
+        <div class="container">
+            <h1>Book a Session</h1>
+            
+            <form id="karaoke-session-form" class="form">
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Number of Hours</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="number" id="ks-hours" min="2" required class="input" placeholder="Minimum 2 hours">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Number of Guests</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="number" id="ks-pax" min="1" required class="input">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Full Name</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" id="ks-name" required class="input">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Phone Number</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="tel" id="ks-phone" required class="input" placeholder="+61 4XX XXX XXX">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Email Address</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="email" id="ks-email" required class="input">
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Continue to Add-ons →</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- KARAOKE SESSION: Upgrades -->
+    <div id="page-karaoke-session-upgrades" class="page">
+        <div class="header-small">
+            <button class="back-btn" onclick="goBack()">← Back</button>
+            <img src="https://images.squarespace-cdn.com/content/v1/65dec516adff7d2580b90124/37d9d0fb-8085-41bd-9f5c-aa354f22470c/012+Logo+Transparent.ai.png?format=1500w" alt="Ocean 12" class="logo-small">
+            <div style="width: 80px;"></div>
+        </div>
+        
+        <div class="container">
+            <h1>Upgrades & Add-ons</h1>
+            
+            <form id="karaoke-session-upgrades-form" class="form">
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Optional Add-ons</span>
+                    </label>
+                    
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="ks-addon-1" class="checkbox-input">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">Premium Sound System Upgrade (+$50)</span>
+                        </label>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="ks-addon-2" class="checkbox-input">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">Decorations Package (+$80)</span>
+                        </label>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="ks-addon-3" class="checkbox-input">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">Extra Drinks Package (+$120)</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Continue to Terms →</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- KARAOKE PACKAGE: Selection -->
+    <div id="page-karaoke-package-select" class="page">
+        <div class="header-small">
+            <button class="back-btn" onclick="goBack()">← Back</button>
+            <img src="https://images.squarespace-cdn.com/content/v1/65dec516adff7d2580b90124/37d9d0fb-8085-41bd-9f5c-aa354f22470c/012+Logo+Transparent.ai.png?format=1500w" alt="Ocean 12" class="logo-small">
+            <div style="width: 80px;"></div>
+        </div>
+        
+        <div class="container">
+            <h1>Select Your Package</h1>
+            
+            <div class="selection-grid">
+                <div class="selection-card" onclick="selectPackage('cocktail')">
+                    <span class="emoji">🍹</span>
+                    <h2>Cocktail Package</h2>
+                    <p class="package-price">Weekday: $300 | Weekend: $380</p>
+                    <p class="package-details">3-6 guests • 5 Large Plates • 8 Signature Cocktails • 4 Hours Karaoke</p>
+                    <p class="package-value">Value: $700+</p>
+                    <p class="package-time">Time: 8pm-12am</p>
+                </div>
+                
+                <div class="selection-card" onclick="selectPackage('signature')">
+                    <span class="emoji">🥂</span>
+                    <h2>Signature Package</h2>
+                    <p class="package-price">Weekday: $498 | Weekend: $580</p>
+                    <p class="package-details">6-8 guests • 6 Large Plates • 1 Dessert • 6 Glasses • 1 Bottle (Remy/Belvedere) • 3 Mixers • 4 Hours</p>
+                    <p class="package-value">Value: $1100+</p>
+                    <p class="package-time">Time: 8pm-12am (+$120 for all night)</p>
+                </div>
+                
+                <div class="selection-card" onclick="selectPackage('diamond')">
+                    <span class="emoji">💎</span>
+                    <h2>Diamond Package</h2>
+                    <p class="package-price">Weekday: $728 | Weekend: $858</p>
+                    <p class="package-details">8-14 guests • 8 Large Plates • 2 Desserts • 8 Cocktails • 1 Bottle • 3 Mixers • ALL NIGHT</p>
+                    <p class="package-value">Value: $2000+</p>
+                    <p class="package-time">Time: 8pm-3:30am</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- KARAOKE PACKAGE: Details -->
+    <div id="page-karaoke-package-details" class="page">
+        <div class="header-small">
+            <button class="back-btn" onclick="goBack()">← Back</button>
+            <img src="https://images.squarespace-cdn.com/content/v1/65dec516adff7d2580b90124/37d9d0fb-8085-41bd-9f5c-aa354f22470c/012+Logo+Transparent.ai.png?format=1500w" alt="Ocean 12" class="logo-small">
+            <div style="width: 80px;"></div>
+        </div>
+        
+        <div class="container">
+            <h1 id="kp-package-title">Package Details</h1>
+            
+            <form id="karaoke-package-form" class="form">
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Date</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="date" id="kp-date" required class="input">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Full Name</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" id="kp-name" required class="input">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Phone Number</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="tel" id="kp-phone" required class="input" placeholder="+61 4XX XXX XXX">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Email Address</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="email" id="kp-email" required class="input">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Number of People</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="number" id="kp-pax" min="1" required class="input">
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Continue to Add-ons →</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- KARAOKE PACKAGE: Add-ons -->
+    <div id="page-karaoke-package-addons" class="page">
+        <div class="header-small">
+            <button class="back-btn" onclick="goBack()">← Back</button>
+            <img src="https://images.squarespace-cdn.com/content/v1/65dec516adff7d2580b90124/37d9d0fb-8085-41bd-9f5c-aa354f22470c/012+Logo+Transparent.ai.png?format=1500w" alt="Ocean 12" class="logo-small">
+            <div style="width: 80px;"></div>
+        </div>
+        
+        <div class="container">
+            <h1>Enhance Your Package</h1>
+            
+            <form id="karaoke-package-addons-form" class="form">
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Optional Add-ons</span>
+                    </label>
+                    
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="kp-addon-cocktails" class="checkbox-input">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">Cocktails on Entry (+$12 per person)</span>
+                        </label>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="kp-addon-decorations" class="checkbox-input">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">Decorations (+$100)</span>
+                        </label>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="kp-addon-drinks" class="checkbox-input">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">Extra Drinks Package (+$150)</span>
+                        </label>
+                    </div>
+                    
+                    <!-- All Night Upgrade for Signature Package -->
+                    <div id="kp-allnight-option" style="display: none;">
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="kp-addon-allnight" class="checkbox-input">
+                                <span class="checkbox-custom"></span>
+                                <span class="checkbox-text">All Night Karaoke Upgrade (+$120)</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Continue to Terms →</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- KARAOKE: Terms (Universal for all karaoke types) -->
+    <div id="page-karaoke-terms" class="page">
+        <div class="header-small">
+            <button class="back-btn" onclick="goBack()">← Back</button>
+            <img src="https://images.squarespace-cdn.com/content/v1/65dec516adff7d2580b90124/37d9d0fb-8085-41bd-9f5c-aa354f22470c/012+Logo+Transparent.ai.png?format=1500w" alt="Ocean 12" class="logo-small">
+            <div style="width: 80px;"></div>
+        </div>
+        
+        <div class="container">
+            <h1>Review & Terms</h1>
+            
+            <div class="summary-card">
+                <h3>Booking Summary</h3>
+                <div class="summary-row">
+                    <span class="summary-label">Experience:</span>
+                    <span class="summary-value" id="karaoke-summary-experience">Karaoke Room</span>
+                </div>
+                <div class="summary-row" id="karaoke-summary-date-row">
+                    <span class="summary-label">Date:</span>
+                    <span class="summary-value" id="karaoke-summary-date"></span>
+                </div>
+                <div class="summary-row" id="karaoke-summary-details-row">
+                    <span class="summary-label">Details:</span>
+                    <span class="summary-value" id="karaoke-summary-details"></span>
+                </div>
+                <div class="summary-row" id="karaoke-summary-addons-row" style="display: none;">
+                    <span class="summary-label">Add-ons:</span>
+                    <span class="summary-value" id="karaoke-summary-addons"></span>
+                </div>
+            </div>
+            
+            <div class="terms-box">
+                <h3>Terms & Conditions</h3>
+                <ul>
+                    <li>A 50% deposit is required to secure your booking</li>
+                    <li>Cancellations must be made 48 hours in advance for a full refund</li>
+                    <li>Valid ID required for all guests (18+ only)</li>
+                    <li>Smart casual dress code enforced</li>
+                    <li>Management reserves the right to refuse entry</li>
+                    <li>Responsible service of alcohol applies</li>
+                    <li>Room capacity limits strictly enforced</li>
+                </ul>
+            </div>
+            
+            <div class="checkbox-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="karaoke-terms-accept" class="checkbox-input">
+                    <span class="checkbox-custom"></span>
+                    <span class="checkbox-text">I accept the terms and conditions</span>
+                </label>
+            </div>
+            
+            <button onclick="proceedToKaraokePayment()" class="btn btn-primary">Proceed to Payment →</button>
+        </div>
+    </div>
+
+    <!-- KARAOKE: Payment -->
+    <div id="page-karaoke-payment" class="page">
+        <div class="header-small">
+            <button class="back-btn" onclick="goBack()">← Back</button>
+            <img src="https://images.squarespace-cdn.com/content/v1/65dec516adff7d2580b90124/37d9d0fb-8085-41bd-9f5c-aa354f22470c/012+Logo+Transparent.ai.png?format=1500w" alt="Ocean 12" class="logo-small">
+            <div style="width: 80px;"></div>
+        </div>
+        
+        <div class="container">
+            <h1>Complete Payment</h1>
+            
+            <div class="summary-card">
+                <h3>Payment Summary</h3>
+                <div class="summary-row">
+                    <span class="summary-label">Booking Type:</span>
+                    <span class="summary-value" id="karaoke-payment-type"></span>
+                </div>
+                <div class="summary-row" id="karaoke-payment-details-row">
+                    <span class="summary-label">Details:</span>
+                    <span class="summary-value" id="karaoke-payment-details"></span>
+                </div>
+                <div class="summary-row deposit-row">
+                    <span class="summary-label">Deposit Amount:</span>
+                    <span class="summary-value deposit-amount" id="karaoke-deposit-amount">$0.00</span>
+                </div>
+            </div>
+            
+            <div class="info-box">
+                <strong>Deposit Information:</strong>
+                You can pay 50% minimum deposit, or use the slider below to adjust the amount up to the full price.
+            </div>
+            
+            <div class="form-group">
+                <label class="label">
+                    <span class="label-text">Deposit Amount: $<span id="slider-amount">0</span></span>
+                </label>
+                <input type="range" id="payment-slider" class="payment-slider" min="50" max="100" value="50" step="1">
+                <div class="slider-labels">
+                    <span>50% (Minimum)</span>
+                    <span>100% (Full Payment)</span>
+                </div>
+            </div>
+            
+            <div class="payment-methods">
+                <button onclick="processKaraokePayment('apple')" id="karaoke-apple-pay-btn" class="payment-btn apple-pay-btn">
+                    <span class="payment-icon">🍎</span>
+                    <span>Pay with Apple Pay</span>
+                </button>
+                
+                <button onclick="processKaraokePayment('google')" id="karaoke-google-pay-btn" class="payment-btn google-pay-btn">
+                    <span class="payment-icon">G</span>
+                    <span>Pay with Google Pay</span>
+                </button>
+                
+                <button onclick="processKaraokePayment('card')" id="karaoke-card-pay-btn" class="payment-btn card-pay-btn">
+                    <span class="payment-icon">💳</span>
+                    <span>Pay with Credit Card</span>
+                </button>
+            </div>
+            
+            <div class="secure-note">
+                🔒 Secure payment processing via Stripe
+            </div>
+        </div>
+    </div>
+
     <!-- ROOFTOP BAR: Step 1 - Date, Pax, Session -->
     <div id="page-rooftop-details" class="page">
         <div class="header-small">
@@ -165,7 +714,7 @@
                         <label class="checkbox-label">
                             <input type="checkbox" id="rooftop-cocktails" class="checkbox-input">
                             <span class="checkbox-custom"></span>
-                            <span class="checkbox-text">Cocktails on Entry</span>
+                            <span class="checkbox-text">Cocktails on Entry (+$15 per person)</span>
                         </label>
                     </div>
                     
@@ -173,7 +722,7 @@
                         <label class="checkbox-label">
                             <input type="checkbox" id="rooftop-window" class="checkbox-input">
                             <span class="checkbox-custom"></span>
-                            <span class="checkbox-text">Window Seat (Subject to availability)</span>
+                            <span class="checkbox-text">Window Seat (+$10 - Subject to availability)</span>
                         </label>
                     </div>
                 </div>
@@ -293,6 +842,350 @@
         </div>
     </div>
 
+    <!-- VIP ROOM: Details Form -->
+    <div id="page-vip-details" class="page">
+        <div class="header-small">
+            <button class="back-btn" onclick="goBack()">← Back</button>
+            <img src="https://images.squarespace-cdn.com/content/v1/65dec516adff7d2580b90124/37d9d0fb-8085-41bd-9f5c-aa354f22470c/012+Logo+Transparent.ai.png?format=1500w" alt="Ocean 12" class="logo-small">
+            <div style="width: 80px;"></div>
+        </div>
+        
+        <div class="container">
+            <h1>VIP Room Booking</h1>
+            
+            <div class="info-box">
+                <strong>OCEAN 12's VIP Rooms</strong>
+                <p style="margin-top: 0.75rem; line-height: 1.6;">
+                    Transform your gathering into an extraordinary experience with our VIP rooms. Each elegantly designed space features advanced karaoke systems, superior audio-visual technology, private bathroom, balcony, and dedicated butler service.
+                </p>
+                <p style="margin-top: 0.75rem; line-height: 1.6; color: var(--primary);">
+                    <strong>All reservations will be confirmed by OCEAN 12 Staff via phone call.</strong>
+                </p>
+            </div>
+            
+            <form id="vip-details-form" class="form">
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Desired Date</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="date" id="vip-date" required class="input">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Desired Time</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="time" id="vip-time" required class="input">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Number of Guests</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="number" id="vip-pax" min="1" max="47" required class="input" placeholder="Max 47 guests">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Full Name</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" id="vip-name" required class="input">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Email Address</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="email" id="vip-email" required class="input">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Phone Number</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="tel" id="vip-phone" required class="input" placeholder="+61 4XX XXX XXX">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Best Hours to Contact (6pm - 10pm)</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" id="vip-contact-hours" required class="input" placeholder="e.g., 7pm - 9pm">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Special Requests or Room Preference (Optional)</span>
+                    </label>
+                    <textarea id="vip-requests" rows="4" class="input" placeholder="While we'll do our best to accommodate room requests, placement is based on capacity."></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Continue to Room Information →</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- VIP ROOM: Room Selection Info -->
+    <div id="page-vip-rooms" class="page">
+        <div class="header-small">
+            <button class="back-btn" onclick="goBack()">← Back</button>
+            <img src="https://images.squarespace-cdn.com/content/v1/65dec516adff7d2580b90124/37d9d0fb-8085-41bd-9f5c-aa354f22470c/012+Logo+Transparent.ai.png?format=1500w" alt="Ocean 12" class="logo-small">
+            <div style="width: 80px;"></div>
+        </div>
+        
+        <div class="container">
+            <h1>VIP Room Options</h1>
+            
+            <div class="info-box">
+                <strong>Important Information</strong>
+                <ul style="margin-top: 0.75rem;">
+                    <li>Reservations are confirmed by staff via phone call</li>
+                    <li>Bookings are first come, first serve</li>
+                    <li>Room placement based on group capacity (PAX)</li>
+                    <li>If rooms are full, your card will not be charged</li>
+                    <li>Each room includes: Private bathroom, balcony, and dedicated butler service</li>
+                </ul>
+            </div>
+            
+            <div class="vip-room-grid">
+                <div class="vip-room-card">
+                    <h3>VIP999</h3>
+                    <div class="vip-capacity">Up to 47 guests</div>
+                    <div class="vip-pricing">
+                        <div>Sun-Thu: $2,000 + 10%</div>
+                        <div>Fri-Sat: $3,000 + 10%</div>
+                    </div>
+                </div>
+                
+                <div class="vip-room-card">
+                    <h3>VIP888</h3>
+                    <div class="vip-capacity">Up to 29 guests</div>
+                    <div class="vip-pricing">
+                        <div>Sun-Thu: $2,000 + 10%</div>
+                        <div>Fri-Sat: $3,000 + 10%</div>
+                    </div>
+                </div>
+                
+                <div class="vip-room-card">
+                    <h3>VIP777</h3>
+                    <div class="vip-capacity">Up to 43 guests</div>
+                    <div class="vip-pricing">
+                        <div>Sun-Thu: $2,000 + 10%</div>
+                        <div>Fri-Sat: $3,000 + 10%</div>
+                    </div>
+                </div>
+                
+                <div class="vip-room-card">
+                    <h3>VIP666</h3>
+                    <div class="vip-capacity">Up to 32 guests</div>
+                    <div class="vip-pricing">
+                        <div>Sun-Thu: $2,000 + 10%</div>
+                        <div>Fri-Sat: $3,000 + 10%</div>
+                    </div>
+                </div>
+                
+                <div class="vip-room-card highlight">
+                    <h3>VIP168</h3>
+                    <div class="vip-capacity">Up to 29 guests</div>
+                    <div class="vip-feature">No Smoking Balcony</div>
+                    <div class="vip-pricing">
+                        <div>Sun-Thu: $1,500 + 10%</div>
+                        <div>Fri-Sat: $2,000 + 10%</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 2rem; text-align: center; color: var(--text-muted); font-size: 0.95rem;">
+                <p>For tailored events, visit <a href="https://ocean12.com.au/events" style="color: var(--primary);">ocean12.com.au/events</a></p>
+                <p>or email <a href="/cdn-cgi/l/email-protection#e7829182899394a78884828689d6d5c984888ac98692" style="color: var(--primary);"><span class="__cf_email__" data-cfemail="016477646f7572416e6264606f30332f626e6c2f6074">[email&#160;protected]</span></a></p>
+            </div>
+            
+            <button onclick="submitVIPRequest()" class="btn btn-primary">Submit VIP Room Request</button>
+        </div>
+    </div>
+
+    <!-- VIP TOUR: Booking Form -->
+    <div id="page-vip-tour" class="page">
+        <div class="header-small">
+            <button class="back-btn" onclick="goBack()">← Back</button>
+            <img src="https://images.squarespace-cdn.com/content/v1/65dec516adff7d2580b90124/37d9d0fb-8085-41bd-9f5c-aa354f22470c/012+Logo+Transparent.ai.png?format=1500w" alt="Ocean 12" class="logo-small">
+            <div style="width: 80px;"></div>
+        </div>
+        
+        <div class="container">
+            <h1>VIP Room Tour</h1>
+            
+            <div class="info-box">
+                <strong>Experience OCEAN 12's VIP Rooms</strong>
+                <p style="margin-top: 0.75rem; line-height: 1.6;">
+                    Take a 15-minute guided tour of our exclusive VIP rooms. See the advanced karaoke systems, superior audio-visual technology, private bathrooms, balconies, and dedicated butler service areas.
+                </p>
+                <p style="margin-top: 0.75rem; line-height: 1.6;">
+                    <strong>Duration:</strong> 15 minutes<br>
+                    <strong>Cost:</strong> Free
+                </p>
+            </div>
+            
+            <form id="vip-tour-form" class="form">
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Preferred Date</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="date" id="tour-date" required class="input">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Preferred Time</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="time" id="tour-time" required class="input">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Full Name</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" id="tour-name" required class="input">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Phone Number</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="tel" id="tour-phone" required class="input" placeholder="+61 4XX XXX XXX">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Email Address</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="email" id="tour-email" required class="input">
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Confirm Tour Booking</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- EVENTS: Booking Form -->
+    <div id="page-events" class="page">
+        <div class="header-small">
+            <button class="back-btn" onclick="goBack()">← Back</button>
+            <img src="https://images.squarespace-cdn.com/content/v1/65dec516adff7d2580b90124/37d9d0fb-8085-41bd-9f5c-aa354f22470c/012+Logo+Transparent.ai.png?format=1500w" alt="Ocean 12" class="logo-small">
+            <div style="width: 80px;"></div>
+        </div>
+        
+        <div class="container">
+            <h1>Book an Event</h1>
+            
+            <div class="info-box">
+                <strong>Custom Event Experiences</strong>
+                <p style="margin-top: 0.75rem; line-height: 1.6;">
+                    Planning a special event? Our events team will work with you to create a tailored experience. From corporate functions to private celebrations, we'll customize every detail to your needs.
+                </p>
+                <p style="margin-top: 0.75rem; line-height: 1.6; color: var(--primary);">
+                    <strong>Our events team will contact you to discuss pricing and finalize all details.</strong>
+                </p>
+            </div>
+            
+            <form id="events-form" class="form">
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Event Date</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="date" id="event-date" required class="input">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Event Time</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="time" id="event-time" required class="input">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Expected Number of Guests</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="number" id="event-guests" min="1" required class="input">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Event Type</span>
+                        <span class="required">*</span>
+                    </label>
+                    <select id="event-type" required class="input">
+                        <option value="">Select event type...</option>
+                        <option value="corporate">Corporate Function</option>
+                        <option value="birthday">Birthday Celebration</option>
+                        <option value="wedding">Wedding Reception</option>
+                        <option value="engagement">Engagement Party</option>
+                        <option value="anniversary">Anniversary</option>
+                        <option value="holiday">Holiday Party</option>
+                        <option value="networking">Networking Event</option>
+                        <option value="product-launch">Product Launch</option>
+                        <option value="team-building">Team Building</option>
+                        <option value="other">Other Celebration</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Event Description (Optional)</span>
+                    </label>
+                    <textarea id="event-description" rows="4" class="input" placeholder="Tell us more about your event, any special requirements, themes, or preferences..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Full Name</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" id="event-name" required class="input">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Phone Number</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="tel" id="event-phone" required class="input" placeholder="+61 4XX XXX XXX">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Email Address</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="email" id="event-email" required class="input">
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Submit Event Request</button>
+            </form>
+            
+            <div style="margin-top: 2rem; text-align: center; color: var(--text-muted); font-size: 0.95rem;">
+                <p>For more information, visit <a href="https://ocean12.com.au/events" style="color: var(--primary);">ocean12.com.au/events</a></p>
+                <p>or email <a href="mailto:events@ocean12.com.au" style="color: var(--primary);">events@ocean12.com.au</a></p>
+            </div>
+        </div>
+    </div>
+
     <!-- Confirmation Page -->
     <div id="page-confirmation" class="page">
         <div class="header">
@@ -319,8 +1212,8 @@
                     <span class="summary-value" id="confirm-datetime"></span>
                 </div>
                 <div class="summary-row">
-                    <span class="summary-label">Guests:</span>
-                    <span class="summary-value" id="confirm-guests"></span>
+                    <span class="summary-label">Details:</span>
+                    <span class="summary-value" id="confirm-details"></span>
                 </div>
             </div>
             

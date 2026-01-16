@@ -691,3 +691,160 @@ textarea.input {
         font-size: 1.5rem;
     }
 }
+
+/* Package Card Styling */
+.package-price {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin: 0.75rem 0;
+}
+
+.package-details {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+    margin: 0.5rem 0;
+}
+
+.package-value {
+    font-size: 0.95rem;
+    color: var(--secondary);
+    font-weight: 500;
+    margin: 0.5rem 0;
+}
+
+.package-time {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+}
+
+/* Payment Slider */
+.payment-slider {
+    width: 100%;
+    height: 8px;
+    border-radius: 5px;
+    background: rgba(26, 32, 64, 0.6);
+    outline: none;
+    -webkit-appearance: none;
+    margin: 1rem 0;
+}
+
+.payment-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(201, 54, 84, 0.4);
+    transition: all 0.3s;
+}
+
+.payment-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 15px rgba(201, 54, 84, 0.6);
+}
+
+.payment-slider::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 10px rgba(201, 54, 84, 0.4);
+    transition: all 0.3s;
+}
+
+.payment-slider::-moz-range-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 15px rgba(201, 54, 84, 0.6);
+}
+
+.slider-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+}
+
+/* VIP Room Cards */
+.vip-room-grid {
+    display: grid;
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.vip-room-card {
+    background: linear-gradient(145deg, rgba(26, 32, 64, 0.6) 0%, rgba(18, 22, 45, 0.8) 100%);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    transition: all 0.3s;
+}
+
+.vip-room-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--primary);
+    box-shadow: 0 8px 30px rgba(201, 54, 84, 0.2);
+}
+
+.vip-room-card.highlight {
+    border-color: var(--secondary);
+}
+
+.vip-room-card.highlight:hover {
+    border-color: var(--secondary);
+    box-shadow: 0 8px 30px rgba(201, 168, 117, 0.3);
+}
+
+.vip-room-card h3 {
+    font-size: 1.75rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.vip-room-card.highlight h3 {
+    color: var(--secondary);
+}
+
+.vip-capacity {
+    font-size: 1.1rem;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+}
+
+.vip-feature {
+    background: rgba(201, 168, 117, 0.15);
+    color: var(--secondary);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+    display: inline-block;
+    font-weight: 500;
+}
+
+.vip-pricing {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.vip-pricing div {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin: 0.25rem 0;
+}
+
+@media (min-width: 768px) {
+    .vip-room-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
