@@ -610,6 +610,16 @@ textarea.input {
     border-color: white;
 }
 
+.card-pay-btn {
+    background: linear-gradient(135deg, #6b21a8 0%, #581c87 100%);
+}
+
+.card-pay-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(107, 33, 168, 0.4);
+    border-color: white;
+}
+
 .payment-icon {
     font-size: 1.5rem;
 }

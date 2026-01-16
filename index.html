@@ -20,98 +20,55 @@
             <div class="selection-grid">
                 <div class="selection-card" onclick="selectExperience('karaoke')">
                     <span class="emoji">🎤</span>
-                    <h2>Luxury Karaoke</h2>
+                    <h2>Book Karaoke Room</h2>
                     <p>Private rooms with premium sound systems</p>
                 </div>
                 
                 <div class="selection-card" onclick="selectExperience('rooftop')">
                     <span class="emoji">🌃</span>
-                    <h2>Rooftop Terrace</h2>
+                    <h2>Book Rooftop Bar</h2>
                     <p>Stunning Melbourne views with premium service</p>
                 </div>
                 
                 <div class="selection-card" onclick="selectExperience('vip')">
                     <span class="emoji">💎</span>
-                    <h2>VIP Experience</h2>
+                    <h2>Book VIP Room</h2>
                     <p>Exclusive rooms with bottle service</p>
+                </div>
+                
+                <div class="selection-card" onclick="selectExperience('vip-tour')">
+                    <span class="emoji">👁️</span>
+                    <h2>Book VIP Room Tour</h2>
+                    <p>Experience our VIP facilities</p>
                 </div>
                 
                 <div class="selection-card" onclick="selectExperience('events')">
                     <span class="emoji">🎉</span>
-                    <h2>Private Events</h2>
+                    <h2>Book an Event</h2>
                     <p>Custom experiences for groups</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Contact Page -->
-    <div id="page-contact" class="page">
+    <!-- ROOFTOP BAR: Step 1 - Date, Pax, Session -->
+    <div id="page-rooftop-details" class="page">
         <div class="header-small">
             <button class="back-btn" onclick="goBack()">← Back</button>
-            <img src="https://ocean12bar.com/wp-content/uploads/2024/12/cropped-Artboard-1-1-1-e1734317313419.png" alt="Ocean 12" class="logo-small">
+            <img src="https://images.squarespace-cdn.com/content/v1/65dec516adff7d2580b90124/37d9d0fb-8085-41bd-9f5c-aa354f22470c/012+Logo+Transparent.ai.png?format=1500w" alt="Ocean 12" class="logo-small">
             <div style="width: 80px;"></div>
         </div>
         
         <div class="container">
-            <h1>Your Details</h1>
+            <h1>Rooftop Bar Booking</h1>
             
-            <form id="contact-form" class="form">
+            <form id="rooftop-details-form" class="form">
                 <div class="form-group">
                     <label class="label">
-                        <span class="label-text">Full Name</span>
+                        <span class="label-text">Date</span>
                         <span class="required">*</span>
                     </label>
-                    <input type="text" id="name" required class="input">
-                </div>
-                
-                <div class="form-group">
-                    <label class="label">
-                        <span class="label-text">Phone Number</span>
-                        <span class="required">*</span>
-                    </label>
-                    <input type="tel" id="phone" required class="input" placeholder="+61 4XX XXX XXX">
-                </div>
-                
-                <div class="form-group">
-                    <label class="label">
-                        <span class="label-text">Email Address</span>
-                        <span class="required">*</span>
-                    </label>
-                    <input type="email" id="email" required class="input">
-                </div>
-                
-                <button type="submit" class="btn btn-primary">Continue to Booking →</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Booking Page -->
-    <div id="page-booking" class="page">
-        <div class="header-small">
-            <button class="back-btn" onclick="goBack()">← Back</button>
-            <img src="https://ocean12bar.com/wp-content/uploads/2024/12/cropped-Artboard-1-1-1-e1734317313419.png" alt="Ocean 12" class="logo-small">
-            <div style="width: 80px;"></div>
-        </div>
-        
-        <div class="container">
-            <h1 id="booking-title">Booking Details</h1>
-            
-            <form id="booking-form" class="form">
-                <div class="form-group">
-                    <label class="label">
-                        <span class="label-text">Preferred Date</span>
-                        <span class="required">*</span>
-                    </label>
-                    <input type="date" id="date" required class="input">
-                </div>
-                
-                <div class="form-group">
-                    <label class="label">
-                        <span class="label-text">Preferred Time</span>
-                        <span class="required">*</span>
-                    </label>
-                    <input type="time" id="time" required class="input">
+                    <input type="date" id="rooftop-date" required class="input">
                 </div>
                 
                 <div class="form-group">
@@ -119,126 +76,118 @@
                         <span class="label-text">Number of Guests</span>
                         <span class="required">*</span>
                     </label>
-                    <input type="number" id="guests" min="1" required class="input">
+                    <input type="number" id="rooftop-pax" min="1" required class="input">
                 </div>
                 
-                <!-- Karaoke Options -->
-                <div id="karaoke-options">
-                    <div class="form-group">
-                        <label class="label">
-                            <span class="label-text">Room Size</span>
-                            <span class="required">*</span>
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Session Time</span>
+                        <span class="required">*</span>
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="rooftop-session" value="8pm-10pm" class="radio-input" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">8:00pm - 10:00pm</span>
                         </label>
-                        <div class="radio-group">
-                            <label class="radio-label">
-                                <input type="radio" name="room-size" value="small" class="radio-input">
-                                <span class="radio-custom"></span>
-                                <span class="radio-text">Small (Up to 6 guests)</span>
-                            </label>
-                            <label class="radio-label">
-                                <input type="radio" name="room-size" value="medium" class="radio-input">
-                                <span class="radio-custom"></span>
-                                <span class="radio-text">Medium (Up to 8 guests)</span>
-                            </label>
-                            <label class="radio-label">
-                                <input type="radio" name="room-size" value="large" class="radio-input">
-                                <span class="radio-custom"></span>
-                                <span class="radio-text">Large (Up to 12 guests)</span>
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="label">
-                            <span class="label-text">Add Package (Optional)</span>
+                        <label class="radio-label">
+                            <input type="radio" name="rooftop-session" value="10:30pm-1am" class="radio-input">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">10:30pm - 1:00am</span>
                         </label>
-                        <div class="radio-group">
-                            <label class="radio-label">
-                                <input type="radio" name="package" value="cocktail" class="radio-input">
-                                <span class="radio-custom"></span>
-                                <span class="radio-text">Cocktail Package (+$50/person)</span>
-                            </label>
-                            <label class="radio-label">
-                                <input type="radio" name="package" value="signature" class="radio-input">
-                                <span class="radio-custom"></span>
-                                <span class="radio-text">Signature Package (+$75/person)</span>
-                            </label>
-                            <label class="radio-label">
-                                <input type="radio" name="package" value="diamond" class="radio-input">
-                                <span class="radio-custom"></span>
-                                <span class="radio-text">Diamond Package (+$100/person)</span>
-                            </label>
-                        </div>
                     </div>
                 </div>
                 
-                <!-- Rooftop Options -->
-                <div id="rooftop-options">
-                    <div class="form-group">
-                        <label class="label">
-                            <span class="label-text">Seating Preference</span>
-                        </label>
-                        <div class="radio-group">
-                            <label class="radio-label">
-                                <input type="radio" name="seating" value="non-smoking" checked class="radio-input">
-                                <span class="radio-custom"></span>
-                                <span class="radio-text">Non-Smoking Area</span>
-                            </label>
-                            <label class="radio-label">
-                                <input type="radio" name="seating" value="smoking" class="radio-input">
-                                <span class="radio-custom"></span>
-                                <span class="radio-text">Smoking Area</span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- VIP Options -->
-                <div id="vip-options">
-                    <div class="info-box">
-                        <strong>VIP Requirements:</strong>
-                        <ul>
-                            <li>Minimum 15 guests</li>
-                            <li>Bottle service included</li>
-                            <li>Dedicated host</li>
-                            <li>Premium location</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <!-- Events Options -->
-                <div id="events-options">
-                    <div class="form-group">
-                        <label class="label">
-                            <span class="label-text">Event Type</span>
-                        </label>
-                        <select id="event-type" class="input">
-                            <option value="birthday">Birthday Party</option>
-                            <option value="corporate">Corporate Event</option>
-                            <option value="bachelor">Bachelor/Bachelorette</option>
-                            <option value="anniversary">Anniversary</option>
-                            <option value="other">Other Celebration</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="label">
-                            <span class="label-text">Special Requests</span>
-                        </label>
-                        <textarea id="special-requests" rows="4" class="input"></textarea>
-                    </div>
-                </div>
-                
-                <button type="submit" class="btn btn-primary">Review Terms →</button>
+                <button type="submit" class="btn btn-primary">Continue to Details →</button>
             </form>
         </div>
     </div>
 
-    <!-- Terms Page -->
-    <div id="page-terms" class="page">
+    <!-- ROOFTOP BAR: Step 2 - Customer Details -->
+    <div id="page-rooftop-contact" class="page">
         <div class="header-small">
             <button class="back-btn" onclick="goBack()">← Back</button>
-            <img src="https://ocean12bar.com/wp-content/uploads/2024/12/cropped-Artboard-1-1-1-e1734317313419.png" alt="Ocean 12" class="logo-small">
+            <img src="https://images.squarespace-cdn.com/content/v1/65dec516adff7d2580b90124/37d9d0fb-8085-41bd-9f5c-aa354f22470c/012+Logo+Transparent.ai.png?format=1500w" alt="Ocean 12" class="logo-small">
+            <div style="width: 80px;"></div>
+        </div>
+        
+        <div class="container">
+            <h1>Your Details</h1>
+            
+            <form id="rooftop-contact-form" class="form">
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Full Name</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" id="rooftop-name" required class="input">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Phone Number</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="tel" id="rooftop-phone" required class="input" placeholder="+61 4XX XXX XXX">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Email Address</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="email" id="rooftop-email" required class="input">
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Continue to Add-ons →</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ROOFTOP BAR: Step 3 - Add-ons -->
+    <div id="page-rooftop-addons" class="page">
+        <div class="header-small">
+            <button class="back-btn" onclick="goBack()">← Back</button>
+            <img src="https://images.squarespace-cdn.com/content/v1/65dec516adff7d2580b90124/37d9d0fb-8085-41bd-9f5c-aa354f22470c/012+Logo+Transparent.ai.png?format=1500w" alt="Ocean 12" class="logo-small">
+            <div style="width: 80px;"></div>
+        </div>
+        
+        <div class="container">
+            <h1>Enhance Your Experience</h1>
+            
+            <form id="rooftop-addons-form" class="form">
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Add-ons (Optional)</span>
+                    </label>
+                    
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="rooftop-cocktails" class="checkbox-input">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">Cocktails on Entry</span>
+                        </label>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="rooftop-window" class="checkbox-input">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">Window Seat (Subject to availability)</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Continue to Terms →</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ROOFTOP BAR: Step 4 - Terms -->
+    <div id="page-rooftop-terms" class="page">
+        <div class="header-small">
+            <button class="back-btn" onclick="goBack()">← Back</button>
+            <img src="https://images.squarespace-cdn.com/content/v1/65dec516adff7d2580b90124/37d9d0fb-8085-41bd-9f5c-aa354f22470c/012+Logo+Transparent.ai.png?format=1500w" alt="Ocean 12" class="logo-small">
             <div style="width: 80px;"></div>
         </div>
         
@@ -249,47 +198,56 @@
                 <h3>Booking Summary</h3>
                 <div class="summary-row">
                     <span class="summary-label">Experience:</span>
-                    <span class="summary-value" id="terms-experience"></span>
+                    <span class="summary-value">Rooftop Bar</span>
                 </div>
                 <div class="summary-row">
-                    <span class="summary-label">Date & Time:</span>
-                    <span class="summary-value" id="terms-datetime"></span>
+                    <span class="summary-label">Date:</span>
+                    <span class="summary-value" id="rooftop-summary-date"></span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Session:</span>
+                    <span class="summary-value" id="rooftop-summary-session"></span>
                 </div>
                 <div class="summary-row">
                     <span class="summary-label">Guests:</span>
-                    <span class="summary-value" id="terms-guests"></span>
+                    <span class="summary-value" id="rooftop-summary-pax"></span>
+                </div>
+                <div class="summary-row" id="rooftop-summary-addons-row" style="display: none;">
+                    <span class="summary-label">Add-ons:</span>
+                    <span class="summary-value" id="rooftop-summary-addons"></span>
                 </div>
             </div>
             
             <div class="terms-box">
                 <h3>Terms & Conditions</h3>
                 <ul>
-                    <li>A 15% deposit is required to secure your booking</li>
+                    <li>Deposit of $50 per person required to secure your booking</li>
                     <li>Cancellations must be made 48 hours in advance for a full refund</li>
                     <li>Valid ID required for all guests (18+ only)</li>
                     <li>Smart casual dress code enforced</li>
                     <li>Management reserves the right to refuse entry</li>
                     <li>Responsible service of alcohol applies</li>
+                    <li>Session times are strictly enforced</li>
                 </ul>
             </div>
             
             <div class="checkbox-group">
                 <label class="checkbox-label">
-                    <input type="checkbox" id="terms-accept" class="checkbox-input">
+                    <input type="checkbox" id="rooftop-terms-accept" class="checkbox-input">
                     <span class="checkbox-custom"></span>
                     <span class="checkbox-text">I accept the terms and conditions</span>
                 </label>
             </div>
             
-            <button onclick="proceedToPayment()" class="btn btn-primary">Proceed to Payment →</button>
+            <button onclick="proceedToRooftopPayment()" class="btn btn-primary">Proceed to Payment →</button>
         </div>
     </div>
 
-    <!-- Payment Page -->
-    <div id="page-payment" class="page">
+    <!-- ROOFTOP BAR: Step 5 - Payment -->
+    <div id="page-rooftop-payment" class="page">
         <div class="header-small">
             <button class="back-btn" onclick="goBack()">← Back</button>
-            <img src="https://ocean12bar.com/wp-content/uploads/2024/12/cropped-Artboard-1-1-1-e1734317313419.png" alt="Ocean 12" class="logo-small">
+            <img src="https://images.squarespace-cdn.com/content/v1/65dec516adff7d2580b90124/37d9d0fb-8085-41bd-9f5c-aa354f22470c/012+Logo+Transparent.ai.png?format=1500w" alt="Ocean 12" class="logo-small">
             <div style="width: 80px;"></div>
         </div>
         
@@ -297,47 +255,40 @@
             <h1>Complete Payment</h1>
             
             <div class="summary-card">
-                <h3>Final Summary</h3>
-                <div class="summary-row">
-                    <span class="summary-label">Experience:</span>
-                    <span class="summary-value" id="payment-experience"></span>
-                </div>
-                <div class="summary-row">
-                    <span class="summary-label">Date & Time:</span>
-                    <span class="summary-value" id="payment-datetime"></span>
-                </div>
+                <h3>Payment Summary</h3>
                 <div class="summary-row">
                     <span class="summary-label">Guests:</span>
-                    <span class="summary-value" id="payment-guests"></span>
+                    <span class="summary-value" id="rooftop-payment-pax"></span>
                 </div>
-                <div class="summary-row" id="payment-room-row" style="display: none;">
-                    <span class="summary-label">Room:</span>
-                    <span class="summary-value" id="payment-room"></span>
-                </div>
-                <div class="summary-row" id="payment-package-row" style="display: none;">
-                    <span class="summary-label">Package:</span>
-                    <span class="summary-value" id="payment-package"></span>
+                <div class="summary-row">
+                    <span class="summary-label">Deposit per person:</span>
+                    <span class="summary-value">$50.00</span>
                 </div>
                 <div class="summary-row deposit-row">
-                    <span class="summary-label">Deposit (15%):</span>
-                    <span class="summary-value deposit-amount" id="deposit-amount">$0.00</span>
+                    <span class="summary-label">Total Deposit:</span>
+                    <span class="summary-value deposit-amount" id="rooftop-deposit-amount">$0.00</span>
                 </div>
             </div>
             
             <div class="payment-methods">
-                <button onclick="processPayment('apple')" id="apple-pay-btn" class="payment-btn apple-pay-btn">
+                <button onclick="processRooftopPayment('apple')" id="rooftop-apple-pay-btn" class="payment-btn apple-pay-btn">
                     <span class="payment-icon">🍎</span>
                     <span>Pay with Apple Pay</span>
                 </button>
                 
-                <button onclick="processPayment('google')" id="google-pay-btn" class="payment-btn google-pay-btn">
+                <button onclick="processRooftopPayment('google')" id="rooftop-google-pay-btn" class="payment-btn google-pay-btn">
                     <span class="payment-icon">G</span>
                     <span>Pay with Google Pay</span>
+                </button>
+                
+                <button onclick="processRooftopPayment('card')" id="rooftop-card-pay-btn" class="payment-btn card-pay-btn">
+                    <span class="payment-icon">💳</span>
+                    <span>Pay with Credit Card</span>
                 </button>
             </div>
             
             <div class="secure-note">
-                🔒 Secure payment processing
+                🔒 Secure payment processing via Stripe
             </div>
         </div>
     </div>
@@ -345,7 +296,7 @@
     <!-- Confirmation Page -->
     <div id="page-confirmation" class="page">
         <div class="header">
-            <img src="https://ocean12bar.com/wp-content/uploads/2024/12/cropped-Artboard-1-1-1-e1734317313419.png" alt="Ocean 12" class="logo">
+            <img src="https://images.squarespace-cdn.com/content/v1/65dec516adff7d2580b90124/37d9d0fb-8085-41bd-9f5c-aa354f22470c/012+Logo+Transparent.ai.png?format=1500w" alt="Ocean 12" class="logo">
             <div class="tagline">BOOKING CONFIRMED</div>
         </div>
         
@@ -378,7 +329,7 @@
                 <ul>
                     <li>Confirmation email sent to your address</li>
                     <li>Check your phone for SMS confirmation</li>
-                    <li>Arrive 15 minutes before your booking</li>
+                    <li>Arrive 15 minutes before your session</li>
                     <li>Bring valid ID for all guests</li>
                 </ul>
             </div>
