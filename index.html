@@ -1,1469 +1,395 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ocean 12 - Book Your Experience</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-```
-    :root {
-        --primary: #c93654;
-        --primary-dark: #a12940;
-        --primary-light: #e04e6e;
-        --secondary: #c9a875;
-        --dark: #0a0c1a;
-        --dark-card: #12162d;
-        --dark-lighter: #1a2040;
-        --text: #e8e9f3;
-        --text-muted: #9ca3af;
-        --border: rgba(201, 54, 84, 0.2);
-    }
-
-    body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        background: linear-gradient(135deg, #0a0c1a 0%, #12162d 50%, #0a0c1a 100%);
-        color: var(--text);
-        min-height: 100vh;
-        line-height: 1.6;
-    }
-
-    /* Page Management */
-    .page {
-        display: none;
-        min-height: 100vh;
-        animation: fadeIn 0.5s ease;
-    }
-
-    .page.active {
-        display: block;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(30px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Header */
-    .header {
-        text-align: center;
-        padding: 3rem 1.5rem 2.5rem;
-        background: linear-gradient(180deg, rgba(18, 22, 45, 0.95) 0%, transparent 100%);
-        border-bottom: 1px solid var(--border);
-        position: relative;
-    }
-
-    .header::before {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 60%;
-        height: 1px;
-        background: linear-gradient(90deg, transparent, var(--primary), transparent);
-    }
-
-    .logo {
-        max-width: 200px;
-        height: auto;
-        margin-bottom: 1rem;
-        filter: drop-shadow(0 4px 20px rgba(201, 54, 84, 0.3));
-    }
-
-    .tagline {
-        font-size: 0.75rem;
-        letter-spacing: 5px;
-        color: var(--primary);
-        font-weight: 300;
-        text-transform: uppercase;
-        opacity: 0.9;
-    }
-
-    .header-small {
-        display: flex;
-        align-items: center;
-        padding: 1.25rem 1.5rem;
-        background: rgba(18, 22, 45, 0.95);
-        backdrop-filter: blur(20px);
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-        border-bottom: 1px solid var(--border);
-    }
-
-    .logo-small {
-        max-width: 110px;
-        margin: 0 auto;
-    }
-
-    .back-btn {
-        background: none;
-        border: none;
-        color: var(--primary);
-        font-size: 1rem;
-        cursor: pointer;
-        padding: 0.5rem 0.75rem;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        font-weight: 500;
-        transition: all 0.3s;
-    }
-
-    .back-btn:hover {
-        color: var(--primary-light);
-        transform: translateX(-4px);
-    }
-
-    /* Container */
-    .container {
-        max-width: 600px;
-        margin: 0 auto;
-        padding: 2.5rem 1.5rem 4rem;
-    }
-
-    h1 {
-        font-size: 2rem;
-        margin-bottom: 2.5rem;
-        text-align: center;
-        background: linear-gradient(135deg, #ffffff 0%, var(--primary-light) 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        font-weight: 600;
-        letter-spacing: -0.5px;
-    }
-
-    /* Selection Cards */
-    .selection-grid {
-        display: grid;
-        gap: 1.5rem;
-    }
-
-    .selection-card {
-        background: linear-gradient(145deg, rgba(26, 32, 64, 0.8) 0%, rgba(18, 22, 45, 0.9) 100%);
-        border: 1px solid var(--border);
-        border-radius: 20px;
-        padding: 2.5rem 2rem;
-        text-align: center;
-        cursor: pointer;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        position: relative;
-        overflow: hidden;
-        backdrop-filter: blur(10px);
-    }
-
-    .selection-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(201, 54, 84, 0.1), transparent);
-        transition: left 0.6s;
-    }
-
-    .selection-card:hover::before {
-        left: 100%;
-    }
-
-    .selection-card::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 2px;
-        background: linear-gradient(90deg, transparent, var(--primary), transparent);
-        opacity: 0;
-        transition: opacity 0.4s;
-    }
-
-    .selection-card:hover::after {
-        opacity: 1;
-    }
-
-    .selection-card:hover {
-        transform: translateY(-8px) scale(1.02);
-        box-shadow: 0 20px 60px rgba(201, 54, 84, 0.3);
-        border-color: var(--primary);
-    }
-
-    .selection-card .emoji {
-        font-size: 4rem;
-        display: block;
-        margin-bottom: 1.5rem;
-        filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.5));
-    }
-
-    .selection-card h2 {
-        font-size: 1.75rem;
-        margin-bottom: 0.75rem;
-        color: var(--primary-light);
-        font-weight: 600;
-        letter-spacing: -0.5px;
-    }
-
-    .selection-card p {
-        font-size: 1rem;
-        color: var(--text-muted);
-        line-height: 1.6;
-    }
-
-    /* Progress Bar */
-    .progress-bar {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 3rem;
-        padding: 0 1rem;
-    }
-
-    .progress-step {
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        border: 2px solid var(--border);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: var(--dark-card);
-        color: var(--text-muted);
-        font-weight: 700;
-        font-size: 1rem;
-        position: relative;
-        z-index: 2;
-        transition: all 0.4s;
-    }
-
-    .progress-step.active {
-        background: linear-gradient(135deg, var(--primary), var(--primary-light));
-        color: white;
-        border-color: var(--primary);
-        box-shadow: 0 0 30px rgba(201, 54, 84, 0.5);
-        transform: scale(1.1);
-    }
-
-    .progress-step.complete {
-        background: var(--primary);
-        color: white;
-        border-color: var(--primary);
-    }
-
-    .progress-line {
-        flex: 1;
-        height: 2px;
-        background: var(--border);
-        margin: 0 -2px;
-        transition: all 0.4s;
-    }
-
-    .progress-line.complete {
-        background: var(--primary);
-        box-shadow: 0 0 10px rgba(201, 54, 84, 0.5);
-    }
-
-    /* Forms */
-    .form {
-        display: flex;
-        flex-direction: column;
-        gap: 2rem;
-    }
-
-    .form-group {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .form-group label {
-        margin-bottom: 0.75rem;
-        color: var(--secondary);
-        font-size: 0.875rem;
-        font-weight: 600;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-    }
-
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-        padding: 1.125rem 1.5rem;
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        background: rgba(26, 32, 64, 0.5);
-        color: white;
-        font-size: 1.0625rem;
-        transition: all 0.3s;
-        backdrop-filter: blur(10px);
-    }
-
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-        outline: none;
-        border-color: var(--primary);
-        background: rgba(26, 32, 64, 0.8);
-        box-shadow: 0 0 0 4px rgba(201, 54, 84, 0.15);
-    }
-
-    .form-group input::placeholder,
-    .form-group textarea::placeholder {
-        color: var(--text-muted);
-        opacity: 0.6;
-    }
-
-    /* Radio Cards */
-    .radio-group {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    .radio-card {
-        display: block;
-        cursor: pointer;
-        position: relative;
-    }
-
-    .radio-card input[type="radio"] {
-        position: absolute;
-        opacity: 0;
-    }
-
-    .radio-content {
-        padding: 1.5rem 1.75rem;
-        border: 2px solid var(--border);
-        border-radius: 14px;
-        background: rgba(26, 32, 64, 0.5);
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-        transition: all 0.3s;
-        backdrop-filter: blur(10px);
-    }
-
-    .radio-card input[type="radio"]:checked + .radio-content {
-        border-color: var(--primary);
-        background: linear-gradient(135deg, rgba(201, 54, 84, 0.15), rgba(201, 54, 84, 0.05));
-        box-shadow: 0 8px 30px rgba(201, 54, 84, 0.2);
-    }
-
-    .radio-content strong {
-        color: white;
-        font-size: 1.125rem;
-        font-weight: 600;
-    }
-
-    .radio-content span {
-        color: var(--text-muted);
-        font-size: 0.9375rem;
-    }
-
-    /* Buttons */
-    .btn-primary {
-        padding: 1.25rem 2.5rem;
-        border: none;
-        border-radius: 12px;
-        font-size: 1.0625rem;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.3s;
-        text-align: center;
-        letter-spacing: 0.5px;
-        background: linear-gradient(135deg, var(--primary), var(--primary-light));
-        color: white;
-        width: 100%;
-        box-shadow: 0 8px 30px rgba(201, 54, 84, 0.4);
-        position: relative;
-        overflow: hidden;
-    }
-
-    .btn-primary::before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 0;
-        height: 0;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.2);
-        transform: translate(-50%, -50%);
-        transition: width 0.6s, height 0.6s;
-    }
-
-    .btn-primary:hover::before {
-        width: 300px;
-        height: 300px;
-    }
-
-    .btn-primary:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 12px 40px rgba(201, 54, 84, 0.5);
-    }
-
-    .btn-primary:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-        transform: none;
-    }
-
-    .btn-secondary {
-        padding: 1.25rem 2.5rem;
-        border: 2px solid var(--primary);
-        border-radius: 12px;
-        font-size: 1.0625rem;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.3s;
-        background: transparent;
-        color: var(--primary);
-        width: 100%;
-    }
-
-    .btn-secondary:hover {
-        background: rgba(201, 54, 84, 0.1);
-        transform: translateY(-2px);
-    }
-
-    /* Info Text */
-    .info-text {
-        background: linear-gradient(135deg, rgba(201, 54, 84, 0.15), rgba(201, 54, 84, 0.05));
-        border-left: 4px solid var(--primary);
-        padding: 1.5rem 1.75rem;
-        border-radius: 12px;
-        font-size: 1rem;
-        color: var(--text);
-        line-height: 1.7;
-        backdrop-filter: blur(10px);
-    }
-
-    /* Cards */
-    .card {
-        background: linear-gradient(145deg, rgba(26, 32, 64, 0.6), rgba(18, 22, 45, 0.8));
-        border: 1px solid var(--border);
-        border-radius: 20px;
-        padding: 2.5rem;
-        margin-bottom: 2rem;
-        backdrop-filter: blur(20px);
-        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
-    }
-
-    .card h2 {
-        font-size: 1rem;
-        margin-bottom: 2rem;
-        color: var(--primary-light);
-        font-weight: 700;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-    }
-
-    .summary-row {
-        display: flex;
-        justify-content: space-between;
-        padding: 1.25rem 0;
-        border-bottom: 1px solid var(--border);
-        align-items: center;
-    }
-
-    .summary-row:last-child {
-        border-bottom: none;
-    }
-
-    .summary-row span {
-        color: var(--text-muted);
-        font-size: 1rem;
-    }
-
-    .summary-row strong {
-        color: white;
-        font-weight: 600;
-        text-align: right;
-    }
-
-    /* Terms */
-    .terms-list {
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-        margin-bottom: 2.5rem;
-    }
-
-    .term-item {
-        display: flex;
-        gap: 1.5rem;
-        padding: 1.5rem;
-        background: rgba(201, 168, 117, 0.05);
-        border-radius: 14px;
-        border: 1px solid rgba(201, 168, 117, 0.1);
-        backdrop-filter: blur(10px);
-    }
-
-    .term-item.critical {
-        background: rgba(201, 54, 84, 0.1);
-        border-color: rgba(201, 54, 84, 0.3);
-    }
-
-    .term-icon {
-        font-size: 2rem;
-        flex-shrink: 0;
-    }
-
-    .term-item p {
-        font-size: 1rem;
-        line-height: 1.7;
-        margin: 0;
-    }
-
-    .term-item strong {
-        color: white;
-        display: block;
-        margin-bottom: 0.5rem;
-        font-weight: 700;
-        font-size: 1.0625rem;
-    }
-
-    .term-item.critical strong {
-        color: var(--primary-light);
-    }
-
-    .checkbox-label {
-        display: flex;
-        align-items: flex-start;
-        gap: 1.25rem;
-        cursor: pointer;
-        padding: 1.75rem;
-        background: rgba(201, 54, 84, 0.08);
-        border-radius: 14px;
-        border: 2px solid var(--primary);
-        transition: all 0.3s;
-        backdrop-filter: blur(10px);
-    }
-
-    .checkbox-label:hover {
-        background: rgba(201, 54, 84, 0.15);
-        box-shadow: 0 4px 20px rgba(201, 54, 84, 0.2);
-    }
-
-    .checkbox-label input[type="checkbox"] {
-        width: 26px;
-        height: 26px;
-        cursor: pointer;
-        accent-color: var(--primary);
-        margin-top: 2px;
-        flex-shrink: 0;
-    }
-
-    .checkbox-label span {
-        color: white;
-        font-size: 1.0625rem;
-        font-weight: 600;
-        line-height: 1.6;
-    }
-
-    /* Payment */
-    .deposit-amount {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 2rem;
-        background: linear-gradient(135deg, rgba(201, 54, 84, 0.2), rgba(201, 54, 84, 0.1));
-        border-radius: 16px;
-        margin-bottom: 2.5rem;
-        border: 1px solid var(--primary);
-    }
-
-    .deposit-amount span {
-        font-size: 1.0625rem;
-        color: var(--text);
-        font-weight: 500;
-    }
-
-    .deposit-amount strong {
-        font-size: 2.5rem;
-        color: var(--primary-light);
-        font-weight: 800;
-    }
-
-    .payment-methods {
-        display: flex;
-        flex-direction: column;
-        gap: 1.25rem;
-        margin-bottom: 2rem;
-    }
-
-    .payment-btn {
-        padding: 1.75rem 2rem;
-        border: 2px solid var(--border);
-        border-radius: 16px;
-        background: rgba(26, 32, 64, 0.6);
-        color: white;
-        font-size: 1.125rem;
-        font-weight: 700;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 1.25rem;
-        transition: all 0.3s;
-        backdrop-filter: blur(10px);
-    }
-
-    .payment-btn:hover {
-        border-color: var(--primary);
-        background: linear-gradient(135deg, rgba(201, 54, 84, 0.15), rgba(201, 54, 84, 0.05));
-        transform: translateY(-4px);
-        box-shadow: 0 10px 30px rgba(201, 54, 84, 0.3);
-    }
-
-    .payment-btn:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-    }
-
-    .payment-icon {
-        font-size: 2rem;
-    }
-
-    .payment-note {
-        text-align: center;
-        font-size: 0.875rem;
-        color: var(--text-muted);
-        font-style: italic;
-        margin-top: 1.5rem;
-        line-height: 1.6;
-    }
-
-    /* Confirmation */
-    .confirmation-container {
-        text-align: center;
-    }
-
-    .success-icon {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, var(--primary), var(--primary-light));
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 4rem;
-        font-weight: bold;
-        margin: 2.5rem auto 2rem;
-        animation: scaleIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 10px 50px rgba(201, 54, 84, 0.5);
-    }
-
-    @keyframes scaleIn {
-        0% { transform: scale(0) rotate(-180deg); }
-        50% { transform: scale(1.15); }
-        100% { transform: scale(1); }
-    }
-
-    .confirmation-text {
-        font-size: 1.125rem;
-        color: var(--text);
-        margin-bottom: 3rem;
-        line-height: 1.7;
-    }
-
-    .reference-number {
-        font-size: 2.25rem;
-        font-weight: 800;
-        color: var(--primary-light);
-        text-align: center;
-        padding: 2rem;
-        background: linear-gradient(135deg, rgba(201, 54, 84, 0.2), rgba(201, 54, 84, 0.1));
-        border-radius: 16px;
-        margin-bottom: 2.5rem;
-        letter-spacing: 4px;
-        border: 1px solid var(--primary);
-    }
-
-    .info-box {
-        background: linear-gradient(135deg, rgba(201, 54, 84, 0.15), rgba(201, 54, 84, 0.05));
-        border-left: 4px solid var(--primary);
-        border-radius: 16px;
-        padding: 2rem 2.5rem;
-        margin-bottom: 2.5rem;
-        text-align: left;
-        backdrop-filter: blur(10px);
-    }
-
-    .info-box h3 {
-        font-size: 1.25rem;
-        margin-bottom: 1.5rem;
-        color: var(--primary-light);
-        font-weight: 700;
-    }
-
-    .info-box ul {
-        list-style: none;
-        padding: 0;
-    }
-
-    .info-box li {
-        padding: 0.75rem 0 0.75rem 2.5rem;
-        position: relative;
-        color: var(--text);
-        font-size: 1rem;
-        line-height: 1.7;
-    }
-
-    .info-box li::before {
-        content: '✓';
-        position: absolute;
-        left: 0;
-        color: var(--primary);
-        font-weight: bold;
-        font-size: 1.25rem;
-    }
-
-    .action-buttons {
-        display: flex;
-        flex-direction: column;
-        gap: 1.25rem;
-        margin-bottom: 3rem;
-    }
-
-    .contact-info {
-        margin-top: 3rem;
-        padding-top: 2.5rem;
-        border-top: 1px solid var(--border);
-        font-size: 1rem;
-        color: var(--text-muted);
-        line-height: 1.8;
-    }
-
-    .contact-info p {
-        margin: 0.5rem 0;
-    }
-
-    .contact-info strong {
-        color: var(--primary-light);
-        font-weight: 600;
-    }
-
-    .footer {
-        text-align: center;
-        padding: 3rem 1.5rem;
-        margin-top: 4rem;
-        border-top: 1px solid var(--border);
-        font-size: 0.9375rem;
-        color: var(--text-muted);
-        line-height: 1.8;
-    }
-
-    .footer p {
-        margin: 0.5rem 0;
-    }
-
-    @media (min-width: 768px) {
-        .selection-grid {
-            grid-template-columns: repeat(2, 1fr);
-        }
-        .payment-methods,
-        .action-buttons {
-            flex-direction: row;
-        }
-    }
-</style>
-```
-
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Page 1: Experience Selection -->
+    <!-- Selection Page -->
     <div id="page-selection" class="page active">
         <div class="header">
-            <img src="https://images.squarespace-cdn.com/content/v1/65dec516adff7d2580b90124/37d9d0fb-8085-41bd-9f5c-aa354f22470c/012+Logo+Transparent.ai.png" alt="Ocean 12" class="logo">
-            <p class="tagline">Nightlife Luxury</p>
+            <img src="https://ocean12bar.com/wp-content/uploads/2024/12/cropped-Artboard-1-1-1-e1734317313419.png" alt="Ocean 12" class="logo">
+            <div class="tagline">PREMIUM NIGHTLIFE</div>
         </div>
+        
+        <div class="container">
+            <h1>Select Your Experience</h1>
+            
+            <div class="selection-grid">
+                <div class="selection-card" onclick="selectExperience('karaoke')">
+                    <span class="emoji">🎤</span>
+                    <h2>Luxury Karaoke</h2>
+                    <p>Private rooms with premium sound systems</p>
+                </div>
+                
+                <div class="selection-card" onclick="selectExperience('rooftop')">
+                    <span class="emoji">🌃</span>
+                    <h2>Rooftop Terrace</h2>
+                    <p>Stunning Melbourne views with premium service</p>
+                </div>
+                
+                <div class="selection-card" onclick="selectExperience('vip')">
+                    <span class="emoji">💎</span>
+                    <h2>VIP Experience</h2>
+                    <p>Exclusive rooms with bottle service</p>
+                </div>
+                
+                <div class="selection-card" onclick="selectExperience('events')">
+                    <span class="emoji">🎉</span>
+                    <h2>Private Events</h2>
+                    <p>Custom experiences for groups</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-```
-    <div class="container">
-        <h1>Select Your Experience</h1>
-        
-        <div class="selection-grid">
-            <button class="selection-card" onclick="selectExperience('karaoke')">
-                <span class="emoji">🎤</span>
-                <h2>Karaoke</h2>
-                <p>Luxury rooms with state-of-the-art sound</p>
-            </button>
-            
-            <button class="selection-card" onclick="selectExperience('rooftop')">
-                <span class="emoji">🌃</span>
-                <h2>Rooftop</h2>
-                <p>Riverside terrace with city views</p>
-            </button>
-            
-            <button class="selection-card" onclick="selectExperience('vip')">
-                <span class="emoji">👑</span>
-                <h2>VIP Room</h2>
-                <p>Exclusive with butler service</p>
-            </button>
-            
-            <button class="selection-card" onclick="selectExperience('events')">
-                <span class="emoji">🎉</span>
-                <h2>Events</h2>
-                <p>Private functions & celebrations</p>
-            </button>
-        </div>
-    </div>
-    
-    <div class="footer">
-        <p>Level 3, 8 Whiteman St, Southbank VIC 3006</p>
-        <p>(03) 9696 0777</p>
-    </div>
-</div>
-
-<!-- Page 2: Contact Details -->
-<div id="page-contact" class="page">
-    <div class="header-small">
-        <button class="back-btn" onclick="goBack()">← Back</button>
-        <img src="https://images.squarespace-cdn.com/content/v1/65dec516adff7d2580b90124/37d9d0fb-8085-41bd-9f5c-aa354f22470c/012+Logo+Transparent.ai.png" alt="Ocean 12" class="logo-small">
-    </div>
-    
-    <div class="container">
-        <div class="progress-bar">
-            <div class="progress-step active">1</div>
-            <div class="progress-line"></div>
-            <div class="progress-step">2</div>
-            <div class="progress-line"></div>
-            <div class="progress-step">3</div>
-            <div class="progress-line"></div>
-            <div class="progress-step">4</div>
+    <!-- Contact Page -->
+    <div id="page-contact" class="page">
+        <div class="header-small">
+            <button class="back-btn" onclick="goBack()">← Back</button>
+            <img src="https://ocean12bar.com/wp-content/uploads/2024/12/cropped-Artboard-1-1-1-e1734317313419.png" alt="Ocean 12" class="logo-small">
+            <div style="width: 80px;"></div>
         </div>
         
-        <h1 id="contact-title">Your Details</h1>
-        
-        <form id="contact-form" class="form">
-            <div class="form-group">
-                <label for="name">Full Name</label>
-                <input type="text" id="name" required placeholder="Enter your full name">
-            </div>
+        <div class="container">
+            <h1>Your Details</h1>
             
-            <div class="form-group">
-                <label for="phone">Phone Number</label>
-                <input type="tel" id="phone" required placeholder="04XX XXX XXX">
-            </div>
-            
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" required placeholder="your@email.com">
-            </div>
-            
-            <button type="submit" class="btn-primary">Continue</button>
-        </form>
-    </div>
-</div>
-
-<!-- Page 3: Booking Details -->
-<div id="page-booking" class="page">
-    <div class="header-small">
-        <button class="back-btn" onclick="goBack()">← Back</button>
-        <img src="https://images.squarespace-cdn.com/content/v1/65dec516adff7d2580b90124/37d9d0fb-8085-41bd-9f5c-aa354f22470c/012+Logo+Transparent.ai.png" alt="Ocean 12" class="logo-small">
-    </div>
-    
-    <div class="container">
-        <div class="progress-bar">
-            <div class="progress-step complete">✓</div>
-            <div class="progress-line complete"></div>
-            <div class="progress-step active">2</div>
-            <div class="progress-line"></div>
-            <div class="progress-step">3</div>
-            <div class="progress-line"></div>
-            <div class="progress-step">4</div>
-        </div>
-        
-        <h1 id="booking-title">Booking Details</h1>
-        
-        <form id="booking-form" class="form">
-            <div class="form-group">
-                <label for="date">Date</label>
-                <input type="date" id="date" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="time">Time</label>
-                <input type="time" id="time" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="guests">Number of Guests</label>
-                <input type="number" id="guests" min="1" required placeholder="How many guests?">
-            </div>
-            
-            <!-- Karaoke Options -->
-            <div id="karaoke-options" style="display: none;">
+            <form id="contact-form" class="form">
                 <div class="form-group">
-                    <label>Room Size</label>
-                    <div class="radio-group">
-                        <label class="radio-card">
-                            <input type="radio" name="room-size" value="small">
-                            <div class="radio-content">
-                                <strong>Small Room</strong>
-                                <span>Up to 6 guests</span>
-                            </div>
-                        </label>
-                        <label class="radio-card">
-                            <input type="radio" name="room-size" value="medium">
-                            <div class="radio-content">
-                                <strong>Medium Room</strong>
-                                <span>Up to 8 guests</span>
-                            </div>
-                        </label>
-                        <label class="radio-card">
-                            <input type="radio" name="room-size" value="large">
-                            <div class="radio-content">
-                                <strong>Large Room</strong>
-                                <span>Up to 12 guests</span>
-                            </div>
-                        </label>
-                    </div>
+                    <label class="label">
+                        <span class="label-text">Full Name</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" id="name" required class="input">
                 </div>
                 
                 <div class="form-group">
-                    <label>Package (Optional)</label>
-                    <div class="radio-group">
-                        <label class="radio-card">
-                            <input type="radio" name="package" value="none" checked>
-                            <div class="radio-content">
-                                <strong>No Package</strong>
-                                <span>Order from menu</span>
-                            </div>
-                        </label>
-                        <label class="radio-card">
-                            <input type="radio" name="package" value="cocktail">
-                            <div class="radio-content">
-                                <strong>Cocktail Package</strong>
-                                <span>$50 per person</span>
-                            </div>
-                        </label>
-                        <label class="radio-card">
-                            <input type="radio" name="package" value="signature">
-                            <div class="radio-content">
-                                <strong>Signature Package</strong>
-                                <span>Premium selection</span>
-                            </div>
-                        </label>
-                        <label class="radio-card">
-                            <input type="radio" name="package" value="diamond">
-                            <div class="radio-content">
-                                <strong>Diamond Package</strong>
-                                <span>Ultimate experience</span>
-                            </div>
-                        </label>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Rooftop Options -->
-            <div id="rooftop-options" style="display: none;">
-                <div class="form-group">
-                    <label>Seating Preference</label>
-                    <div class="radio-group">
-                        <label class="radio-card">
-                            <input type="radio" name="seating" value="non-smoking" checked>
-                            <div class="radio-content">
-                                <strong>Non-Smoking Area</strong>
-                                <span>Indoor seating</span>
-                            </div>
-                        </label>
-                        <label class="radio-card">
-                            <input type="radio" name="seating" value="smoking">
-                            <div class="radio-content">
-                                <strong>Smoking Area</strong>
-                                <span>Outdoor terrace</span>
-                            </div>
-                        </label>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- VIP Options -->
-            <div id="vip-options" style="display: none;">
-                <p class="info-text">VIP rooms for 15+ guests include dedicated butler, private bathroom, and smoking balcony.</p>
-            </div>
-            
-            <!-- Events Options -->
-            <div id="events-options" style="display: none;">
-                <div class="form-group">
-                    <label for="event-type">Event Type</label>
-                    <select id="event-type">
-                        <option value="">Select event type</option>
-                        <option value="birthday">Birthday Party</option>
-                        <option value="corporate">Corporate Function</option>
-                        <option value="christmas">Christmas Party</option>
-                        <option value="celebration">Celebration</option>
-                        <option value="other">Other</option>
-                    </select>
+                    <label class="label">
+                        <span class="label-text">Phone Number</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="tel" id="phone" required class="input" placeholder="+61 4XX XXX XXX">
                 </div>
                 
                 <div class="form-group">
-                    <label for="special-requests">Special Requests</label>
-                    <textarea id="special-requests" rows="4" placeholder="Any special requirements..."></textarea>
+                    <label class="label">
+                        <span class="label-text">Email Address</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="email" id="email" required class="input">
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Continue to Booking →</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Booking Page -->
+    <div id="page-booking" class="page">
+        <div class="header-small">
+            <button class="back-btn" onclick="goBack()">← Back</button>
+            <img src="https://ocean12bar.com/wp-content/uploads/2024/12/cropped-Artboard-1-1-1-e1734317313419.png" alt="Ocean 12" class="logo-small">
+            <div style="width: 80px;"></div>
+        </div>
+        
+        <div class="container">
+            <h1 id="booking-title">Booking Details</h1>
+            
+            <form id="booking-form" class="form">
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Preferred Date</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="date" id="date" required class="input">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Preferred Time</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="time" id="time" required class="input">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Number of Guests</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input type="number" id="guests" min="1" required class="input">
+                </div>
+                
+                <!-- Karaoke Options -->
+                <div id="karaoke-options">
+                    <div class="form-group">
+                        <label class="label">
+                            <span class="label-text">Room Size</span>
+                            <span class="required">*</span>
+                        </label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="room-size" value="small" class="radio-input">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">Small (Up to 6 guests)</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="room-size" value="medium" class="radio-input">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">Medium (Up to 8 guests)</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="room-size" value="large" class="radio-input">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">Large (Up to 12 guests)</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="label">
+                            <span class="label-text">Add Package (Optional)</span>
+                        </label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="package" value="cocktail" class="radio-input">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">Cocktail Package (+$50/person)</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="package" value="signature" class="radio-input">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">Signature Package (+$75/person)</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="package" value="diamond" class="radio-input">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">Diamond Package (+$100/person)</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Rooftop Options -->
+                <div id="rooftop-options">
+                    <div class="form-group">
+                        <label class="label">
+                            <span class="label-text">Seating Preference</span>
+                        </label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="seating" value="non-smoking" checked class="radio-input">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">Non-Smoking Area</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="seating" value="smoking" class="radio-input">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">Smoking Area</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- VIP Options -->
+                <div id="vip-options">
+                    <div class="info-box">
+                        <strong>VIP Requirements:</strong>
+                        <ul>
+                            <li>Minimum 15 guests</li>
+                            <li>Bottle service included</li>
+                            <li>Dedicated host</li>
+                            <li>Premium location</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Events Options -->
+                <div id="events-options">
+                    <div class="form-group">
+                        <label class="label">
+                            <span class="label-text">Event Type</span>
+                        </label>
+                        <select id="event-type" class="input">
+                            <option value="birthday">Birthday Party</option>
+                            <option value="corporate">Corporate Event</option>
+                            <option value="bachelor">Bachelor/Bachelorette</option>
+                            <option value="anniversary">Anniversary</option>
+                            <option value="other">Other Celebration</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="label">
+                            <span class="label-text">Special Requests</span>
+                        </label>
+                        <textarea id="special-requests" rows="4" class="input"></textarea>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Review Terms →</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Terms Page -->
+    <div id="page-terms" class="page">
+        <div class="header-small">
+            <button class="back-btn" onclick="goBack()">← Back</button>
+            <img src="https://ocean12bar.com/wp-content/uploads/2024/12/cropped-Artboard-1-1-1-e1734317313419.png" alt="Ocean 12" class="logo-small">
+            <div style="width: 80px;"></div>
+        </div>
+        
+        <div class="container">
+            <h1>Review & Terms</h1>
+            
+            <div class="summary-card">
+                <h3>Booking Summary</h3>
+                <div class="summary-row">
+                    <span class="summary-label">Experience:</span>
+                    <span class="summary-value" id="terms-experience"></span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Date & Time:</span>
+                    <span class="summary-value" id="terms-datetime"></span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Guests:</span>
+                    <span class="summary-value" id="terms-guests"></span>
                 </div>
             </div>
             
-            <button type="submit" class="btn-primary">Continue</button>
-        </form>
-    </div>
-</div>
-
-<!-- Page 4: Terms & Conditions -->
-<div id="page-terms" class="page">
-    <div class="header-small">
-        <button class="back-btn" onclick="goBack()">← Back</button>
-        <img src="https://images.squarespace-cdn.com/content/v1/65dec516adff7d2580b90124/37d9d0fb-8085-41bd-9f5c-aa354f22470c/012+Logo+Transparent.ai.png" alt="Ocean 12" class="logo-small">
-    </div>
-    
-    <div class="container">
-        <div class="progress-bar">
-            <div class="progress-step complete">✓</div>
-            <div class="progress-line complete"></div>
-            <div class="progress-step complete">✓</div>
-            <div class="progress-line complete"></div>
-            <div class="progress-step active">3</div>
-            <div class="progress-line"></div>
-            <div class="progress-step">4</div>
-        </div>
-        
-        <h1>Terms & Conditions</h1>
-        
-        <div class="card">
-            <h2>Your Booking</h2>
-            <div class="summary-row">
-                <span>Experience:</span>
-                <strong id="terms-experience"></strong>
-            </div>
-            <div class="summary-row">
-                <span>Date & Time:</span>
-                <strong id="terms-datetime"></strong>
-            </div>
-            <div class="summary-row">
-                <span>Guests:</span>
-                <strong id="terms-guests"></strong>
-            </div>
-        </div>
-        
-        <div class="card">
-            <h2>Important Terms</h2>
-            <div class="terms-list">
-                <div class="term-item critical">
-                    <span class="term-icon">💳</span>
-                    <p><strong>NON-REFUNDABLE DEPOSIT</strong><br>15% deposit required and is NON-REFUNDABLE under any circumstances</p>
-                </div>
-                <div class="term-item critical">
-                    <span class="term-icon">🚫</span>
-                    <p><strong>NO OUTSIDE FOOD OR ALCOHOL</strong><br>Outside food and beverages strictly prohibited</p>
-                </div>
-                <div class="term-item">
-                    <span class="term-icon">🔞</span>
-                    <p><strong>18+ Venue Only</strong><br>Valid photo ID required</p>
-                </div>
-                <div class="term-item">
-                    <span class="term-icon">⏰</span>
-                    <p><strong>Late Arrival Policy</strong><br>15-minute grace period</p>
-                </div>
+            <div class="terms-box">
+                <h3>Terms & Conditions</h3>
+                <ul>
+                    <li>A 15% deposit is required to secure your booking</li>
+                    <li>Cancellations must be made 48 hours in advance for a full refund</li>
+                    <li>Valid ID required for all guests (18+ only)</li>
+                    <li>Smart casual dress code enforced</li>
+                    <li>Management reserves the right to refuse entry</li>
+                    <li>Responsible service of alcohol applies</li>
+                </ul>
             </div>
             
-            <label class="checkbox-label">
-                <input type="checkbox" id="terms-accept">
-                <span>I accept all terms including the non-refundable deposit policy</span>
-            </label>
+            <div class="checkbox-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="terms-accept" class="checkbox-input">
+                    <span class="checkbox-custom"></span>
+                    <span class="checkbox-text">I accept the terms and conditions</span>
+                </label>
+            </div>
+            
+            <button onclick="proceedToPayment()" class="btn btn-primary">Proceed to Payment →</button>
         </div>
-        
-        <button class="btn-primary" onclick="proceedToPayment()">Continue to Payment</button>
     </div>
-</div>
 
-<!-- Page 5: Payment -->
-<div id="page-payment" class="page">
-    <div class="header-small">
-        <button class="back-btn" onclick="goBack()">← Back</button>
-        <img src="https://images.squarespace-cdn.com/content/v1/65dec516adff7d2580b90124/37d9d0fb-8085-41bd-9f5c-aa354f22470c/012+Logo+Transparent.ai.png" alt="Ocean 12" class="logo-small">
-    </div>
-    
-    <div class="container">
-        <div class="progress-bar">
-            <div class="progress-step complete">✓</div>
-            <div class="progress-line complete"></div>
-            <div class="progress-step complete">✓</div>
-            <div class="progress-line complete"></div>
-            <div class="progress-step complete">✓</div>
-            <div class="progress-line complete"></div>
-            <div class="progress-step active">4</div>
+    <!-- Payment Page -->
+    <div id="page-payment" class="page">
+        <div class="header-small">
+            <button class="back-btn" onclick="goBack()">← Back</button>
+            <img src="https://ocean12bar.com/wp-content/uploads/2024/12/cropped-Artboard-1-1-1-e1734317313419.png" alt="Ocean 12" class="logo-small">
+            <div style="width: 80px;"></div>
         </div>
         
-        <h1>Secure Payment</h1>
-        
-        <div class="card">
-            <h2>Booking Summary</h2>
-            <div class="summary-row">
-                <span>Experience:</span>
-                <strong id="payment-experience"></strong>
-            </div>
-            <div class="summary-row">
-                <span>Date & Time:</span>
-                <strong id="payment-datetime"></strong>
-            </div>
-            <div class="summary-row">
-                <span>Guests:</span>
-                <strong id="payment-guests"></strong>
-            </div>
-            <div class="summary-row" id="payment-room-row" style="display: none;">
-                <span>Room:</span>
-                <strong id="payment-room"></strong>
-            </div>
-            <div class="summary-row" id="payment-package-row" style="display: none;">
-                <span>Package:</span>
-                <strong id="payment-package"></strong>
-            </div>
-        </div>
-        
-        <div class="card">
-            <h2>Deposit Payment</h2>
-            <div class="deposit-amount">
-                <span>Deposit (15%):</span>
-                <strong id="deposit-amount">$75.00</strong>
+        <div class="container">
+            <h1>Complete Payment</h1>
+            
+            <div class="summary-card">
+                <h3>Final Summary</h3>
+                <div class="summary-row">
+                    <span class="summary-label">Experience:</span>
+                    <span class="summary-value" id="payment-experience"></span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Date & Time:</span>
+                    <span class="summary-value" id="payment-datetime"></span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Guests:</span>
+                    <span class="summary-value" id="payment-guests"></span>
+                </div>
+                <div class="summary-row" id="payment-room-row" style="display: none;">
+                    <span class="summary-label">Room:</span>
+                    <span class="summary-value" id="payment-room"></span>
+                </div>
+                <div class="summary-row" id="payment-package-row" style="display: none;">
+                    <span class="summary-label">Package:</span>
+                    <span class="summary-value" id="payment-package"></span>
+                </div>
+                <div class="summary-row deposit-row">
+                    <span class="summary-label">Deposit (15%):</span>
+                    <span class="summary-value deposit-amount" id="deposit-amount">$0.00</span>
+                </div>
             </div>
             
             <div class="payment-methods">
-                <button class="payment-btn" id="apple-pay-btn" onclick="processPayment('apple')">
+                <button onclick="processPayment('apple')" id="apple-pay-btn" class="payment-btn apple-pay-btn">
                     <span class="payment-icon">🍎</span>
                     <span>Pay with Apple Pay</span>
                 </button>
-                <button class="payment-btn" id="google-pay-btn" onclick="processPayment('google')">
+                
+                <button onclick="processPayment('google')" id="google-pay-btn" class="payment-btn google-pay-btn">
                     <span class="payment-icon">G</span>
                     <span>Pay with Google Pay</span>
                 </button>
             </div>
             
-            <p class="payment-note">💡 Prototype demonstration - Payment will be activated in production</p>
-        </div>
-    </div>
-</div>
-
-<!-- Page 6: Confirmation -->
-<div id="page-confirmation" class="page">
-    <div class="header-small">
-        <img src="https://images.squarespace-cdn.com/content/v1/65dec516adff7d2580b90124/37d9d0fb-8085-41bd-9f5c-aa354f22470c/012+Logo+Transparent.ai.png" alt="Ocean 12" class="logo-small">
-    </div>
-    
-    <div class="container confirmation-container">
-        <div class="success-icon">✓</div>
-        <h1>Booking Confirmed!</h1>
-        <p class="confirmation-text">Thank you! A confirmation email has been sent with all details.</p>
-        
-        <div class="card">
-            <div class="reference-number">OC12-<span id="booking-ref"></span></div>
-            
-            <div class="summary-row">
-                <span>Experience:</span>
-                <strong id="confirm-experience"></strong>
-            </div>
-            <div class="summary-row">
-                <span>Date & Time:</span>
-                <strong id="confirm-datetime"></strong>
-            </div>
-            <div class="summary-row">
-                <span>Guests:</span>
-                <strong id="confirm-guests"></strong>
+            <div class="secure-note">
+                🔒 Secure payment processing
             </div>
         </div>
-        
-        <div class="info-box">
-            <h3>What's Next?</h3>
-            <ul>
-                <li>Check your email for confirmation</li>
-                <li>Arrive 10 minutes early (Level 3)</li>
-                <li>Bring valid photo ID (18+ venue)</li>
-                <li>Call (03) 9696 0777 for changes</li>
-            </ul>
+    </div>
+
+    <!-- Confirmation Page -->
+    <div id="page-confirmation" class="page">
+        <div class="header">
+            <img src="https://ocean12bar.com/wp-content/uploads/2024/12/cropped-Artboard-1-1-1-e1734317313419.png" alt="Ocean 12" class="logo">
+            <div class="tagline">BOOKING CONFIRMED</div>
         </div>
         
-        <div class="action-buttons">
-            <button class="btn-secondary" onclick="addToCalendar()">📅 Add to Calendar</button>
-            <button class="btn-primary" onclick="resetBooking()">Book Another</button>
-        </div>
-        
-        <div class="contact-info">
-            <p><strong>Ocean 12</strong></p>
-            <p>Level 3, 8 Whiteman St, Southbank VIC 3006</p>
-            <p>📞 (03) 9696 0777</p>
-            <p>✉️ reservation@ocean12.com.au</p>
+        <div class="container">
+            <div class="confirmation-icon">✓</div>
+            
+            <h1>Booking Confirmed!</h1>
+            
+            <div class="confirmation-ref">
+                Booking Reference: <strong id="booking-ref"></strong>
+            </div>
+            
+            <div class="summary-card">
+                <div class="summary-row">
+                    <span class="summary-label">Experience:</span>
+                    <span class="summary-value" id="confirm-experience"></span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Date & Time:</span>
+                    <span class="summary-value" id="confirm-datetime"></span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Guests:</span>
+                    <span class="summary-value" id="confirm-guests"></span>
+                </div>
+            </div>
+            
+            <div class="info-box">
+                <strong>What's Next?</strong>
+                <ul>
+                    <li>Confirmation email sent to your address</li>
+                    <li>Check your phone for SMS confirmation</li>
+                    <li>Arrive 15 minutes before your booking</li>
+                    <li>Bring valid ID for all guests</li>
+                </ul>
+            </div>
+            
+            <div class="action-buttons">
+                <button onclick="addToCalendar()" class="btn btn-secondary">📅 Add to Calendar</button>
+                <button onclick="resetBooking()" class="btn btn-primary">Book Another Experience</button>
+            </div>
         </div>
     </div>
-</div>
 
-<script>
-    let bookingData = {
-        experience: '', name: '', phone: '', email: '',
-        date: '', time: '', guests: '', roomSize: '',
-        package: 'none', seating: 'non-smoking', eventType: '', specialRequests: ''
-    };
-
-    let pageHistory = [];
-
-    function showPage(pageId) {
-        document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-        document.getElementById(pageId).classList.add('active');
-        window.scrollTo(0, 0);
-    }
-
-    function goBack() {
-        if (pageHistory.length > 0) {
-            showPage(pageHistory.pop());
-        }
-    }
-
-    function selectExperience(type) {
-        bookingData.experience = type;
-        pageHistory.push('page-selection');
-        showPage('page-contact');
-        
-        const titles = {
-            'karaoke': 'Book Karaoke 🎤',
-            'rooftop': 'Book Rooftop 🌃',
-            'vip': 'Book VIP 👑',
-            'events': 'Book Events 🎉'
-        };
-        document.getElementById('contact-title').textContent = titles[type];
-    }
-
-    document.getElementById('contact-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        bookingData.name = document.getElementById('name').value.trim();
-        bookingData.phone = document.getElementById('phone').value.trim();
-        bookingData.email = document.getElementById('email').value.trim();
-        
-        if (!bookingData.name || !bookingData.phone || !bookingData.email) {
-            alert('Please fill all fields');
-            return;
-        }
-        
-        pageHistory.push('page-contact');
-        showPage('page-booking');
-        setupBookingPage();
-    });
-
-    function setupBookingPage() {
-        document.getElementById('karaoke-options').style.display = 'none';
-        document.getElementById('rooftop-options').style.display = 'none';
-        document.getElementById('vip-options').style.display = 'none';
-        document.getElementById('events-options').style.display = 'none';
-        
-        const titles = {
-            'karaoke': 'Karaoke Details',
-            'rooftop': 'Rooftop Details',
-            'vip': 'VIP Details',
-            'events': 'Event Details'
-        };
-        document.getElementById('booking-title').textContent = titles[bookingData.experience];
-        
-        if (bookingData.experience === 'karaoke') {
-            document.getElementById('karaoke-options').style.display = 'block';
-        } else if (bookingData.experience === 'rooftop') {
-            document.getElementById('rooftop-options').style.display = 'block';
-        } else if (bookingData.experience === 'vip') {
-            document.getElementById('vip-options').style.display = 'block';
-            document.getElementById('guests').min = '15';
-            document.getElementById('guests').value = '15';
-        } else if (bookingData.experience === 'events') {
-            document.getElementById('events-options').style.display = 'block';
-        }
-        
-        document.getElementById('date').min = new Date().toISOString().split('T')[0];
-    }
-
-    document.getElementById('booking-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        bookingData.date = document.getElementById('date').value;
-        bookingData.time = document.getElementById('time').value;
-        bookingData.guests = document.getElementById('guests').value;
-        
-        console.log('Booking form submitted', bookingData); // DEBUG
-        
-        if (!bookingData.date || !bookingData.time || !bookingData.guests) {
-            alert('Please fill all required fields');
-            return;
-        }
-        
-        if (bookingData.experience === 'vip' && parseInt(bookingData.guests) < 15) {
-            alert('VIP rooms require minimum 15 guests');
-            return;
-        }
-        
-        if (bookingData.experience === 'karaoke') {
-            const roomSize = document.querySelector('input[name="room-size"]:checked');
-            if (!roomSize) {
-                alert('Please select a room size');
-                return;
-            }
-            bookingData.roomSize = roomSize.value;
-            const packageEl = document.querySelector('input[name="package"]:checked');
-            bookingData.package = packageEl ? packageEl.value : 'none';
-            
-            const maxGuests = {'small': 6, 'medium': 8, 'large': 12};
-            if (parseInt(bookingData.guests) > maxGuests[bookingData.roomSize]) {
-                alert(`Room fits max ${maxGuests[bookingData.roomSize]} guests`);
-                return;
-            }
-        } else if (bookingData.experience === 'rooftop') {
-            const seating = document.querySelector('input[name="seating"]:checked');
-            bookingData.seating = seating ? seating.value : 'non-smoking';
-        } else if (bookingData.experience === 'events') {
-            bookingData.eventType = document.getElementById('event-type').value;
-            bookingData.specialRequests = document.getElementById('special-requests').value;
-        }
-        
-        console.log('Moving to terms page', bookingData); // DEBUG
-        pageHistory.push('page-booking');
-        showPage('page-terms');
-        updateTermsSummary();
-    });
-
-    function updateTermsSummary() {
-        const names = {
-            'karaoke': 'Luxury Karaoke',
-            'rooftop': 'Rooftop Terrace',
-            'vip': 'VIP Room',
-            'events': 'Private Event'
-        };
-        
-        document.getElementById('terms-experience').textContent = names[bookingData.experience];
-        
-        const dateObj = new Date(bookingData.date + 'T' + bookingData.time);
-        const formatted = dateObj.toLocaleDateString('en-AU', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}) + 
-                        ' at ' + dateObj.toLocaleTimeString('en-AU', {hour: '2-digit', minute: '2-digit'});
-        document.getElementById('terms-datetime').textContent = formatted;
-        document.getElementById('terms-guests').textContent = `${bookingData.guests} Guests`;
-    }
-
-    function proceedToPayment() {
-        if (!document.getElementById('terms-accept').checked) {
-            alert('⚠️ Please accept terms and conditions');
-            return;
-        }
-        
-        pageHistory.push('page-terms');
-        showPage('page-payment');
-        updatePaymentSummary();
-    }
-
-    function updatePaymentSummary() {
-        const names = {
-            'karaoke': 'Luxury Karaoke',
-            'rooftop': 'Rooftop Terrace',
-            'vip': 'VIP Room',
-            'events': 'Private Event'
-        };
-        
-        document.getElementById('payment-experience').textContent = names[bookingData.experience];
-        
-        const dateObj = new Date(bookingData.date + 'T' + bookingData.time);
-        const formatted = dateObj.toLocaleDateString('en-AU', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}) + 
-                        ' at ' + dateObj.toLocaleTimeString('en-AU', {hour: '2-digit', minute: '2-digit'});
-        document.getElementById('payment-datetime').textContent = formatted;
-        document.getElementById('payment-guests').textContent = `${bookingData.guests} Guests`;
-        
-        if (bookingData.experience === 'karaoke') {
-            document.getElementById('payment-room-row').style.display = 'flex';
-            const roomNames = {'small': 'Small (6)', 'medium': 'Medium (8)', 'large': 'Large (12)'};
-            document.getElementById('payment-room').textContent = roomNames[bookingData.roomSize];
-            
-            if (bookingData.package && bookingData.package !== 'none') {
-                document.getElementById('payment-package-row').style.display = 'flex';
-                const packageNames = {
-                    'cocktail': 'Cocktail Package',
-                    'signature': 'Signature Package',
-                    'diamond': 'Diamond Package'
-                };
-                document.getElementById('payment-package').textContent = packageNames[bookingData.package];
-            }
-        }
-        
-        let total = 500;
-        if (bookingData.experience === 'karaoke') {
-            total = {'small': 400, 'medium': 600, 'large': 800}[bookingData.roomSize] || 500;
-            if (bookingData.package === 'cocktail') total += 50 * parseInt(bookingData.guests);
-            if (bookingData.package === 'signature') total += 75 * parseInt(bookingData.guests);
-            if (bookingData.package === 'diamond') total += 100 * parseInt(bookingData.guests);
-        } else if (bookingData.experience === 'vip') {
-            total = 1500;
-        } else if (bookingData.experience === 'events') {
-            total = 44 * parseInt(bookingData.guests);
-        }
-        
-        document.getElementById('deposit-amount').textContent = `$${(total * 0.15).toFixed(2)}`;
-    }
-
-    function processPayment(method) {
-        document.getElementById('apple-pay-btn').disabled = true;
-        document.getElementById('google-pay-btn').disabled = true;
-        
-        setTimeout(() => {
-            alert(`✓ Payment via ${method === 'apple' ? 'Apple Pay' : 'Google Pay'}\n\nPrototype mode`);
-            pageHistory = [];
-            showPage('page-confirmation');
-            updateConfirmation();
-            document.getElementById('apple-pay-btn').disabled = false;
-            document.getElementById('google-pay-btn').disabled = false;
-        }, 800);
-    }
-
-    function updateConfirmation() {
-        document.getElementById('booking-ref').textContent = Math.random().toString(36).substring(2, 8).toUpperCase();
-        
-        const names = {
-            'karaoke': 'Luxury Karaoke',
-            'rooftop': 'Rooftop Terrace',
-            'vip': 'VIP Room',
-            'events': 'Private Event'
-        };
-        document.getElementById('confirm-experience').textContent = names[bookingData.experience];
-        
-        const dateObj = new Date(bookingData.date + 'T' + bookingData.time);
-        const formatted = dateObj.toLocaleDateString('en-AU', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}) + 
-                        ' at ' + dateObj.toLocaleTimeString('en-AU', {hour: '2-digit', minute: '2-digit'});
-        document.getElementById('confirm-datetime').textContent = formatted;
-        document.getElementById('confirm-guests').textContent = `${bookingData.guests} Guests`;
-    }
-
-    function addToCalendar() {
-        alert('📅 Calendar feature coming in production!');
-    }
-
-    function resetBooking() {
-        bookingData = {
-            experience: '', name: '', phone: '', email: '',
-            date: '', time: '', guests: '', roomSize: '',
-            package: 'none', seating: 'non-smoking', eventType: '', specialRequests: ''
-        };
-        document.getElementById('contact-form').reset();
-        document.getElementById('booking-form').reset();
-        document.getElementById('terms-accept').checked = false;
-        document.getElementById('guests').min = '1';
-        pageHistory = [];
-        showPage('page-selection');
-    }
-
-    // Initialize
-    document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('time').value = '20:00';
-        console.log('App initialized'); // DEBUG
-    });
-</script>
-```
-
+    <script src="script.js"></script>
 </body>
 </html>
