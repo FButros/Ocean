@@ -19,31 +19,49 @@
             
             <div class="selection-grid">
                 <div class="selection-card" onclick="selectExperience('karaoke')">
-                    <span class="emoji">🎤</span>
+                    <div class="icon">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                            <line x1="12" y1="19" x2="12" y2="23"/>
+                            <line x1="8" y1="23" x2="16" y2="23"/>
+                        </svg>
+                    </div>
                     <h2>Book Karaoke Room</h2>
                     <p>Private rooms with premium sound systems</p>
                 </div>
                 
                 <div class="selection-card" onclick="selectExperience('rooftop')">
-                    <span class="emoji">🌃</span>
+                    <div class="icon">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M3 21h18"/>
+                            <path d="M9 8h1"/>
+                            <path d="M9 12h1"/>
+                            <path d="M9 16h1"/>
+                            <path d="M14 8h1"/>
+                            <path d="M14 12h1"/>
+                            <path d="M14 16h1"/>
+                            <path d="M6 21V7l6-4 6 4v14"/>
+                        </svg>
+                    </div>
                     <h2>Book Rooftop Bar</h2>
                     <p>Stunning Melbourne views with premium service</p>
                 </div>
                 
                 <div class="selection-card" onclick="selectExperience('vip')">
-                    <span class="emoji">💎</span>
+                    <div class="icon"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L3 7l9 13 9-13z"/><path d="M3 7l9 5 9-5"/><line x1="12" y1="12" x2="12" y2="20"/></svg></div>
                     <h2>Book VIP Room</h2>
                     <p>Exclusive rooms with bottle service</p>
                 </div>
                 
                 <div class="selection-card" onclick="selectExperience('vip-tour')">
-                    <span class="emoji">👁️</span>
+                    <div class="icon"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
                     <h2>Book VIP Room Tour</h2>
                     <p>Experience our VIP facilities</p>
                 </div>
                 
                 <div class="selection-card" onclick="selectExperience('events')">
-                    <span class="emoji">🎉</span>
+                    <div class="icon"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
                     <h2>Book an Event</h2>
                     <p>Custom experiences for groups</p>
                 </div>
@@ -64,19 +82,19 @@
             
             <div class="selection-grid">
                 <div class="selection-card" onclick="selectKaraokeType('night')">
-                    <span class="emoji">🌙</span>
+                    <div class="icon"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>
                     <h2>Book the Night</h2>
                     <p>Minimum spend booking</p>
                 </div>
                 
                 <div class="selection-card" onclick="selectKaraokeType('session')">
-                    <span class="emoji">⏰</span>
+                    <div class="icon"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
                     <h2>Book a Session</h2>
                     <p>Per hour (minimum 2 hours)</p>
                 </div>
                 
                 <div class="selection-card" onclick="selectKaraokeType('package')">
-                    <span class="emoji">📦</span>
+                    <div class="icon"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
                     <h2>Book a Package</h2>
                     <p>Cocktail, Signature, or Diamond</p>
                 </div>
@@ -334,7 +352,7 @@
             
             <div class="selection-grid">
                 <div class="selection-card" onclick="selectPackage('cocktail')">
-                    <span class="emoji">🍹</span>
+                    <div class="icon"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 18V6h12v12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2z"/><path d="M6 2h12"/><path d="M6 7h12"/></svg></div>
                     <h2>Cocktail Package</h2>
                     <p class="package-price">Weekday: $300 | Weekend: $380</p>
                     <p class="package-details">3-6 guests • 5 Large Plates • 8 Signature Cocktails • 4 Hours Karaoke</p>
@@ -343,7 +361,7 @@
                 </div>
                 
                 <div class="selection-card" onclick="selectPackage('signature')">
-                    <span class="emoji">🥂</span>
+                    <div class="icon"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2h8"/><path d="M12 15v7"/><path d="M8 22h8"/><path d="M8 2L12 15L16 2"/></svg></div>
                     <h2>Signature Package</h2>
                     <p class="package-price">Weekday: $498 | Weekend: $580</p>
                     <p class="package-details">6-8 guests • 6 Large Plates • 1 Dessert • 6 Glasses • 1 Bottle (Remy/Belvedere) • 3 Mixers • 4 Hours</p>
@@ -352,7 +370,7 @@
                 </div>
                 
                 <div class="selection-card" onclick="selectPackage('diamond')">
-                    <span class="emoji">💎</span>
+                    <div class="icon"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L3 7l9 13 9-13z"/><path d="M3 7l9 5 9-5"/><line x1="12" y1="12" x2="12" y2="20"/></svg></div>
                     <h2>Diamond Package</h2>
                     <p class="package-price">Weekday: $728 | Weekend: $858</p>
                     <p class="package-details">8-14 guests • 8 Large Plates • 2 Desserts • 8 Cocktails • 1 Bottle • 3 Mixers • ALL NIGHT</p>
@@ -1181,7 +1199,7 @@
             
             <div style="margin-top: 2rem; text-align: center; color: var(--text-muted); font-size: 0.95rem;">
                 <p>For more information, visit <a href="https://ocean12.com.au/events" style="color: var(--primary);">ocean12.com.au/events</a></p>
-                <p>or email <a href="mailto:events@ocean12.com.au" style="color: var(--primary);">events@ocean12.com.au</a></p>
+                <p>or email <a href="/cdn-cgi/l/email-protection#9cf9eaf9f2e8efdcf3fff9fdf2adaeb2fff3f1b2fde9" style="color: var(--primary);"><span class="__cf_email__" data-cfemail="7c190a1912080f3c131f191d124d4e521f1311521d09">[email&#160;protected]</span></a></p>
             </div>
         </div>
     </div>

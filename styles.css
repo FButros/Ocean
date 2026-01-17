@@ -5,21 +5,25 @@
 }
 
 :root {
-    --primary: #c93654;
-    --primary-dark: #a12940;
-    --primary-light: #e04e6e;
-    --secondary: #c9a875;
-    --dark: #0a0c1a;
-    --dark-card: #12162d;
-    --dark-lighter: #1a2040;
-    --text: #e8e9f3;
+    /* Ocean12 Brand Colors extracted from website */
+    --primary: #c9a875; /* Gold/Bronze - main accent */
+    --primary-dark: #a88a5f;
+    --primary-light: #dbbf90;
+    --secondary: #e8e9f3; /* Light text */
+    --dark: #000000; /* Deep black background */
+    --dark-card: #0a0a0a;
+    --dark-lighter: #1a1a1a;
+    --text: #ffffff;
     --text-muted: #9ca3af;
-    --border: rgba(201, 54, 84, 0.2);
+    --border: rgba(201, 168, 117, 0.2);
+    --accent-glow: rgba(201, 168, 117, 0.15);
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #0a0c1a 0%, #12162d 50%, #0a0c1a 100%);
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 15px;
+    letter-spacing: 0.3px;
+    background: #000000;
     color: var(--text);
     min-height: 100vh;
     line-height: 1.6;
@@ -37,7 +41,7 @@ body {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(30px); }
+    from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
@@ -45,7 +49,7 @@ body {
 .header {
     text-align: center;
     padding: 3rem 1.5rem 2.5rem;
-    background: linear-gradient(180deg, rgba(18, 22, 45, 0.95) 0%, transparent 100%);
+    background: linear-gradient(180deg, rgba(10, 10, 10, 0.98) 0%, transparent 100%);
     border-bottom: 1px solid var(--border);
     position: relative;
 }
@@ -65,12 +69,12 @@ body {
     max-width: 200px;
     height: auto;
     margin-bottom: 1rem;
-    filter: drop-shadow(0 4px 20px rgba(201, 54, 84, 0.3));
+    filter: drop-shadow(0 4px 20px rgba(201, 168, 117, 0.3));
 }
 
 .tagline {
-    font-size: 0.75rem;
-    letter-spacing: 5px;
+    font-size: 0.7rem;
+    letter-spacing: 6px;
     color: var(--primary);
     font-weight: 300;
     text-transform: uppercase;
@@ -81,7 +85,7 @@ body {
     display: flex;
     align-items: center;
     padding: 1.25rem 1.5rem;
-    background: rgba(18, 22, 45, 0.95);
+    background: rgba(0, 0, 0, 0.95);
     backdrop-filter: blur(20px);
     position: sticky;
     top: 0;
@@ -104,8 +108,9 @@ body {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-weight: 500;
+    font-weight: 400;
     transition: all 0.3s;
+    letter-spacing: 0.5px;
 }
 
 .back-btn:hover {
@@ -121,15 +126,28 @@ body {
 }
 
 h1 {
+    font-family: 'pragmatica-extended', 'Futura', 'Century Gothic', 'Arial Black', sans-serif;
     font-size: 2rem;
     margin-bottom: 2.5rem;
     text-align: center;
-    background: linear-gradient(135deg, #ffffff 0%, var(--primary-light) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    font-weight: 600;
-    letter-spacing: -0.5px;
+    color: var(--text);
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+h2 {
+    font-family: 'pragmatica-extended', 'Futura', 'Century Gothic', 'Arial Black', sans-serif;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+h3 {
+    font-family: 'pragmatica-extended', 'Futura', 'Century Gothic', 'Arial Black', sans-serif;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
 }
 
 /* Selection Cards */
@@ -139,9 +157,9 @@ h1 {
 }
 
 .selection-card {
-    background: linear-gradient(145deg, rgba(26, 32, 64, 0.8) 0%, rgba(18, 22, 45, 0.9) 100%);
+    background: linear-gradient(145deg, rgba(26, 26, 26, 0.8) 0%, rgba(10, 10, 10, 0.9) 100%);
     border: 1px solid var(--border);
-    border-radius: 20px;
+    border-radius: 16px;
     padding: 2.5rem 2rem;
     text-align: center;
     cursor: pointer;
@@ -158,7 +176,7 @@ h1 {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(201, 54, 84, 0.1), transparent);
+    background: linear-gradient(90deg, transparent, var(--accent-glow), transparent);
     transition: left 0.6s;
 }
 
@@ -183,29 +201,39 @@ h1 {
 }
 
 .selection-card:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 20px 60px rgba(201, 54, 84, 0.3);
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 20px 50px rgba(201, 168, 117, 0.2);
     border-color: var(--primary);
 }
 
-.selection-card .emoji {
-    font-size: 4rem;
-    display: block;
-    margin-bottom: 1.5rem;
-    filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.5));
+.selection-card .icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 1.5rem;
+    color: var(--primary);
+    filter: drop-shadow(0 4px 20px rgba(201, 168, 117, 0.3));
+}
+
+.selection-card .icon svg {
+    width: 100%;
+    height: 100%;
 }
 
 .selection-card h2 {
-    font-size: 1.75rem;
+    font-family: 'pragmatica-extended', 'Futura', 'Century Gothic', 'Arial Black', sans-serif;
+    font-size: 1.5rem;
     margin-bottom: 0.75rem;
     color: var(--text);
-    font-weight: 600;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 .selection-card p {
     color: var(--text-muted);
-    font-size: 1rem;
+    font-size: 0.95rem;
     line-height: 1.5;
+    font-weight: 300;
 }
 
 /* Forms */
@@ -226,8 +254,10 @@ h1 {
     align-items: center;
     gap: 0.5rem;
     color: var(--text);
-    font-weight: 500;
-    font-size: 0.95rem;
+    font-weight: 400;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .label-text {
@@ -242,9 +272,9 @@ h1 {
 .input {
     width: 100%;
     padding: 1rem 1.25rem;
-    background: rgba(26, 32, 64, 0.6);
+    background: rgba(26, 26, 26, 0.6);
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: 8px;
     color: var(--text);
     font-size: 1rem;
     transition: all 0.3s;
@@ -254,8 +284,8 @@ h1 {
 .input:focus {
     outline: none;
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(201, 54, 84, 0.1);
-    background: rgba(26, 32, 64, 0.8);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+    background: rgba(26, 26, 26, 0.8);
 }
 
 .input::placeholder {
@@ -280,16 +310,16 @@ textarea.input {
     align-items: center;
     gap: 1rem;
     padding: 1.25rem;
-    background: rgba(26, 32, 64, 0.4);
+    background: rgba(26, 26, 26, 0.4);
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s;
     position: relative;
 }
 
 .radio-label:hover {
-    background: rgba(26, 32, 64, 0.6);
+    background: rgba(26, 26, 26, 0.6);
     border-color: var(--primary);
 }
 
@@ -322,7 +352,7 @@ textarea.input {
     transform: translate(-50%, -50%);
     width: 8px;
     height: 8px;
-    background: white;
+    background: black;
     border-radius: 50%;
 }
 
@@ -346,15 +376,15 @@ textarea.input {
     align-items: start;
     gap: 1rem;
     padding: 1.25rem;
-    background: rgba(26, 32, 64, 0.4);
+    background: rgba(26, 26, 26, 0.4);
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s;
 }
 
 .checkbox-label:hover {
-    background: rgba(26, 32, 64, 0.6);
+    background: rgba(26, 26, 26, 0.6);
     border-color: var(--primary);
 }
 
@@ -368,7 +398,7 @@ textarea.input {
     width: 22px;
     height: 22px;
     border: 2px solid var(--border);
-    border-radius: 6px;
+    border-radius: 4px;
     position: relative;
     transition: all 0.3s;
     flex-shrink: 0;
@@ -386,7 +416,7 @@ textarea.input {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: white;
+    color: black;
     font-size: 14px;
     font-weight: bold;
 }
@@ -399,59 +429,54 @@ textarea.input {
 
 /* Buttons */
 .btn {
-    width: 100%;
-    padding: 1.25rem;
-    font-size: 1.05rem;
-    font-weight: 600;
+    padding: 1.25rem 2.5rem;
     border: none;
-    border-radius: 12px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 400;
     cursor: pointer;
     transition: all 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
 }
 
 .btn-primary {
     background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-    color: white;
-    box-shadow: 0 4px 20px rgba(201, 54, 84, 0.3);
+    color: #000000;
+    box-shadow: 0 4px 20px rgba(201, 168, 117, 0.3);
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(201, 54, 84, 0.4);
-}
-
-.btn-primary:active {
-    transform: translateY(0);
+    box-shadow: 0 8px 30px rgba(201, 168, 117, 0.4);
 }
 
 .btn-secondary {
-    background: rgba(26, 32, 64, 0.6);
-    color: var(--text);
-    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--primary);
+    border: 1px solid var(--primary);
 }
 
 .btn-secondary:hover {
-    background: rgba(26, 32, 64, 0.8);
-    border-color: var(--primary);
+    background: var(--accent-glow);
+    transform: translateY(-2px);
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 /* Summary Card */
 .summary-card {
-    background: linear-gradient(145deg, rgba(26, 32, 64, 0.6) 0%, rgba(18, 22, 45, 0.8) 100%);
+    background: rgba(26, 26, 26, 0.6);
     border: 1px solid var(--border);
-    border-radius: 16px;
+    border-radius: 12px;
     padding: 2rem;
-    margin-bottom: 2rem;
-    backdrop-filter: blur(10px);
+    margin: 2rem 0;
 }
 
-.summary-card h3 {
-    font-size: 1.25rem;
-    margin-bottom: 1.5rem;
+.summary-total {
     color: var(--primary);
     font-weight: 600;
 }
@@ -470,11 +495,13 @@ textarea.input {
 .summary-label {
     color: var(--text-muted);
     font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .summary-value {
     color: var(--text);
-    font-weight: 500;
+    font-weight: 400;
     text-align: right;
 }
 
@@ -487,22 +514,24 @@ textarea.input {
 .deposit-amount {
     color: var(--primary);
     font-size: 1.25rem;
-    font-weight: 700;
+    font-weight: 600;
 }
 
 /* Info Box */
 .info-box {
-    background: rgba(201, 168, 117, 0.1);
+    background: var(--accent-glow);
     border: 1px solid rgba(201, 168, 117, 0.3);
-    border-radius: 12px;
+    border-radius: 8px;
     padding: 1.5rem;
     margin: 1.5rem 0;
 }
 
 .info-box strong {
-    color: var(--secondary);
+    color: var(--primary);
     display: block;
     margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .info-box ul {
@@ -521,14 +550,14 @@ textarea.input {
     content: '→';
     position: absolute;
     left: 0;
-    color: var(--secondary);
+    color: var(--primary);
 }
 
 /* Terms Box */
 .terms-box {
-    background: rgba(26, 32, 64, 0.4);
+    background: rgba(26, 26, 26, 0.4);
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: 8px;
     padding: 1.5rem;
     margin-bottom: 2rem;
     max-height: 300px;
@@ -539,6 +568,8 @@ textarea.input {
     font-size: 1.1rem;
     margin-bottom: 1rem;
     color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .terms-box ul {
@@ -580,7 +611,7 @@ textarea.input {
     font-size: 1.1rem;
     font-weight: 600;
     border: 2px solid var(--border);
-    border-radius: 12px;
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s;
     display: flex;
@@ -596,8 +627,8 @@ textarea.input {
 
 .apple-pay-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-    border-color: white;
+    box-shadow: 0 8px 30px rgba(255, 255, 255, 0.1);
+    border-color: var(--primary);
 }
 
 .google-pay-btn {
@@ -606,18 +637,19 @@ textarea.input {
 
 .google-pay-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(66, 133, 244, 0.4);
+    box-shadow: 0 8px 30px rgba(66, 133, 244, 0.3);
     border-color: white;
 }
 
 .card-pay-btn {
-    background: linear-gradient(135deg, #6b21a8 0%, #581c87 100%);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: #000000;
 }
 
 .card-pay-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(107, 33, 168, 0.4);
-    border-color: white;
+    box-shadow: 0 8px 30px rgba(201, 168, 117, 0.4);
+    border-color: var(--primary-light);
 }
 
 .payment-icon {
@@ -641,9 +673,9 @@ textarea.input {
     align-items: center;
     justify-content: center;
     font-size: 3rem;
-    color: white;
+    color: #000000;
     margin: 2rem auto;
-    box-shadow: 0 10px 40px rgba(201, 54, 84, 0.4);
+    box-shadow: 0 10px 40px rgba(201, 168, 117, 0.4);
 }
 
 .confirmation-ref {
@@ -651,8 +683,8 @@ textarea.input {
     font-size: 1.1rem;
     margin: 2rem 0;
     padding: 1.25rem;
-    background: rgba(26, 32, 64, 0.6);
-    border-radius: 12px;
+    background: rgba(26, 26, 26, 0.6);
+    border-radius: 8px;
     color: var(--text-muted);
 }
 
@@ -676,19 +708,20 @@ textarea.input {
     }
     
     h1 {
-        font-size: 1.75rem;
+        font-size: 1.5rem;
     }
     
     .selection-card {
         padding: 2rem 1.5rem;
     }
     
-    .selection-card .emoji {
-        font-size: 3rem;
+    .selection-card .icon {
+        width: 48px;
+        height: 48px;
     }
     
     .selection-card h2 {
-        font-size: 1.5rem;
+        font-size: 1.25rem;
     }
 }
 
@@ -709,7 +742,7 @@ textarea.input {
 
 .package-value {
     font-size: 0.95rem;
-    color: var(--secondary);
+    color: var(--primary);
     font-weight: 500;
     margin: 0.5rem 0;
 }
@@ -725,7 +758,7 @@ textarea.input {
     width: 100%;
     height: 8px;
     border-radius: 5px;
-    background: rgba(26, 32, 64, 0.6);
+    background: rgba(26, 26, 26, 0.6);
     outline: none;
     -webkit-appearance: none;
     margin: 1rem 0;
@@ -739,13 +772,13 @@ textarea.input {
     border-radius: 50%;
     background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
     cursor: pointer;
-    box-shadow: 0 2px 10px rgba(201, 54, 84, 0.4);
+    box-shadow: 0 2px 10px rgba(201, 168, 117, 0.4);
     transition: all 0.3s;
 }
 
 .payment-slider::-webkit-slider-thumb:hover {
     transform: scale(1.1);
-    box-shadow: 0 4px 15px rgba(201, 54, 84, 0.6);
+    box-shadow: 0 4px 15px rgba(201, 168, 117, 0.6);
 }
 
 .payment-slider::-moz-range-thumb {
@@ -755,13 +788,13 @@ textarea.input {
     background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
     cursor: pointer;
     border: none;
-    box-shadow: 0 2px 10px rgba(201, 54, 84, 0.4);
+    box-shadow: 0 2px 10px rgba(201, 168, 117, 0.4);
     transition: all 0.3s;
 }
 
 .payment-slider::-moz-range-thumb:hover {
     transform: scale(1.1);
-    box-shadow: 0 4px 15px rgba(201, 54, 84, 0.6);
+    box-shadow: 0 4px 15px rgba(201, 168, 117, 0.6);
 }
 
 .slider-labels {
@@ -780,9 +813,9 @@ textarea.input {
 }
 
 .vip-room-card {
-    background: linear-gradient(145deg, rgba(26, 32, 64, 0.6) 0%, rgba(18, 22, 45, 0.8) 100%);
+    background: linear-gradient(145deg, rgba(26, 26, 26, 0.6) 0%, rgba(10, 10, 10, 0.8) 100%);
     border: 1px solid var(--border);
-    border-radius: 16px;
+    border-radius: 12px;
     padding: 2rem;
     transition: all 0.3s;
 }
@@ -790,15 +823,15 @@ textarea.input {
 .vip-room-card:hover {
     transform: translateY(-4px);
     border-color: var(--primary);
-    box-shadow: 0 8px 30px rgba(201, 54, 84, 0.2);
+    box-shadow: 0 8px 30px rgba(201, 168, 117, 0.2);
 }
 
 .vip-room-card.highlight {
-    border-color: var(--secondary);
+    border-color: var(--primary);
 }
 
 .vip-room-card.highlight:hover {
-    border-color: var(--secondary);
+    border-color: var(--primary);
     box-shadow: 0 8px 30px rgba(201, 168, 117, 0.3);
 }
 
@@ -806,29 +839,33 @@ textarea.input {
     font-size: 1.75rem;
     color: var(--primary);
     margin-bottom: 1rem;
-    font-weight: 700;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
 .vip-room-card.highlight h3 {
-    color: var(--secondary);
+    color: var(--primary);
 }
 
 .vip-capacity {
     font-size: 1.1rem;
     color: var(--text);
     margin-bottom: 0.75rem;
-    font-weight: 500;
+    font-weight: 400;
 }
 
 .vip-feature {
-    background: rgba(201, 168, 117, 0.15);
-    color: var(--secondary);
+    background: var(--accent-glow);
+    color: var(--primary);
     padding: 0.5rem 1rem;
-    border-radius: 8px;
+    border-radius: 6px;
     font-size: 0.9rem;
     margin-bottom: 0.75rem;
     display: inline-block;
-    font-weight: 500;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .vip-pricing {
