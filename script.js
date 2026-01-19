@@ -44,6 +44,8 @@ let bookingData = {
         },
         // Session booking
         session: {
+            date: '',
+            time: '',
             hours: '',
             pax: '',
             name: '',
@@ -97,9 +99,14 @@ const PRICING = {
                 large: 800
             },
             addons: {
-                premiumSound: 100,
-                decorations: 150,
-                extraDrinks: 200
+                decorationsBasic: 599,
+                decorationsPremium: 999,
+                cocktailOnArrival: 25,
+                champagneOnIce: 230,
+                preorderDining: 25,
+                preorderBeverages: 25,
+                professionalPhoto: 400,
+                bluetoothMusic: 89
             }
         },
         session: {
@@ -194,6 +201,7 @@ function selectKaraokeType(type) {
         document.getElementById('kn-date').min = new Date().toISOString().split('T')[0];
     } else if (type === 'session') {
         showPage('page-karaoke-session-details');
+        document.getElementById('ks-date').min = new Date().toISOString().split('T')[0];
     } else if (type === 'package') {
         showPage('page-karaoke-package-select');
     }
@@ -225,23 +233,59 @@ document.getElementById('karaoke-night-form').addEventListener('submit', functio
 document.getElementById('karaoke-night-upgrades-form').addEventListener('submit', function(e) {
     e.preventDefault();
     
+    const roomSizeRadio = document.querySelector('input[name="kn-room-size"]:checked');
+    const pax = roomSizeRadio.value === 'small' ? 6 : (roomSizeRadio.value === 'medium' ? 8 : 12);
+    
     bookingData.karaoke.night.addons = [];
+    
     if (document.getElementById('kn-addon-1').checked) {
         bookingData.karaoke.night.addons.push({
-            name: 'Premium Sound System',
-            price: PRICING.karaoke.night.addons.premiumSound
+            name: 'Decorations Basic Package',
+            price: PRICING.karaoke.night.addons.decorationsBasic
         });
     }
     if (document.getElementById('kn-addon-2').checked) {
         bookingData.karaoke.night.addons.push({
-            name: 'Decorations Package',
-            price: PRICING.karaoke.night.addons.decorations
+            name: 'Decorations Premium Package',
+            price: PRICING.karaoke.night.addons.decorationsPremium
         });
     }
     if (document.getElementById('kn-addon-3').checked) {
+        const cocktail = document.getElementById('kn-cocktail-selection').value;
         bookingData.karaoke.night.addons.push({
-            name: 'Extra Drinks Package',
-            price: PRICING.karaoke.night.addons.extraDrinks
+            name: `Cocktail on Arrival (${pax} x $${PRICING.karaoke.night.addons.cocktailOnArrival})`,
+            price: PRICING.karaoke.night.addons.cocktailOnArrival * pax,
+            cocktail: cocktail
+        });
+    }
+    if (document.getElementById('kn-addon-4').checked) {
+        bookingData.karaoke.night.addons.push({
+            name: 'Champagne on ice awaiting in room',
+            price: PRICING.karaoke.night.addons.champagneOnIce
+        });
+    }
+    if (document.getElementById('kn-addon-5').checked) {
+        bookingData.karaoke.night.addons.push({
+            name: 'Preorder your Dining',
+            price: PRICING.karaoke.night.addons.preorderDining
+        });
+    }
+    if (document.getElementById('kn-addon-6').checked) {
+        bookingData.karaoke.night.addons.push({
+            name: 'Preorder Beverages',
+            price: PRICING.karaoke.night.addons.preorderBeverages
+        });
+    }
+    if (document.getElementById('kn-addon-7').checked) {
+        bookingData.karaoke.night.addons.push({
+            name: 'Professional Photo Moment',
+            price: PRICING.karaoke.night.addons.professionalPhoto
+        });
+    }
+    if (document.getElementById('kn-addon-8').checked) {
+        bookingData.karaoke.night.addons.push({
+            name: 'Bluetooth Music',
+            price: PRICING.karaoke.night.addons.bluetoothMusic
         });
     }
     
@@ -262,6 +306,8 @@ document.getElementById('karaoke-session-form').addEventListener('submit', funct
         return;
     }
     
+    bookingData.karaoke.session.date = document.getElementById('ks-date').value;
+    bookingData.karaoke.session.time = document.getElementById('ks-time').value;
     bookingData.karaoke.session.hours = hours;
     bookingData.karaoke.session.pax = document.getElementById('ks-pax').value;
     bookingData.karaoke.session.name = document.getElementById('ks-name').value;
@@ -426,7 +472,7 @@ function updateKaraokeTermsSummary() {
     let addons = [];
     
     if (bookingType === 'night') {
-        experienceText = 'Karaoke - Book the Night';
+        experienceText = 'Minimum Spend';
         const dateObj = new Date(bookingData.karaoke.night.date + 'T' + bookingData.karaoke.night.time);
         dateText = dateObj.toLocaleDateString('en-AU', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}) + 
                   ' at ' + dateObj.toLocaleTimeString('en-AU', {hour: '2-digit', minute: '2-digit'});
@@ -437,7 +483,9 @@ function updateKaraokeTermsSummary() {
         
     } else if (bookingType === 'session') {
         experienceText = 'Karaoke - Session Booking';
-        dateText = 'Session details to be confirmed';
+        const dateObj = new Date(bookingData.karaoke.session.date + 'T' + bookingData.karaoke.session.time);
+        dateText = dateObj.toLocaleDateString('en-AU', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}) + 
+                  ' at ' + dateObj.toLocaleTimeString('en-AU', {hour: '2-digit', minute: '2-digit'});
         detailsText = `${bookingData.karaoke.session.hours} hours • ${bookingData.karaoke.session.pax} guests`;
         addons = bookingData.karaoke.session.addons.map(a => `${a.name} (+$${a.price})`);
         
@@ -460,6 +508,37 @@ function updateKaraokeTermsSummary() {
         document.getElementById('karaoke-summary-addons').textContent = addons.join(', ');
     } else {
         document.getElementById('karaoke-summary-addons-row').style.display = 'none';
+    }
+    
+    // Calculate and display total
+    let total = 0;
+    if (bookingType === 'night') {
+        total = PRICING.karaoke.night.rooms[bookingData.karaoke.night.roomSize] || 0;
+        bookingData.karaoke.night.addons.forEach(addon => {
+            total += addon.price;
+        });
+    } else if (bookingType === 'session') {
+        total = PRICING.karaoke.session.pricePerHour * bookingData.karaoke.session.hours;
+        bookingData.karaoke.session.addons.forEach(addon => {
+            total += addon.price;
+        });
+    } else if (bookingType === 'package') {
+        // Get package price based on weekday/weekend and type
+        const packageType = bookingData.karaoke.package.packageType;
+        const isWeekend = true; // You can add logic to determine this from the date
+        total = isWeekend ? PRICING.karaoke.package[packageType].weekend : PRICING.karaoke.package[packageType].weekday;
+        if (bookingData.karaoke.package.allNightUpgrade && packageType === 'signature') {
+            total += PRICING.karaoke.package.signature.allNightUpgrade;
+        }
+        bookingData.karaoke.package.addons.forEach(addon => {
+            total += addon.price;
+        });
+    }
+    
+    const totalEl = document.getElementById('karaoke-summary-total');
+    if (totalEl) {
+        totalEl.textContent = `$${total}`;
+        document.getElementById('karaoke-summary-total-row').style.display = 'flex';
     }
 }
 
@@ -529,34 +608,58 @@ function updateKaraokePaymentSummary() {
         detailsText = `${bookingData.karaoke.package.pax} guests`;
     }
     
-    document.getElementById('karaoke-payment-type').textContent = typeText;
-    document.getElementById('karaoke-payment-details').textContent = detailsText;
-    
     // Setup payment slider
     const slider = document.getElementById('payment-slider');
     const sliderAmount = document.getElementById('slider-amount');
-    const depositDisplay = document.getElementById('karaoke-deposit-amount');
+    
+    // Payment breakdown elements
+    const breakdownTotal = document.getElementById('breakdown-total');
+    const breakdownDeposit = document.getElementById('breakdown-deposit');
+    const breakdownRemaining = document.getElementById('breakdown-remaining');
     
     // Calculate 50% deposit
     const minDeposit = totalPrice * 0.5;
     
+    // Initialize breakdown card
+    if (breakdownTotal) breakdownTotal.textContent = `$${totalPrice.toFixed(2)}`;
+    if (breakdownDeposit) breakdownDeposit.textContent = `$${minDeposit.toFixed(2)}`;
+    if (breakdownRemaining) breakdownRemaining.textContent = `$${(totalPrice - minDeposit).toFixed(2)}`;
+    
     // Update slider
     slider.value = 50;
     sliderAmount.textContent = minDeposit.toFixed(2);
-    depositDisplay.textContent = `$${minDeposit.toFixed(2)}`;
     
     // Slider event listener
     slider.oninput = function() {
         const percentage = this.value;
         const amount = (totalPrice * percentage / 100);
+        const remaining = totalPrice - amount;
+        
         sliderAmount.textContent = amount.toFixed(2);
-        depositDisplay.textContent = `$${amount.toFixed(2)}`;
+        
+        // Update breakdown card
+        if (breakdownDeposit) breakdownDeposit.textContent = `$${amount.toFixed(2)}`;
+        if (breakdownRemaining) breakdownRemaining.textContent = `$${remaining.toFixed(2)}`;
     };
 }
 
 function processKaraokePayment(method) {
     const buttons = ['karaoke-apple-pay-btn', 'karaoke-google-pay-btn', 'karaoke-card-pay-btn'];
     buttons.forEach(id => document.getElementById(id).disabled = true);
+    
+    // Store payment details
+    const slider = document.getElementById('payment-slider');
+    const percentage = slider ? slider.value : 50;
+    const depositAmount = (totalPrice * percentage / 100);
+    const remainingBalance = totalPrice - depositAmount;
+    
+    // Store in booking data
+    bookingData.payment = {
+        total: totalPrice,
+        depositPaid: depositAmount,
+        remainingBalance: remainingBalance,
+        method: method
+    };
     
     setTimeout(() => {
         let methodName = '';
@@ -594,7 +697,9 @@ function updateKaraokeConfirmation() {
         
     } else if (bookingType === 'session') {
         experienceText = 'Karaoke - Session Booking';
-        datetimeText = 'Session details confirmed via email';
+        const dateObj = new Date(bookingData.karaoke.session.date + 'T' + bookingData.karaoke.session.time);
+        datetimeText = dateObj.toLocaleDateString('en-AU', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}) + 
+                      ' at ' + dateObj.toLocaleTimeString('en-AU', {hour: '2-digit', minute: '2-digit'});
         detailsText = `${bookingData.karaoke.session.hours} hours • ${bookingData.karaoke.session.pax} guests`;
         
     } else if (bookingType === 'package') {
@@ -609,6 +714,17 @@ function updateKaraokeConfirmation() {
     document.getElementById('confirm-experience').textContent = experienceText;
     document.getElementById('confirm-datetime').textContent = datetimeText;
     document.getElementById('confirm-details').textContent = detailsText;
+    
+    // Show payment summary if payment details exist
+    if (bookingData.payment) {
+        const paymentSummary = document.getElementById('payment-summary');
+        if (paymentSummary) {
+            paymentSummary.style.display = 'block';
+            document.getElementById('confirm-total').textContent = `$${bookingData.payment.total.toFixed(2)}`;
+            document.getElementById('confirm-deposit').textContent = `$${bookingData.payment.depositPaid.toFixed(2)}`;
+            document.getElementById('confirm-remaining').textContent = `$${bookingData.payment.remainingBalance.toFixed(2)}`;
+        }
+    }
 }
 
 // ========================================
@@ -773,6 +889,7 @@ function resetBooking() {
         experience: '',
         vipTour: {},
         events: {},
+        payment: null,
         rooftop: {
             date: '', pax: '', session: '', name: '', phone: '', email: '',
             cocktailsOnEntry: false, windowSeat: false
@@ -795,7 +912,7 @@ function resetBooking() {
         karaoke: {
             bookingType: '',
             night: { name: '', phone: '', email: '', date: '', time: '', roomSize: '', addons: [] },
-            session: { hours: '', pax: '', name: '', phone: '', email: '', addons: [] },
+            session: { date: '', time: '', hours: '', pax: '', name: '', phone: '', email: '', addons: [] },
             package: { packageType: '', date: '', name: '', phone: '', email: '', pax: '', addons: [], allNightUpgrade: false }
         }
     };
@@ -803,6 +920,10 @@ function resetBooking() {
     // Reset all forms
     const forms = document.querySelectorAll('form');
     forms.forEach(form => form.reset());
+    
+    // Hide payment summary
+    const paymentSummary = document.getElementById('payment-summary');
+    if (paymentSummary) paymentSummary.style.display = 'none';
     
     pageHistory = [];
     showPage('page-selection');
@@ -948,3 +1069,149 @@ function updateEventsConfirmation() {
     document.getElementById('confirm-datetime').textContent = formatted;
     document.getElementById('confirm-details').textContent = `${bookingData.events.guests} Guests • Events team will contact you`;
 }
+// Toggle addon card selection
+function toggleAddonCard(card, checkboxId) {
+    const checkbox = document.getElementById(checkboxId);
+    
+    // Toggle checkbox state
+    checkbox.checked = !checkbox.checked;
+    
+    // Toggle card visual state
+    card.classList.toggle('selected');
+    
+    // Trigger change event to update totals
+    checkbox.dispatchEvent(new Event('change'));
+}
+
+// Toggle cocktail menu visibility
+function toggleCocktailMenu() {
+    const checkbox = document.getElementById('kn-addon-3');
+    const menu = document.getElementById('cocktail-menu');
+    if (checkbox && menu) {
+        menu.style.display = checkbox.checked ? 'block' : 'none';
+    }
+}
+
+// Toggle more add-ons section
+function toggleMoreAddons() {
+    const moreAddons = document.getElementById('more-addons');
+    const btnText = document.getElementById('view-more-text');
+    if (moreAddons.style.display === 'none' || moreAddons.style.display === '') {
+        moreAddons.style.display = 'block';
+        btnText.textContent = 'View Less Add-ons ▲';
+    } else {
+        moreAddons.style.display = 'none';
+        btnText.textContent = 'View More Add-ons ▼';
+    }
+}
+
+// Update karaoke night running total
+function updateKaraokeNightTotal() {
+    // Get room cost
+    const roomSizeRadio = document.querySelector('input[name="kn-room-size"]:checked');
+    let roomCost = 0;
+    if (roomSizeRadio) {
+        const roomSize = roomSizeRadio.value;
+        roomCost = PRICING.karaoke.night.rooms[roomSize] || 0;
+    }
+    
+    // Calculate addons
+    let addonsCost = 0;
+    const addonPrices = {
+        'kn-addon-1': PRICING.karaoke.night.addons.decorationsBasic,
+        'kn-addon-2': PRICING.karaoke.night.addons.decorationsPremium,
+        'kn-addon-3': PRICING.karaoke.night.addons.cocktailOnArrival, // per person, will need pax
+        'kn-addon-4': PRICING.karaoke.night.addons.champagneOnIce,
+        'kn-addon-5': PRICING.karaoke.night.addons.preorderDining,
+        'kn-addon-6': PRICING.karaoke.night.addons.preorderBeverages,
+        'kn-addon-7': PRICING.karaoke.night.addons.professionalPhoto,
+        'kn-addon-8': PRICING.karaoke.night.addons.bluetoothMusic
+    };
+    
+    for (let addonId in addonPrices) {
+        const checkbox = document.getElementById(addonId);
+        if (checkbox && checkbox.checked) {
+            // For cocktail on arrival, multiply by pax from room capacity
+            if (addonId === 'kn-addon-3' && roomSizeRadio) {
+                const pax = roomSizeRadio.value === 'small' ? 6 : (roomSizeRadio.value === 'medium' ? 8 : 12);
+                addonsCost += addonPrices[addonId] * pax;
+            } else {
+                addonsCost += addonPrices[addonId];
+            }
+        }
+    }
+    
+    const total = roomCost + addonsCost;
+    
+    // Update display
+    const roomCostEl = document.getElementById('kn-room-cost');
+    const addonsCostEl = document.getElementById('kn-addons-cost');
+    const totalCostEl = document.getElementById('kn-total-cost');
+    
+    if (roomCostEl) roomCostEl.textContent = `$${roomCost}`;
+    if (addonsCostEl) addonsCostEl.textContent = `$${addonsCost}`;
+    if (totalCostEl) totalCostEl.textContent = `$${total}`;
+}
+
+// Update total when room size changes
+document.addEventListener('DOMContentLoaded', function() {
+    const roomRadios = document.querySelectorAll('input[name="kn-room-size"]');
+    roomRadios.forEach(radio => {
+        radio.addEventListener('change', updateKaraokeNightTotal);
+    });
+});
+
+// Disable Mondays on date inputs
+function disableMondays(dateInput) {
+    if (!dateInput) return;
+    
+    // Clear the value if Monday is selected (without showing alert)
+    dateInput.addEventListener('input', function() {
+        const selectedDate = new Date(this.value + 'T00:00:00');
+        const dayOfWeek = selectedDate.getDay();
+        
+        // If Monday (0 = Sunday, 1 = Monday, etc.)
+        if (dayOfWeek === 1) {
+            this.value = '';
+        }
+    });
+    
+    // Also handle the change event for browsers that use change instead of input
+    dateInput.addEventListener('change', function() {
+        const selectedDate = new Date(this.value + 'T00:00:00');
+        const dayOfWeek = selectedDate.getDay();
+        
+        if (dayOfWeek === 1) {
+            this.value = '';
+        }
+    });
+}
+
+// Initialize all date inputs on page load
+document.addEventListener('DOMContentLoaded', function() {
+    // Get all date inputs
+    const dateInputs = [
+        document.getElementById('kn-date'),
+        document.getElementById('ks-date'),
+        document.getElementById('kp-date'),
+        document.getElementById('rooftop-date'),
+        document.getElementById('vip-date'),
+        document.getElementById('tour-date'),
+        document.getElementById('event-date')
+    ];
+    
+    // Apply Monday restriction to all date inputs
+    dateInputs.forEach(input => {
+        if (input) {
+            disableMondays(input);
+        }
+    });
+    
+    // Set minimum date to today for all inputs
+    const today = new Date().toISOString().split('T')[0];
+    dateInputs.forEach(input => {
+        if (input) {
+            input.min = today;
+        }
+    });
+});
