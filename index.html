@@ -85,6 +85,8 @@
                 <div class="selection-card" onclick="selectKaraokeType('night')">
                     <div class="icon"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>
                     <h2>Book for<br>The Night</h2>
+                    <div class="info-circle" onclick="toggleCreditInfo(event)">i</div>
+
                     <p>COMMIT TO MINIMUM SPEND AND RECEIVE THAT VALUE AS CREDIT TO USE ON FOOD AND BEVERAGE</p>
                 </div>
                 
@@ -110,7 +112,8 @@
             <img src="https://images.squarespace-cdn.com/content/v1/65dec516adff7d2580b90124/37d9d0fb-8085-41bd-9f5c-aa354f22470c/012+Logo+Transparent.ai.png?format=1500w" alt="Ocean 12" class="logo-small">
             <div style="width: 80px;"></div>
         </div>
-        
+        <div class="info-circle" onclick="toggleCreditInfo(event)">i</div>
+
         <div class="container">
             <h1>Book the Night</h1>
             
@@ -1965,5 +1968,16 @@
     </div>
 
     <script src="script.js"></script>
+    <div id="creditInfoModal" class="info-modal">
+  <div class="info-modal-content">
+    <p>
+      You pay <strong>$300 upfront</strong>.<br><br>
+      That <strong>$300 is credit</strong> you spend on drinks & services that night.<br><br>
+      Example: If your bill is $300 → you pay nothing more.
+    </p>
+    <button onclick="toggleCreditInfo()">Got it</button>
+  </div>
+</div>
+
 </body>
 </html>

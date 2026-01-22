@@ -206,6 +206,66 @@ h3 {
     background-repeat: no-repeat;
 }
 
+/* Info circle for minimum spend explanation */
+.info-circle {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  background: rgba(0,0,0,0.6);
+}
+
+/* Info modal overlay */
+.info-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 3000;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Info modal content */
+.info-modal-content {
+  background: var(--dark);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  max-width: 320px;
+  text-align: center;
+}
+
+.info-modal-content p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  font-family: font-family: 'Europa', 'Helvetica Neue', 'Arial', sans-serif;;
+  color: var(--text-primary);
+  margin-bottom: 1.25rem;
+}
+
+.info-modal-content button {
+  background: var(--primary);
+  color: var(--text-on-gold);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
 /* Hide icons and h2 titles on package cards */
 #page-karaoke-package-select .selection-card .icon {
     display: none;

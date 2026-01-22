@@ -1597,6 +1597,7 @@ function updatePackageTotal() {
         }
     }
     
+    
     const total = packageCost + addonsCost;
     
     // Update display
@@ -1607,4 +1608,10 @@ function updatePackageTotal() {
     if (packageCostEl) packageCostEl.textContent = `$${packageCost}`;
     if (addonsCostEl) addonsCostEl.textContent = `$${addonsCost}`;
     if (totalCostEl) totalCostEl.textContent = `$${total}`;
+}
+
+function toggleCreditInfo(e) {
+  if (e) e.stopPropagation();
+  const modal = document.getElementById('creditInfoModal');
+  modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
 }
