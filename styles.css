@@ -218,14 +218,17 @@ h3 {
 /* Package Selection Cards*/
 #page-karaoke-package-select .selection-card:nth-child(1) {
     background-image: url('assets/cocktail-package2.png');
+    border-color: #FF0000; /* Red for Cocktail */
 }
 
 #page-karaoke-package-select .selection-card:nth-child(2) {
     background-image: url('assets/signature-package2.png');
+    border-color: #FFD980; /* Gold for Signature (same as website primary gold) */
 }
 
 #page-karaoke-package-select .selection-card:nth-child(3) {
     background-image: url('assets/diamond-package2.png');
+    border-color: #C0C0C0; /* Silver for Diamond */
 }
 
 /* Background images for specific cards on main selection page */

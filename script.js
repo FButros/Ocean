@@ -172,9 +172,21 @@ const PRICING = {
                 weekend: 858
             },
             addons: {
-                cocktailsOnEntry: 12,
-                decorations: 100,
-                extraDrinks: 150
+                allNightUpgrade: 120,
+                preorderDining: 25,
+                cocktailOnArrival: 25, // per person
+                bluetoothMusic: 89,
+                dessertPlatter: 159,
+                champagneOnIce: 230,
+                dishBanquet: 234,
+                cocktailPackage: 398,
+                vsopBottle: 398,
+                professionalPhoto: 400,
+                vodkaBottle: 424,
+                decorationsBasic: 599,
+                decorationsPremium: 999,
+                xoBottle: 1016,
+                domPerignonPackage: 1862
             }
         }
     }
@@ -588,39 +600,135 @@ document.getElementById('karaoke-package-form').addEventListener('submit', funct
     } else {
         document.getElementById('kp-allnight-option').style.display = 'none';
     }
+    
+    // Initialize total display
+    updatePackageTotal();
 });
 
 document.getElementById('karaoke-package-addons-form').addEventListener('submit', function(e) {
     e.preventDefault();
     
     bookingData.karaoke.package.addons = [];
+    const pax = bookingData.karaoke.package.pax;
     
-    if (document.getElementById('kp-addon-cocktails').checked) {
+    // All night upgrade
+    if (document.getElementById('kp-addon-allnight') && document.getElementById('kp-addon-allnight').checked) {
         bookingData.karaoke.package.addons.push({
-            name: 'Cocktails on Entry',
-            price: PRICING.karaoke.package.addons.cocktailsOnEntry
+            name: 'All Night Karaoke Upgrade',
+            price: PRICING.karaoke.package.addons.allNightUpgrade
         });
-    }
-    if (document.getElementById('kp-addon-decorations').checked) {
-        bookingData.karaoke.package.addons.push({
-            name: 'Decorations',
-            price: PRICING.karaoke.package.addons.decorations
-        });
-    }
-    if (document.getElementById('kp-addon-drinks').checked) {
-        bookingData.karaoke.package.addons.push({
-            name: 'Extra Drinks Package',
-            price: PRICING.karaoke.package.addons.extraDrinks
-        });
+        bookingData.karaoke.package.allNightUpgrade = true;
     }
     
-    bookingData.karaoke.package.allNightUpgrade = document.getElementById('kp-addon-allnight') ? 
-        document.getElementById('kp-addon-allnight').checked : false;
-    
-    if (bookingData.karaoke.package.allNightUpgrade) {
+    // Preorder Dining
+    if (document.getElementById('kp-addon-dining').checked) {
         bookingData.karaoke.package.addons.push({
-            name: 'All Night Karaoke',
-            price: PRICING.karaoke.package.signature.allNightUpgrade
+            name: 'Preorder Dining',
+            price: PRICING.karaoke.package.addons.preorderDining
+        });
+    }
+    
+    // Cocktail on Arrival
+    if (document.getElementById('kp-addon-cocktail').checked) {
+        bookingData.karaoke.package.addons.push({
+            name: 'Cocktail on Arrival',
+            price: PRICING.karaoke.package.addons.cocktailOnArrival * pax
+        });
+    }
+    
+    // Bluetooth Music
+    if (document.getElementById('kp-addon-bluetooth').checked) {
+        bookingData.karaoke.package.addons.push({
+            name: 'Bluetooth Music',
+            price: PRICING.karaoke.package.addons.bluetoothMusic
+        });
+    }
+    
+    // Dessert Platter
+    if (document.getElementById('kp-addon-dessert').checked) {
+        bookingData.karaoke.package.addons.push({
+            name: 'Dessert Platter for 3',
+            price: PRICING.karaoke.package.addons.dessertPlatter
+        });
+    }
+    
+    // Champagne on Ice
+    if (document.getElementById('kp-addon-champagne').checked) {
+        bookingData.karaoke.package.addons.push({
+            name: 'Champagne on Ice',
+            price: PRICING.karaoke.package.addons.champagneOnIce
+        });
+    }
+    
+    // 6 Dish Banquet
+    if (document.getElementById('kp-addon-banquet').checked) {
+        bookingData.karaoke.package.addons.push({
+            name: '6 x Dish Banquet',
+            price: PRICING.karaoke.package.addons.dishBanquet
+        });
+    }
+    
+    // 12 Cocktail Package
+    if (document.getElementById('kp-addon-cocktails12').checked) {
+        bookingData.karaoke.package.addons.push({
+            name: '12 x Cocktail Package',
+            price: PRICING.karaoke.package.addons.cocktailPackage
+        });
+    }
+    
+    // VSOP Bottle Package
+    if (document.getElementById('kp-addon-vsop').checked) {
+        bookingData.karaoke.package.addons.push({
+            name: 'VSOP Bottle Package',
+            price: PRICING.karaoke.package.addons.vsopBottle
+        });
+    }
+    
+    // Professional Photo
+    if (document.getElementById('kp-addon-photo').checked) {
+        bookingData.karaoke.package.addons.push({
+            name: 'Professional Photo Moment',
+            price: PRICING.karaoke.package.addons.professionalPhoto
+        });
+    }
+    
+    // Vodka Bottle Package
+    if (document.getElementById('kp-addon-vodka').checked) {
+        bookingData.karaoke.package.addons.push({
+            name: 'Vodka Bottle Package',
+            price: PRICING.karaoke.package.addons.vodkaBottle
+        });
+    }
+    
+    // Decorations Basic
+    if (document.getElementById('kp-addon-deco-basic').checked) {
+        bookingData.karaoke.package.addons.push({
+            name: 'Decorations Basic Package',
+            price: PRICING.karaoke.package.addons.decorationsBasic
+        });
+    }
+    
+    // Decorations Premium
+    if (document.getElementById('kp-addon-deco-premium').checked) {
+        bookingData.karaoke.package.addons.push({
+            name: 'Decorations Premium Package',
+            price: PRICING.karaoke.package.addons.decorationsPremium
+        });
+    }
+    
+    // XO Bottle Package
+    if (document.getElementById('kp-addon-xo').checked) {
+        bookingData.karaoke.package.addons.push({
+            name: 'XO Bottle Package',
+            price: PRICING.karaoke.package.addons.xoBottle
+        });
+    }
+    
+    // Dom Perignon Package
+    if (document.getElementById('kp-addon-dom').checked) {
+        bookingData.karaoke.package.addons.push({
+            name: 'Dom Perignon Package',
+            price: PRICING.karaoke.package.addons.domPerignonPackage
         });
     }
     
@@ -1409,3 +1517,94 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+// Toggle more add-ons for package
+function togglePackageMoreAddons() {
+    const moreAddons = document.getElementById('package-more-addons');
+    const btnText = document.getElementById('view-package-more-text');
+    if (moreAddons.style.display === 'none' || moreAddons.style.display === '') {
+        moreAddons.style.display = 'block';
+        btnText.textContent = 'View Less Add-ons ▲';
+    } else {
+        moreAddons.style.display = 'none';
+        btnText.textContent = 'View More Add-ons ▼';
+    }
+}
+
+// Toggle cocktail menu for package
+function togglePackageCocktailMenu() {
+    const checkbox = document.getElementById('kp-addon-cocktail');
+    const menu = document.getElementById('package-cocktail-menu');
+    if (checkbox && menu) {
+        menu.style.display = checkbox.checked ? 'block' : 'none';
+    }
+}
+
+// Toggle cocktail menu for 12-pack
+function togglePackageCocktailMenu12() {
+    const checkbox = document.getElementById('kp-addon-cocktails12');
+    const menu = document.getElementById('package-cocktail-menu-12');
+    if (checkbox && menu) {
+        menu.style.display = checkbox.checked ? 'block' : 'none';
+    }
+}
+
+// Update package total
+function updatePackageTotal() {
+    // Get package cost based on type and day
+    const packageType = bookingData.karaoke.package.packageType;
+    const date = bookingData.karaoke.package.date;
+    const pax = parseInt(bookingData.karaoke.package.pax) || 0;
+    
+    let packageCost = 0;
+    if (packageType && date) {
+        const dateObj = new Date(date);
+        const dayOfWeek = dateObj.getDay();
+        const isWeekend = (dayOfWeek === 5 || dayOfWeek === 6); // Friday or Saturday
+        
+        if (packageType === 'cocktail') {
+            packageCost = isWeekend ? PRICING.karaoke.package.cocktail.weekend : PRICING.karaoke.package.cocktail.weekday;
+        } else if (packageType === 'signature') {
+            packageCost = isWeekend ? PRICING.karaoke.package.signature.weekend : PRICING.karaoke.package.signature.weekday;
+        } else if (packageType === 'diamond') {
+            packageCost = isWeekend ? PRICING.karaoke.package.diamond.weekend : PRICING.karaoke.package.diamond.weekday;
+        }
+    }
+    
+    // Calculate addons
+    let addonsCost = 0;
+    const addonPrices = {
+        'kp-addon-allnight': PRICING.karaoke.package.addons.allNightUpgrade,
+        'kp-addon-dining': PRICING.karaoke.package.addons.preorderDining,
+        'kp-addon-cocktail': PRICING.karaoke.package.addons.cocktailOnArrival * pax,
+        'kp-addon-bluetooth': PRICING.karaoke.package.addons.bluetoothMusic,
+        'kp-addon-dessert': PRICING.karaoke.package.addons.dessertPlatter,
+        'kp-addon-champagne': PRICING.karaoke.package.addons.champagneOnIce,
+        'kp-addon-banquet': PRICING.karaoke.package.addons.dishBanquet,
+        'kp-addon-cocktails12': PRICING.karaoke.package.addons.cocktailPackage,
+        'kp-addon-vsop': PRICING.karaoke.package.addons.vsopBottle,
+        'kp-addon-photo': PRICING.karaoke.package.addons.professionalPhoto,
+        'kp-addon-vodka': PRICING.karaoke.package.addons.vodkaBottle,
+        'kp-addon-deco-basic': PRICING.karaoke.package.addons.decorationsBasic,
+        'kp-addon-deco-premium': PRICING.karaoke.package.addons.decorationsPremium,
+        'kp-addon-xo': PRICING.karaoke.package.addons.xoBottle,
+        'kp-addon-dom': PRICING.karaoke.package.addons.domPerignonPackage
+    };
+    
+    for (let addonId in addonPrices) {
+        const checkbox = document.getElementById(addonId);
+        if (checkbox && checkbox.checked) {
+            addonsCost += addonPrices[addonId];
+        }
+    }
+    
+    const total = packageCost + addonsCost;
+    
+    // Update display
+    const packageCostEl = document.getElementById('kp-package-cost');
+    const addonsCostEl = document.getElementById('kp-addons-cost');
+    const totalCostEl = document.getElementById('kp-total-cost');
+    
+    if (packageCostEl) packageCostEl.textContent = `$${packageCost}`;
+    if (addonsCostEl) addonsCostEl.textContent = `$${addonsCost}`;
+    if (totalCostEl) totalCostEl.textContent = `$${total}`;
+}
