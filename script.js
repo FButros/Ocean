@@ -48,6 +48,7 @@ let bookingData = {
             time: '',
             hours: '',
             pax: '',
+            price: 0,
             name: '',
             phone: '',
             email: '',
@@ -110,11 +111,50 @@ const PRICING = {
             }
         },
         session: {
-            pricePerHour: 100,
+            // Weekday pricing (Tuesday, Wednesday, Thursday, Sunday)
+            weekday: {
+                1: { 2: 40, 3: 60, 4: 80, 5: 100, 6: 120 },
+                2: { 2: 80, 3: 120, 4: 160, 5: 200, 6: 240 },
+                3: { 2: 120, 3: 180, 4: 240, 5: 300, 6: 360 },
+                4: { 2: 160, 3: 240, 4: 320, 5: 400, 6: 480 },
+                5: { 2: 200, 3: 300, 4: 400, 5: 500, 6: 600 },
+                6: { 2: 240, 3: 360, 4: 480, 5: 600, 6: 720 },
+                7: { 2: 240, 3: 360, 4: 480, 5: 600, 6: 720 },
+                8: { 2: 240, 3: 360, 4: 480, 5: 600, 6: 720 },
+                9: { 2: 320, 3: 480, 4: 640, 5: 800, 6: 960 },
+                10: { 2: 320, 3: 480, 4: 640, 5: 800, 6: 960 },
+                11: { 2: 320, 3: 480, 4: 640, 5: 800, 6: 960 },
+                12: { 2: 320, 3: 480, 4: 640, 5: 800, 6: 960 }
+            },
+            // Weekend pricing (Friday and Saturday)
+            weekend: {
+                1: { 2: 50, 3: 75, 4: 100, 5: 125, 6: 150 },
+                2: { 2: 100, 3: 150, 4: 200, 5: 250, 6: 300 },
+                3: { 2: 150, 3: 225, 4: 300, 5: 375, 6: 450 },
+                4: { 2: 200, 3: 300, 4: 400, 5: 500, 6: 600 },
+                5: { 2: 250, 3: 375, 4: 500, 5: 625, 6: 750 },
+                6: { 2: 320, 3: 480, 4: 640, 5: 800, 6: 960 },
+                7: { 2: 320, 3: 480, 4: 640, 5: 800, 6: 960 },
+                8: { 2: 320, 3: 480, 4: 640, 5: 800, 6: 960 },
+                9: { 2: 400, 3: 600, 4: 800, 5: 1000, 6: 1200 },
+                10: { 2: 400, 3: 600, 4: 800, 5: 1000, 6: 1200 },
+                11: { 2: 400, 3: 600, 4: 800, 5: 1000, 6: 1200 },
+                12: { 2: 400, 3: 600, 4: 800, 5: 1000, 6: 1200 }
+            },
             addons: {
-                premiumSound: 50,
-                decorations: 80,
-                extraDrinks: 120
+                decorationsBasic: 599,
+                decorationsPremium: 999,
+                cocktailPackage: 398,
+                champagneOnIce: 230,
+                vsopBottle: 398,
+                vodkaBottle: 424,
+                xoBottle: 1016,
+                domPerignonPackage: 1862,
+                dishBanquet: 234,
+                preorderDining: 25,
+                preorderBeverages: 25,
+                professionalPhoto: 400,
+                bluetoothMusic: 89
             }
         },
         package: {
@@ -297,19 +337,83 @@ document.getElementById('karaoke-night-upgrades-form').addEventListener('submit'
 });
 
 // === KARAOKE SESSION BOOKING ===
+
+// Function to update session pricing based on date and guests
+function updateSessionPricing() {
+    const paxSelect = document.getElementById('ks-pax');
+    const dateInput = document.getElementById('ks-date');
+    const hoursSelect = document.getElementById('ks-hours');
+    const pricingNote = document.getElementById('pricing-note');
+    
+    const pax = parseInt(paxSelect.value);
+    const date = dateInput.value;
+    
+    // Check if both pax and date are selected
+    if (!pax || !date) {
+        hoursSelect.disabled = true;
+        hoursSelect.innerHTML = '<option value="">Select guests and date first...</option>';
+        pricingNote.textContent = '';
+        return;
+    }
+    
+    // Determine if it's a weekend (Friday=5, Saturday=6) or weekday
+    const selectedDate = new Date(date + 'T00:00:00');
+    const dayOfWeek = selectedDate.getDay(); // 0=Sunday, 1=Monday, ..., 6=Saturday
+    
+    // Check if Monday (closed)
+    if (dayOfWeek === 1) {
+        hoursSelect.disabled = true;
+        hoursSelect.innerHTML = '<option value="">We are closed on Mondays</option>';
+        pricingNote.textContent = 'Please select a different date.';
+        pricingNote.style.color = 'var(--error, #ff6b6b)';
+        return;
+    }
+    
+    const isWeekend = (dayOfWeek === 5 || dayOfWeek === 6); // Friday or Saturday
+    const priceTable = isWeekend ? PRICING.karaoke.session.weekend : PRICING.karaoke.session.weekday;
+    
+    // Get pricing for this number of guests
+    const guestPricing = priceTable[pax];
+    
+    // Build the hours dropdown with pricing
+    hoursSelect.disabled = false;
+    hoursSelect.innerHTML = '<option value="">Select duration...</option>';
+    
+    // Add options for 2-6 hours
+    for (let hours = 2; hours <= 6; hours++) {
+        const price = guestPricing[hours];
+        const option = document.createElement('option');
+        option.value = hours;
+        option.textContent = `${hours} hours - $${price.toFixed(2)}`;
+        option.setAttribute('data-price', price);
+        hoursSelect.appendChild(option);
+    }
+    
+    // Update pricing note
+    const dayType = isWeekend ? 'Weekend' : 'Weekday';
+    pricingNote.textContent = `${dayType} pricing for ${pax} guest${pax > 1 ? 's' : ''}`;
+    pricingNote.style.color = 'var(--text-secondary)';
+}
+
 document.getElementById('karaoke-session-form').addEventListener('submit', function(e) {
     e.preventDefault();
     
-    const hours = parseInt(document.getElementById('ks-hours').value);
+    const hoursSelect = document.getElementById('ks-hours');
+    const hours = parseInt(hoursSelect.value);
     if (hours < 2) {
         alert('Minimum 2 hours required for session booking');
         return;
     }
     
+    // Get the price from the selected option's data attribute
+    const selectedOption = hoursSelect.options[hoursSelect.selectedIndex];
+    const price = parseFloat(selectedOption.getAttribute('data-price'));
+    
     bookingData.karaoke.session.date = document.getElementById('ks-date').value;
     bookingData.karaoke.session.time = document.getElementById('ks-time').value;
     bookingData.karaoke.session.hours = hours;
     bookingData.karaoke.session.pax = document.getElementById('ks-pax').value;
+    bookingData.karaoke.session.price = price; // Store the actual price
     bookingData.karaoke.session.name = document.getElementById('ks-name').value;
     bookingData.karaoke.session.phone = document.getElementById('ks-phone').value;
     bookingData.karaoke.session.email = document.getElementById('ks-email').value;
@@ -324,22 +428,87 @@ document.getElementById('karaoke-session-upgrades-form').addEventListener('submi
     e.preventDefault();
     
     bookingData.karaoke.session.addons = [];
+    
     if (document.getElementById('ks-addon-1').checked) {
         bookingData.karaoke.session.addons.push({
-            name: 'Premium Sound System',
-            price: PRICING.karaoke.session.addons.premiumSound
+            name: 'Decorations Basic Package',
+            price: PRICING.karaoke.session.addons.decorationsBasic
         });
     }
     if (document.getElementById('ks-addon-2').checked) {
         bookingData.karaoke.session.addons.push({
-            name: 'Decorations Package',
-            price: PRICING.karaoke.session.addons.decorations
+            name: 'Decorations Premium Package',
+            price: PRICING.karaoke.session.addons.decorationsPremium
         });
     }
     if (document.getElementById('ks-addon-3').checked) {
+        // Get selected cocktails
+        const selectedCocktails = Array.from(document.querySelectorAll('input[name="ks-cocktail-choice"]:checked'))
+            .map(cb => cb.value);
         bookingData.karaoke.session.addons.push({
-            name: 'Extra Drinks Package',
-            price: PRICING.karaoke.session.addons.extraDrinks
+            name: '12x Cocktail Package',
+            price: PRICING.karaoke.session.addons.cocktailPackage,
+            cocktails: selectedCocktails
+        });
+    }
+    if (document.getElementById('ks-addon-4').checked) {
+        bookingData.karaoke.session.addons.push({
+            name: 'Champagne on Ice',
+            price: PRICING.karaoke.session.addons.champagneOnIce
+        });
+    }
+    if (document.getElementById('ks-addon-5').checked) {
+        bookingData.karaoke.session.addons.push({
+            name: 'VSOP Bottle Package',
+            price: PRICING.karaoke.session.addons.vsopBottle
+        });
+    }
+    if (document.getElementById('ks-addon-6').checked) {
+        bookingData.karaoke.session.addons.push({
+            name: 'Vodka Bottle Package',
+            price: PRICING.karaoke.session.addons.vodkaBottle
+        });
+    }
+    if (document.getElementById('ks-addon-7').checked) {
+        bookingData.karaoke.session.addons.push({
+            name: 'XO Bottle Package',
+            price: PRICING.karaoke.session.addons.xoBottle
+        });
+    }
+    if (document.getElementById('ks-addon-8').checked) {
+        bookingData.karaoke.session.addons.push({
+            name: 'Dom Perignon Package',
+            price: PRICING.karaoke.session.addons.domPerignonPackage
+        });
+    }
+    if (document.getElementById('ks-addon-9').checked) {
+        bookingData.karaoke.session.addons.push({
+            name: '6x Dish Banquet',
+            price: PRICING.karaoke.session.addons.dishBanquet
+        });
+    }
+    if (document.getElementById('ks-addon-10').checked) {
+        bookingData.karaoke.session.addons.push({
+            name: 'Preorder Dining',
+            price: PRICING.karaoke.session.addons.preorderDining
+        });
+    }
+    if (document.getElementById('ks-addon-11').checked) {
+        bookingData.karaoke.session.addons.push({
+            name: 'Preorder Beverages',
+            price: PRICING.karaoke.session.addons.preorderBeverages
+        });
+    }
+    if (document.getElementById('ks-addon-12').checked) {
+        bookingData.karaoke.session.addons.push({
+            name: 'Professional Photo Moment',
+            price: PRICING.karaoke.session.addons.professionalPhoto
+        });
+    }
+    if (document.getElementById('ks-addon-13').checked) {
+        bookingData.karaoke.session.addons.push({
+            name: 'Bluetooth Music',
+            price: PRICING.karaoke.session.addons.bluetoothMusic
         });
     }
     
@@ -518,7 +687,8 @@ function updateKaraokeTermsSummary() {
             total += addon.price;
         });
     } else if (bookingType === 'session') {
-        total = PRICING.karaoke.session.pricePerHour * bookingData.karaoke.session.hours;
+        // Use the stored price from the booking
+        total = bookingData.karaoke.session.price || 0;
         bookingData.karaoke.session.addons.forEach(addon => {
             total += addon.price;
         });
@@ -574,7 +744,7 @@ function updateKaraokePaymentSummary() {
         
     } else if (bookingType === 'session') {
         typeText = 'Session Booking';
-        totalPrice = parseInt(bookingData.karaoke.session.hours) * PRICING.karaoke.session.pricePerHour;
+        totalPrice = bookingData.karaoke.session.price || 0;
         
         // Add addon prices
         bookingData.karaoke.session.addons.forEach(addon => {
@@ -1102,6 +1272,30 @@ function toggleMoreAddons() {
     } else {
         moreAddons.style.display = 'none';
         btnText.textContent = 'View More Add-ons ▼';
+    }
+}
+
+// Toggle for session more add-ons
+function toggleSessionMoreAddons() {
+    const moreAddons = document.getElementById('session-more-addons');
+    const btnText = document.getElementById('view-session-more-text');
+    if (moreAddons.style.display === 'none' || moreAddons.style.display === '') {
+        moreAddons.style.display = 'block';
+        btnText.textContent = 'View Less Add-ons ▲';
+    } else {
+        moreAddons.style.display = 'none';
+        btnText.textContent = 'View More Add-ons ▼';
+    }
+}
+
+// Toggle cocktail menu for session
+function toggleSessionCocktailMenu() {
+    const checkbox = document.getElementById('ks-addon-3');
+    const cocktailMenu = document.getElementById('session-cocktail-menu');
+    if (checkbox.checked) {
+        cocktailMenu.style.display = 'block';
+    } else {
+        cocktailMenu.style.display = 'none';
     }
 }
 

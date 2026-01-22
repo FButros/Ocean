@@ -373,10 +373,32 @@
             <form id="karaoke-session-form" class="form">
                 <div class="form-group">
                     <label class="label">
+                        <span class="label-text">Number of Guests</span>
+                        <span class="required">*</span>
+                    </label>
+                    <select id="ks-pax" required class="input" onchange="updateSessionPricing()">
+                        <option value="">Select number of guests...</option>
+                        <option value="1">1 guest</option>
+                        <option value="2">2 guests</option>
+                        <option value="3">3 guests</option>
+                        <option value="4">4 guests</option>
+                        <option value="5">5 guests</option>
+                        <option value="6">6 guests</option>
+                        <option value="7">7 guests</option>
+                        <option value="8">8 guests</option>
+                        <option value="9">9 guests</option>
+                        <option value="10">10 guests</option>
+                        <option value="11">11 guests</option>
+                        <option value="12">12 guests</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="label">
                         <span class="label-text">Date <span style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 300;">(Closed Mondays)</span></span>
                         <span class="required">*</span>
                     </label>
-                    <input type="date" id="ks-date" required class="input">
+                    <input type="date" id="ks-date" required class="input" onchange="updateSessionPricing()">
                 </div>
                 
                 <div class="form-group">
@@ -402,18 +424,13 @@
                 
                 <div class="form-group">
                     <label class="label">
-                        <span class="label-text">Number of Hours</span>
+                        <span class="label-text">Duration & Pricing</span>
                         <span class="required">*</span>
                     </label>
-                    <input type="number" id="ks-hours" min="2" required class="input" placeholder="Minimum 2 hours">
-                </div>
-                
-                <div class="form-group">
-                    <label class="label">
-                        <span class="label-text">Number of Guests</span>
-                        <span class="required">*</span>
-                    </label>
-                    <input type="number" id="ks-pax" min="1" required class="input">
+                    <select id="ks-hours" required class="input" disabled>
+                        <option value="">Select guests and date first...</option>
+                    </select>
+                    <div id="pricing-note" style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--text-secondary);"></div>
                 </div>
                 
                 <div class="form-group">
@@ -462,28 +479,214 @@
                         <span class="label-text">Optional Add-ons</span>
                     </label>
                     
-                    <div class="checkbox-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="ks-addon-1" class="checkbox-input">
-                            <span class="checkbox-custom"></span>
-                            <span class="checkbox-text">Premium Sound System Upgrade (+$50)</span>
-                        </label>
+                    <div class="addon-cards-grid">
+                        <div class="addon-card" data-addon-id="ks-addon-10" onclick="toggleAddonCard(this, 'ks-addon-10')">
+                            <input type="checkbox" id="ks-addon-10" class="addon-card-checkbox" style="display: none;">
+                            <div class="addon-card-image" style="background-image: url('assets/addons/preorder-dining.jpg');"></div>
+                            <div class="addon-card-content">
+                                <h3 class="addon-card-title">Preorder Dining</h3>
+                                <p class="addon-card-price">+$25</p>
+                                <p class="addon-card-description">Order in advance</p>
+                            </div>
+                            <div class="addon-card-checkmark">✓</div>
+                        </div>
+                        
+                        <div class="addon-card" data-addon-id="ks-addon-11" onclick="toggleAddonCard(this, 'ks-addon-11')">
+                            <input type="checkbox" id="ks-addon-11" class="addon-card-checkbox" style="display: none;">
+                            <div class="addon-card-image" style="background-image: url('assets/addons/preorder-beverages.jpg');"></div>
+                            <div class="addon-card-content">
+                                <h3 class="addon-card-title">Preorder Beverages</h3>
+                                <p class="addon-card-price">+$25</p>
+                                <p class="addon-card-description">Drinks ready on arrival</p>
+                            </div>
+                            <div class="addon-card-checkmark">✓</div>
+                        </div>
+                        
+                        <div class="addon-card" data-addon-id="ks-addon-13" onclick="toggleAddonCard(this, 'ks-addon-13')">
+                            <input type="checkbox" id="ks-addon-13" class="addon-card-checkbox" style="display: none;">
+                            <div class="addon-card-image" style="background-image: url('assets/addons/bluetooth.jpg');"></div>
+                            <div class="addon-card-content">
+                                <h3 class="addon-card-title">Bluetooth Music</h3>
+                                <p class="addon-card-price">+$89</p>
+                                <p class="addon-card-description">Connect your device</p>
+                            </div>
+                            <div class="addon-card-checkmark">✓</div>
+                        </div>
                     </div>
                     
-                    <div class="checkbox-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="ks-addon-2" class="checkbox-input">
-                            <span class="checkbox-custom"></span>
-                            <span class="checkbox-text">Decorations Package (+$80)</span>
-                        </label>
-                    </div>
+                    <button type="button" class="btn btn-secondary" onclick="toggleSessionMoreAddons()" id="view-session-more-btn" style="margin-top: 1.5rem;">
+                        <span id="view-session-more-text">View More Add-ons ▼</span>
+                    </button>
                     
-                    <div class="checkbox-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="ks-addon-3" class="checkbox-input">
-                            <span class="checkbox-custom"></span>
-                            <span class="checkbox-text">Extra Drinks Package (+$120)</span>
-                        </label>
+                    <div id="session-more-addons" style="display: none; margin-top: 1.5rem;">
+                        <div class="addon-cards-grid">
+                            <div class="addon-card" data-addon-id="ks-addon-3" onclick="toggleAddonCard(this, 'ks-addon-3'); toggleSessionCocktailMenu();">
+                                <input type="checkbox" id="ks-addon-3" class="addon-card-checkbox" style="display: none;">
+                                <div class="addon-card-image" style="background-image: url('assets/addons/cocktail-arrival.jpg');"></div>
+                                <div class="addon-card-content">
+                                    <h3 class="addon-card-title">12x Cocktail Package</h3>
+                                    <p class="addon-card-price">+$398</p>
+                                    <p class="addon-card-description">Selection of 12 cocktails</p>
+                                </div>
+                                <div class="addon-card-checkmark">✓</div>
+                            </div>
+                            <div id="session-cocktail-menu" class="cocktail-menu" style="display: none;">
+                                <label class="label" style="margin-top: 1rem; margin-bottom: 0.5rem;">
+                                    <span class="label-text">Select Your Cocktails (up to 10 types)</span>
+                                </label>
+                                <div style="display: grid; gap: 0.5rem;">
+                                    <label class="checkbox-label" style="font-size: 0.9rem;">
+                                        <input type="checkbox" class="checkbox-input" name="ks-cocktail-choice" value="mojito">
+                                        <span class="checkbox-custom"></span>
+                                        <span class="checkbox-text">Classic Mojito</span>
+                                    </label>
+                                    <label class="checkbox-label" style="font-size: 0.9rem;">
+                                        <input type="checkbox" class="checkbox-input" name="ks-cocktail-choice" value="margarita">
+                                        <span class="checkbox-custom"></span>
+                                        <span class="checkbox-text">Margarita</span>
+                                    </label>
+                                    <label class="checkbox-label" style="font-size: 0.9rem;">
+                                        <input type="checkbox" class="checkbox-input" name="ks-cocktail-choice" value="cosmopolitan">
+                                        <span class="checkbox-custom"></span>
+                                        <span class="checkbox-text">Cosmopolitan</span>
+                                    </label>
+                                    <label class="checkbox-label" style="font-size: 0.9rem;">
+                                        <input type="checkbox" class="checkbox-input" name="ks-cocktail-choice" value="martini">
+                                        <span class="checkbox-custom"></span>
+                                        <span class="checkbox-text">Classic Martini</span>
+                                    </label>
+                                    <label class="checkbox-label" style="font-size: 0.9rem;">
+                                        <input type="checkbox" class="checkbox-input" name="ks-cocktail-choice" value="espresso-martini">
+                                        <span class="checkbox-custom"></span>
+                                        <span class="checkbox-text">Espresso Martini</span>
+                                    </label>
+                                    <label class="checkbox-label" style="font-size: 0.9rem;">
+                                        <input type="checkbox" class="checkbox-input" name="ks-cocktail-choice" value="negroni">
+                                        <span class="checkbox-custom"></span>
+                                        <span class="checkbox-text">Negroni</span>
+                                    </label>
+                                    <label class="checkbox-label" style="font-size: 0.9rem;">
+                                        <input type="checkbox" class="checkbox-input" name="ks-cocktail-choice" value="aperol-spritz">
+                                        <span class="checkbox-custom"></span>
+                                        <span class="checkbox-text">Aperol Spritz</span>
+                                    </label>
+                                    <label class="checkbox-label" style="font-size: 0.9rem;">
+                                        <input type="checkbox" class="checkbox-input" name="ks-cocktail-choice" value="whiskey-sour">
+                                        <span class="checkbox-custom"></span>
+                                        <span class="checkbox-text">Whiskey Sour</span>
+                                    </label>
+                                    <label class="checkbox-label" style="font-size: 0.9rem;">
+                                        <input type="checkbox" class="checkbox-input" name="ks-cocktail-choice" value="daiquiri">
+                                        <span class="checkbox-custom"></span>
+                                        <span class="checkbox-text">Daiquiri</span>
+                                    </label>
+                                    <label class="checkbox-label" style="font-size: 0.9rem;">
+                                        <input type="checkbox" class="checkbox-input" name="ks-cocktail-choice" value="old-fashioned">
+                                        <span class="checkbox-custom"></span>
+                                        <span class="checkbox-text">Old Fashioned</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="addon-card" data-addon-id="ks-addon-4" onclick="toggleAddonCard(this, 'ks-addon-4')">
+                                <input type="checkbox" id="ks-addon-4" class="addon-card-checkbox" style="display: none;">
+                                <div class="addon-card-image" style="background-image: url('assets/addons/champagne.jpg');"></div>
+                                <div class="addon-card-content">
+                                    <h3 class="addon-card-title">Champagne on Ice</h3>
+                                    <p class="addon-card-price">+$230</p>
+                                    <p class="addon-card-description">Awaiting in room</p>
+                                </div>
+                                <div class="addon-card-checkmark">✓</div>
+                            </div>
+                            
+                            <div class="addon-card" data-addon-id="ks-addon-5" onclick="toggleAddonCard(this, 'ks-addon-5')">
+                                <input type="checkbox" id="ks-addon-5" class="addon-card-checkbox" style="display: none;">
+                                <div class="addon-card-image" style="background-image: url('assets/addons/vsop.jpg');"></div>
+                                <div class="addon-card-content">
+                                    <h3 class="addon-card-title">VSOP Bottle Package</h3>
+                                    <p class="addon-card-price">+$398</p>
+                                    <p class="addon-card-description">1x VSOP, 2 snacks, 2 soft drinks</p>
+                                </div>
+                                <div class="addon-card-checkmark">✓</div>
+                            </div>
+                            
+                            <div class="addon-card" data-addon-id="ks-addon-6" onclick="toggleAddonCard(this, 'ks-addon-6')">
+                                <input type="checkbox" id="ks-addon-6" class="addon-card-checkbox" style="display: none;">
+                                <div class="addon-card-image" style="background-image: url('assets/addons/vodka.jpg');"></div>
+                                <div class="addon-card-content">
+                                    <h3 class="addon-card-title">Vodka Bottle Package</h3>
+                                    <p class="addon-card-price">+$424</p>
+                                    <p class="addon-card-description">1x Belvedere, 2 snacks, 2 soft drinks</p>
+                                </div>
+                                <div class="addon-card-checkmark">✓</div>
+                            </div>
+                            
+                            <div class="addon-card" data-addon-id="ks-addon-7" onclick="toggleAddonCard(this, 'ks-addon-7')">
+                                <input type="checkbox" id="ks-addon-7" class="addon-card-checkbox" style="display: none;">
+                                <div class="addon-card-image" style="background-image: url('assets/addons/xo.jpg');"></div>
+                                <div class="addon-card-content">
+                                    <h3 class="addon-card-title">XO Bottle Package</h3>
+                                    <p class="addon-card-price">+$1,016</p>
+                                    <p class="addon-card-description">1x XO, fruit platter, 2 snacks</p>
+                                </div>
+                                <div class="addon-card-checkmark">✓</div>
+                            </div>
+                            
+                            <div class="addon-card" data-addon-id="ks-addon-8" onclick="toggleAddonCard(this, 'ks-addon-8')">
+                                <input type="checkbox" id="ks-addon-8" class="addon-card-checkbox" style="display: none;">
+                                <div class="addon-card-image" style="background-image: url('assets/addons/dom-perignon.jpg');"></div>
+                                <div class="addon-card-content">
+                                    <h3 class="addon-card-title">Dom Perignon Package</h3>
+                                    <p class="addon-card-price">+$1,862</p>
+                                    <p class="addon-card-description">2x Champagne, fruit platter, 2 snacks</p>
+                                </div>
+                                <div class="addon-card-checkmark">✓</div>
+                            </div>
+                            
+                            <div class="addon-card" data-addon-id="ks-addon-9" onclick="toggleAddonCard(this, 'ks-addon-9')">
+                                <input type="checkbox" id="ks-addon-9" class="addon-card-checkbox" style="display: none;">
+                                <div class="addon-card-image" style="background-image: url('assets/addons/banquet.jpg');"></div>
+                                <div class="addon-card-content">
+                                    <h3 class="addon-card-title">6x Dish Banquet</h3>
+                                    <p class="addon-card-price">+$234</p>
+                                    <p class="addon-card-description">Your choice of 6 large dishes</p>
+                                </div>
+                                <div class="addon-card-checkmark">✓</div>
+                            </div>
+                            
+                            <div class="addon-card" data-addon-id="ks-addon-12" onclick="toggleAddonCard(this, 'ks-addon-12')">
+                                <input type="checkbox" id="ks-addon-12" class="addon-card-checkbox" style="display: none;">
+                                <div class="addon-card-image" style="background-image: url('assets/addons/photo.jpg');"></div>
+                                <div class="addon-card-content">
+                                    <h3 class="addon-card-title">Photo Moment</h3>
+                                    <p class="addon-card-price">+$400</p>
+                                    <p class="addon-card-description">10-15 photos</p>
+                                </div>
+                                <div class="addon-card-checkmark">✓</div>
+                            </div>
+                            
+                            <div class="addon-card" data-addon-id="ks-addon-1" onclick="toggleAddonCard(this, 'ks-addon-1')">
+                                <input type="checkbox" id="ks-addon-1" class="addon-card-checkbox" style="display: none;">
+                                <div class="addon-card-image" style="background-image: url('assets/addons/decorations-basic.jpg');"></div>
+                                <div class="addon-card-content">
+                                    <h3 class="addon-card-title">Decorations Basic</h3>
+                                    <p class="addon-card-price">+$599</p>
+                                    <p class="addon-card-description">Balloon garland, banner & more</p>
+                                </div>
+                                <div class="addon-card-checkmark">✓</div>
+                            </div>
+                            
+                            <div class="addon-card" data-addon-id="ks-addon-2" onclick="toggleAddonCard(this, 'ks-addon-2')">
+                                <input type="checkbox" id="ks-addon-2" class="addon-card-checkbox" style="display: none;">
+                                <div class="addon-card-image" style="background-image: url('assets/addons/decorations-premium.jpg');"></div>
+                                <div class="addon-card-content">
+                                    <h3 class="addon-card-title">Decorations Premium</h3>
+                                    <p class="addon-card-price">+$999</p>
+                                    <p class="addon-card-description">LED sign, 5m garland & more</p>
+                                </div>
+                                <div class="addon-card-checkmark">✓</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
