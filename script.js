@@ -1394,7 +1394,7 @@ document.getElementById('vip-tour-form').addEventListener('submit', function(e) 
 function updateVIPTourConfirmation() {
     document.getElementById('booking-ref').textContent = 'TOUR-' + Math.random().toString(36).substring(2, 8).toUpperCase();
     
-    document.getElementById('confirm-experience').textContent = 'VIP Room Tour';
+    document.getElementById('confirm-experience').textContent = 'Venue Tour';
     
     const dateObj = new Date(bookingData.vipTour.date + 'T' + bookingData.vipTour.time);
     const formatted = dateObj.toLocaleDateString('en-AU', {
