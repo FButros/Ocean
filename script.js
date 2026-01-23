@@ -74,7 +74,6 @@ const PRICING = {
         addons: {
             preorderDining: 25,
             preorderBeverages: 25,
-            cocktailOnArrival: 25, // per person
             shareTower: 116,
             dateNightShareTower: 158,
             dessertPlatter: 159,
@@ -1123,14 +1122,6 @@ document.getElementById('rooftop-addons-form').addEventListener('submit', functi
         });
     }
     
-    if (document.getElementById('rooftop-addon-3') && document.getElementById('rooftop-addon-3').checked) {
-        const pax = parseInt(bookingData.rooftop.pax) || 1;
-        bookingData.rooftop.addons.push({
-            name: 'Cocktail on Arrival',
-            price: PRICING.rooftop.addons.cocktailOnArrival * pax
-        });
-    }
-    
     if (document.getElementById('rooftop-addon-4') && document.getElementById('rooftop-addon-4').checked) {
         bookingData.rooftop.addons.push({
             name: 'Share Tower',
@@ -1740,15 +1731,6 @@ function toggleCreditInfo(e) {
   if (e) e.stopPropagation();
   const modal = document.getElementById('creditInfoModal');
   modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
-}
-
-// Toggle cocktail menu for rooftop "Cocktail on Arrival"
-function toggleRooftopCocktailMenu() {
-    const checkbox = document.getElementById('rooftop-addon-3');
-    const menu = document.getElementById('rooftop-cocktail-menu');
-    if (checkbox && menu) {
-        menu.style.display = checkbox.checked ? 'block' : 'none';
-    }
 }
 
 // Toggle cocktail menu for rooftop "12 x Cocktail Package"
