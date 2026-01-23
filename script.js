@@ -11,8 +11,7 @@ let bookingData = {
         name: '',
         phone: '',
         email: '',
-        cocktailsOnEntry: false,
-        windowSeat: false
+        addons: []
     },
     // Karaoke specific
     // VIP Room specific
@@ -73,8 +72,15 @@ const PRICING = {
     rooftop: {
         depositPerPerson: 50,
         addons: {
-            cocktailsOnEntry: 15,
-            windowSeat: 10 // Free, subject to availability
+            preorderDining: 25,
+            preorderBeverages: 25,
+            cocktailOnArrival: 25, // per person
+            shareTower: 116,
+            dateNightShareTower: 158,
+            dessertPlatter: 159,
+            champagneOnIce: 230,
+            dishBanquet: 228,
+            cocktailPackage: 398
         }
     },
     // VIP Room specific
@@ -354,13 +360,15 @@ document.getElementById('karaoke-night-upgrades-form').addEventListener('submit'
 function updateSessionPricing() {
     const paxSelect = document.getElementById('ks-pax');
     const dateInput = document.getElementById('ks-date');
+    const timeInput = document.getElementById('ks-time');
     const hoursSelect = document.getElementById('ks-hours');
     const pricingNote = document.getElementById('pricing-note');
     
     const pax = parseInt(paxSelect.value);
     const date = dateInput.value;
+    const time = timeInput.value;
     
-    // Check if both pax and date are selected
+    // Check if pax and date are selected (time is optional for initial load)
     if (!pax || !date) {
         hoursSelect.disabled = true;
         hoursSelect.innerHTML = '<option value="">Select guests and date first...</option>';
@@ -387,12 +395,55 @@ function updateSessionPricing() {
     // Get pricing for this number of guests
     const guestPricing = priceTable[pax];
     
+    // Determine closing time based on day of week
+    let closingHour;
+    if (dayOfWeek === 5 || dayOfWeek === 6) {
+        // Friday & Saturday: closes at 4:30am
+        closingHour = 4.5;
+    } else {
+        // Tuesday, Wednesday, Thursday, Sunday: closes at 3:30am
+        closingHour = 3.5;
+    }
+    
+    // Calculate maximum available hours based on start time
+    let maxHours = 6; // Default maximum
+    if (time) {
+        // Parse the selected time
+        const [hours, minutes] = time.split(':').map(Number);
+        
+        // Convert to 24-hour format considering times after midnight
+        let startHour = hours + (minutes / 60);
+        
+        // If time is before 8pm, assume it's after midnight (e.g., 1:00 AM)
+        if (hours < 8) {
+            startHour = hours + 24 + (minutes / 60);
+        }
+        
+        // Calculate closing time (next day early morning)
+        const closingTime = 24 + closingHour;
+        
+        // Calculate available hours until closing
+        const availableHours = closingTime - startHour;
+        
+        // Round down to nearest 0.5 hour and cap at 6
+        maxHours = Math.min(6, Math.floor(availableHours * 2) / 2);
+        
+        // Minimum is 2 hours
+        if (maxHours < 2) {
+            hoursSelect.disabled = true;
+            hoursSelect.innerHTML = '<option value="">Not enough time before closing</option>';
+            pricingNote.textContent = `Venue closes at ${closingHour === 4.5 ? '4:30am' : '3:30am'}. Please select an earlier time.`;
+            pricingNote.style.color = 'var(--error, #ff6b6b)';
+            return;
+        }
+    }
+    
     // Build the hours dropdown with pricing
     hoursSelect.disabled = false;
     hoursSelect.innerHTML = '<option value="">Select duration...</option>';
     
-    // Add options for 2-6 hours
-    for (let hours = 2; hours <= 6; hours++) {
+    // Add options for 2 hours up to maxHours
+    for (let hours = 2; hours <= Math.min(6, Math.floor(maxHours)); hours++) {
         const price = guestPricing[hours];
         const option = document.createElement('option');
         option.value = hours;
@@ -403,7 +454,14 @@ function updateSessionPricing() {
     
     // Update pricing note
     const dayType = isWeekend ? 'Weekend' : 'Weekday';
-    pricingNote.textContent = `${dayType} pricing for ${pax} guest${pax > 1 ? 's' : ''}`;
+    let noteText = `${dayType} pricing for ${pax} guest${pax > 1 ? 's' : ''}`;
+    
+    if (time && maxHours < 6) {
+        const closingTimeText = closingHour === 4.5 ? '4:30am' : '3:30am';
+        noteText += ` (closes at ${closingTimeText})`;
+    }
+    
+    pricingNote.textContent = noteText;
     pricingNote.style.color = 'var(--text-secondary)';
 }
 
@@ -1047,10 +1105,75 @@ document.getElementById('rooftop-contact-form').addEventListener('submit', funct
 document.getElementById('rooftop-addons-form').addEventListener('submit', function(e) {
     e.preventDefault();
     
-    bookingData.rooftop.cocktailsOnEntry = document.getElementById('rooftop-cocktails').checked;
-    bookingData.rooftop.windowSeat = document.getElementById('rooftop-window').checked;
+    // Reset addons array
+    bookingData.rooftop.addons = [];
     
-    console.log('Rooftop add-ons:', bookingData.rooftop);
+    // Check each add-on
+    if (document.getElementById('rooftop-addon-1') && document.getElementById('rooftop-addon-1').checked) {
+        bookingData.rooftop.addons.push({
+            name: 'Preorder Dining',
+            price: PRICING.rooftop.addons.preorderDining
+        });
+    }
+    
+    if (document.getElementById('rooftop-addon-2') && document.getElementById('rooftop-addon-2').checked) {
+        bookingData.rooftop.addons.push({
+            name: 'Preorder Beverages',
+            price: PRICING.rooftop.addons.preorderBeverages
+        });
+    }
+    
+    if (document.getElementById('rooftop-addon-3') && document.getElementById('rooftop-addon-3').checked) {
+        const pax = parseInt(bookingData.rooftop.pax) || 1;
+        bookingData.rooftop.addons.push({
+            name: 'Cocktail on Arrival',
+            price: PRICING.rooftop.addons.cocktailOnArrival * pax
+        });
+    }
+    
+    if (document.getElementById('rooftop-addon-4') && document.getElementById('rooftop-addon-4').checked) {
+        bookingData.rooftop.addons.push({
+            name: 'Share Tower',
+            price: PRICING.rooftop.addons.shareTower
+        });
+    }
+    
+    if (document.getElementById('rooftop-addon-5') && document.getElementById('rooftop-addon-5').checked) {
+        bookingData.rooftop.addons.push({
+            name: 'Date Night Share Tower',
+            price: PRICING.rooftop.addons.dateNightShareTower
+        });
+    }
+    
+    if (document.getElementById('rooftop-addon-6') && document.getElementById('rooftop-addon-6').checked) {
+        bookingData.rooftop.addons.push({
+            name: 'Dessert Platter for 3',
+            price: PRICING.rooftop.addons.dessertPlatter
+        });
+    }
+    
+    if (document.getElementById('rooftop-addon-7') && document.getElementById('rooftop-addon-7').checked) {
+        bookingData.rooftop.addons.push({
+            name: 'Champagne on Ice',
+            price: PRICING.rooftop.addons.champagneOnIce
+        });
+    }
+    
+    if (document.getElementById('rooftop-addon-8') && document.getElementById('rooftop-addon-8').checked) {
+        bookingData.rooftop.addons.push({
+            name: '6 x Dish Banquet',
+            price: PRICING.rooftop.addons.dishBanquet
+        });
+    }
+    
+    if (document.getElementById('rooftop-addon-9') && document.getElementById('rooftop-addon-9').checked) {
+        bookingData.rooftop.addons.push({
+            name: '12 x Cocktail Package',
+            price: PRICING.rooftop.addons.cocktailPackage
+        });
+    }
+    
+    console.log('Rooftop add-ons:', bookingData.rooftop.addons);
     
     pageHistory.push('page-rooftop-addons');
     showPage('page-rooftop-terms');
@@ -1070,22 +1193,26 @@ function updateRooftopTermsSummary() {
     document.getElementById('rooftop-summary-session').textContent = bookingData.rooftop.session;
     document.getElementById('rooftop-summary-pax').textContent = `${bookingData.rooftop.pax} Guests`;
     
+    // Calculate total
+    const pax = parseInt(bookingData.rooftop.pax);
+    let total = pax * PRICING.rooftop.depositPerPerson;
+    
     // Show add-ons if any selected
     const addons = [];
-    if (bookingData.rooftop.cocktailsOnEntry) {
-        addons.push(`Cocktails on Entry (+$${PRICING.rooftop.addons.cocktailsOnEntry})`);
-    }
-    if (bookingData.rooftop.windowSeat) {
-        const windowPrice = PRICING.rooftop.addons.windowSeat;
-        addons.push(windowPrice > 0 ? `Window Seat (+$${windowPrice})` : 'Window Seat (Free)');
-    }
-    
-    if (addons.length > 0) {
+    if (bookingData.rooftop.addons && bookingData.rooftop.addons.length > 0) {
+        bookingData.rooftop.addons.forEach(addon => {
+            addons.push(`${addon.name} (+$${addon.price})`);
+            total += addon.price;
+        });
+        
         document.getElementById('rooftop-summary-addons-row').style.display = 'flex';
         document.getElementById('rooftop-summary-addons').textContent = addons.join(', ');
     } else {
         document.getElementById('rooftop-summary-addons-row').style.display = 'none';
     }
+    
+    // Update total
+    document.getElementById('rooftop-summary-total').textContent = `$${total.toFixed(2)}`;
 }
 
 // Step 4: Terms - Proceed to Payment
@@ -1105,11 +1232,10 @@ function updateRooftopPaymentSummary() {
     let totalDeposit = pax * PRICING.rooftop.depositPerPerson;
     
     // Add addon costs
-    if (bookingData.rooftop.cocktailsOnEntry) {
-        totalDeposit += pax * PRICING.rooftop.addons.cocktailsOnEntry;
-    }
-    if (bookingData.rooftop.windowSeat) {
-        totalDeposit += PRICING.rooftop.addons.windowSeat;
+    if (bookingData.rooftop.addons && bookingData.rooftop.addons.length > 0) {
+        bookingData.rooftop.addons.forEach(addon => {
+            totalDeposit += addon.price;
+        });
     }
     
     document.getElementById('rooftop-payment-pax').textContent = `${pax} Guests`;
@@ -1614,4 +1740,22 @@ function toggleCreditInfo(e) {
   if (e) e.stopPropagation();
   const modal = document.getElementById('creditInfoModal');
   modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+}
+
+// Toggle cocktail menu for rooftop "Cocktail on Arrival"
+function toggleRooftopCocktailMenu() {
+    const checkbox = document.getElementById('rooftop-addon-3');
+    const menu = document.getElementById('rooftop-cocktail-menu');
+    if (checkbox && menu) {
+        menu.style.display = checkbox.checked ? 'block' : 'none';
+    }
+}
+
+// Toggle cocktail menu for rooftop "12 x Cocktail Package"
+function toggleRooftopCocktailPackageMenu() {
+    const checkbox = document.getElementById('rooftop-addon-9');
+    const menu = document.getElementById('rooftop-cocktail-package-menu');
+    if (checkbox && menu) {
+        menu.style.display = checkbox.checked ? 'block' : 'none';
+    }
 }

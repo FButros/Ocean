@@ -409,7 +409,7 @@
                         <span class="label-text">Start Time</span>
                         <span class="required">*</span>
                     </label>
-                    <select id="ks-time" required class="input">
+                    <select id="ks-time" required class="input" onchange="updateSessionPricing()">
                         <option value="">Select time...</option>
                         <option value="20:00">8:00 PM</option>
                         <option value="20:30">8:30 PM</option>
@@ -1382,23 +1382,226 @@
             <form id="rooftop-addons-form" class="form">
                 <div class="form-group">
                     <label class="label">
-                        <span class="label-text">Add-ons (Optional)</span>
+                        <span class="label-text">Upgrades & Add-ons (Optional)</span>
                     </label>
                     
-                    <div class="checkbox-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="rooftop-cocktails" class="checkbox-input">
-                            <span class="checkbox-custom"></span>
-                            <span class="checkbox-text">Cocktails on Entry (+$15 per person)</span>
-                        </label>
+                    <div class="addon-cards-grid">
+                        <div class="addon-card" data-addon-id="rooftop-addon-1" onclick="toggleAddonCard(this, 'rooftop-addon-1')">
+                            <input type="checkbox" id="rooftop-addon-1" class="addon-card-checkbox" style="display: none;">
+                            <div class="addon-card-image" style="background-image: url('assets/preorder-dining.png');"></div>
+                            <div class="addon-card-content">
+                                <h3 class="addon-card-title">Preorder Dining</h3>
+                                <p class="addon-card-price">+$25</p>
+                                <p class="addon-card-description">Our team will reach out and take your dining order in advance!</p>
+                            </div>
+                            <div class="addon-card-checkmark">✓</div>
+                        </div>
+                        
+                        <div class="addon-card" data-addon-id="rooftop-addon-2" onclick="toggleAddonCard(this, 'rooftop-addon-2')">
+                            <input type="checkbox" id="rooftop-addon-2" class="addon-card-checkbox" style="display: none;">
+                            <div class="addon-card-image" style="background-image: url('assets/preorder-beverages.png');"></div>
+                            <div class="addon-card-content">
+                                <h3 class="addon-card-title">Preorder Beverages</h3>
+                                <p class="addon-card-price">+$25</p>
+                                <p class="addon-card-description">Our team will reach out and take your beverage order in advance!</p>
+                            </div>
+                            <div class="addon-card-checkmark">✓</div>
+                        </div>
+                        
+                        <div class="addon-card" data-addon-id="rooftop-addon-3" onclick="toggleAddonCard(this, 'rooftop-addon-3'); toggleRooftopCocktailMenu();">
+                            <input type="checkbox" id="rooftop-addon-3" class="addon-card-checkbox" style="display: none;">
+                            <div class="addon-card-image" style="background-image: url('assets/addons/cocktail-arrival.jpg');"></div>
+                            <div class="addon-card-content">
+                                <h3 class="addon-card-title">Cocktail on Arrival</h3>
+                                <p class="addon-card-price">+$25pp</p>
+                                <p class="addon-card-description">Your selections prepared and timed for arrival</p>
+                            </div>
+                            <div class="addon-card-checkmark">✓</div>
+                        </div>
                     </div>
                     
-                    <div class="checkbox-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="rooftop-window" class="checkbox-input">
-                            <span class="checkbox-custom"></span>
-                            <span class="checkbox-text">Window Seat (+$10 - Subject to availability)</span>
+                    <div id="rooftop-cocktail-menu" class="cocktail-menu" style="display: none;">
+                        <label class="label" style="margin-top: 1rem; margin-bottom: 0.5rem;">
+                            <span class="label-text">Select Your Cocktails (up to 10 types)</span>
                         </label>
+                        <div style="display: grid; gap: 0.5rem;">
+                            <label class="checkbox-label" style="font-size: 0.9rem;">
+                                <input type="checkbox" class="checkbox-input" name="rooftop-cocktail-choice" value="mojito">
+                                <span class="checkbox-custom"></span>
+                                <span class="checkbox-text">Classic Mojito</span>
+                            </label>
+                            <label class="checkbox-label" style="font-size: 0.9rem;">
+                                <input type="checkbox" class="checkbox-input" name="rooftop-cocktail-choice" value="margarita">
+                                <span class="checkbox-custom"></span>
+                                <span class="checkbox-text">Margarita</span>
+                            </label>
+                            <label class="checkbox-label" style="font-size: 0.9rem;">
+                                <input type="checkbox" class="checkbox-input" name="rooftop-cocktail-choice" value="cosmopolitan">
+                                <span class="checkbox-custom"></span>
+                                <span class="checkbox-text">Cosmopolitan</span>
+                            </label>
+                            <label class="checkbox-label" style="font-size: 0.9rem;">
+                                <input type="checkbox" class="checkbox-input" name="rooftop-cocktail-choice" value="martini">
+                                <span class="checkbox-custom"></span>
+                                <span class="checkbox-text">Classic Martini</span>
+                            </label>
+                            <label class="checkbox-label" style="font-size: 0.9rem;">
+                                <input type="checkbox" class="checkbox-input" name="rooftop-cocktail-choice" value="espresso-martini">
+                                <span class="checkbox-custom"></span>
+                                <span class="checkbox-text">Espresso Martini</span>
+                            </label>
+                            <label class="checkbox-label" style="font-size: 0.9rem;">
+                                <input type="checkbox" class="checkbox-input" name="rooftop-cocktail-choice" value="negroni">
+                                <span class="checkbox-custom"></span>
+                                <span class="checkbox-text">Negroni</span>
+                            </label>
+                            <label class="checkbox-label" style="font-size: 0.9rem;">
+                                <input type="checkbox" class="checkbox-input" name="rooftop-cocktail-choice" value="aperol-spritz">
+                                <span class="checkbox-custom"></span>
+                                <span class="checkbox-text">Aperol Spritz</span>
+                            </label>
+                            <label class="checkbox-label" style="font-size: 0.9rem;">
+                                <input type="checkbox" class="checkbox-input" name="rooftop-cocktail-choice" value="whiskey-sour">
+                                <span class="checkbox-custom"></span>
+                                <span class="checkbox-text">Whiskey Sour</span>
+                            </label>
+                            <label class="checkbox-label" style="font-size: 0.9rem;">
+                                <input type="checkbox" class="checkbox-input" name="rooftop-cocktail-choice" value="daiquiri">
+                                <span class="checkbox-custom"></span>
+                                <span class="checkbox-text">Daiquiri</span>
+                            </label>
+                            <label class="checkbox-label" style="font-size: 0.9rem;">
+                                <input type="checkbox" class="checkbox-input" name="rooftop-cocktail-choice" value="old-fashioned">
+                                <span class="checkbox-custom"></span>
+                                <span class="checkbox-text">Old Fashioned</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="addon-cards-grid" style="margin-top: 1.5rem;">
+                        <div class="addon-card" data-addon-id="rooftop-addon-4" onclick="toggleAddonCard(this, 'rooftop-addon-4')">
+                            <input type="checkbox" id="rooftop-addon-4" class="addon-card-checkbox" style="display: none;">
+                            <div class="addon-card-image" style="background-image: url('assets/addons/share-tower.jpg');"></div>
+                            <div class="addon-card-content">
+                                <h3 class="addon-card-title">Share Tower</h3>
+                                <p class="addon-card-price">+$116</p>
+                                <p class="addon-card-description">1 Large Plate + 3 Small signature plates</p>
+                            </div>
+                            <div class="addon-card-checkmark">✓</div>
+                        </div>
+                        
+                        <div class="addon-card" data-addon-id="rooftop-addon-5" onclick="toggleAddonCard(this, 'rooftop-addon-5')">
+                            <input type="checkbox" id="rooftop-addon-5" class="addon-card-checkbox" style="display: none;">
+                            <div class="addon-card-image" style="background-image: url('assets/addons/date-night.jpg');"></div>
+                            <div class="addon-card-content">
+                                <h3 class="addon-card-title">Date Night Share Tower</h3>
+                                <p class="addon-card-price">+$158</p>
+                                <p class="addon-card-description">1 Large Plate + 3 Small signature plates + 2 Signature Cocktails</p>
+                            </div>
+                            <div class="addon-card-checkmark">✓</div>
+                        </div>
+                        
+                        <div class="addon-card" data-addon-id="rooftop-addon-6" onclick="toggleAddonCard(this, 'rooftop-addon-6')">
+                            <input type="checkbox" id="rooftop-addon-6" class="addon-card-checkbox" style="display: none;">
+                            <div class="addon-card-image" style="background-image: url('assets/addons/dessert.jpg');"></div>
+                            <div class="addon-card-content">
+                                <h3 class="addon-card-title">Dessert Platter for 3</h3>
+                                <p class="addon-card-price">+$159</p>
+                                <p class="addon-card-description">Selection of sweet treats</p>
+                            </div>
+                            <div class="addon-card-checkmark">✓</div>
+                        </div>
+                        
+                        <div class="addon-card" data-addon-id="rooftop-addon-7" onclick="toggleAddonCard(this, 'rooftop-addon-7')">
+                            <input type="checkbox" id="rooftop-addon-7" class="addon-card-checkbox" style="display: none;">
+                            <div class="addon-card-image" style="background-image: url('assets/addons/champagne.jpg');"></div>
+                            <div class="addon-card-content">
+                                <h3 class="addon-card-title">Champagne on Ice</h3>
+                                <p class="addon-card-price">+$230</p>
+                                <p class="addon-card-description">Awaiting on table</p>
+                            </div>
+                            <div class="addon-card-checkmark">✓</div>
+                        </div>
+                        
+                        <div class="addon-card" data-addon-id="rooftop-addon-8" onclick="toggleAddonCard(this, 'rooftop-addon-8')">
+                            <input type="checkbox" id="rooftop-addon-8" class="addon-card-checkbox" style="display: none;">
+                            <div class="addon-card-image" style="background-image: url('assets/addons/banquet.jpg');"></div>
+                            <div class="addon-card-content">
+                                <h3 class="addon-card-title">6 x Dish Banquet</h3>
+                                <p class="addon-card-price">+$228</p>
+                                <p class="addon-card-description">Your choice of 6 Large Dishes</p>
+                            </div>
+                            <div class="addon-card-checkmark">✓</div>
+                        </div>
+                        
+                        <div class="addon-card" data-addon-id="rooftop-addon-9" onclick="toggleAddonCard(this, 'rooftop-addon-9'); toggleRooftopCocktailPackageMenu();">
+                            <input type="checkbox" id="rooftop-addon-9" class="addon-card-checkbox" style="display: none;">
+                            <div class="addon-card-image" style="background-image: url('assets/addons/cocktail-package.jpg');"></div>
+                            <div class="addon-card-content">
+                                <h3 class="addon-card-title">12 x Cocktail Package</h3>
+                                <p class="addon-card-price">+$398</p>
+                                <p class="addon-card-description">A Selection of 12 Cocktails</p>
+                            </div>
+                            <div class="addon-card-checkmark">✓</div>
+                        </div>
+                    </div>
+                    
+                    <div id="rooftop-cocktail-package-menu" class="cocktail-menu" style="display: none;">
+                        <label class="label" style="margin-top: 1rem; margin-bottom: 0.5rem;">
+                            <span class="label-text">Select Your Cocktails (up to 10 types)</span>
+                        </label>
+                        <div style="display: grid; gap: 0.5rem;">
+                            <label class="checkbox-label" style="font-size: 0.9rem;">
+                                <input type="checkbox" class="checkbox-input" name="rooftop-package-cocktail-choice" value="mojito">
+                                <span class="checkbox-custom"></span>
+                                <span class="checkbox-text">Classic Mojito</span>
+                            </label>
+                            <label class="checkbox-label" style="font-size: 0.9rem;">
+                                <input type="checkbox" class="checkbox-input" name="rooftop-package-cocktail-choice" value="margarita">
+                                <span class="checkbox-custom"></span>
+                                <span class="checkbox-text">Margarita</span>
+                            </label>
+                            <label class="checkbox-label" style="font-size: 0.9rem;">
+                                <input type="checkbox" class="checkbox-input" name="rooftop-package-cocktail-choice" value="cosmopolitan">
+                                <span class="checkbox-custom"></span>
+                                <span class="checkbox-text">Cosmopolitan</span>
+                            </label>
+                            <label class="checkbox-label" style="font-size: 0.9rem;">
+                                <input type="checkbox" class="checkbox-input" name="rooftop-package-cocktail-choice" value="martini">
+                                <span class="checkbox-custom"></span>
+                                <span class="checkbox-text">Classic Martini</span>
+                            </label>
+                            <label class="checkbox-label" style="font-size: 0.9rem;">
+                                <input type="checkbox" class="checkbox-input" name="rooftop-package-cocktail-choice" value="espresso-martini">
+                                <span class="checkbox-custom"></span>
+                                <span class="checkbox-text">Espresso Martini</span>
+                            </label>
+                            <label class="checkbox-label" style="font-size: 0.9rem;">
+                                <input type="checkbox" class="checkbox-input" name="rooftop-package-cocktail-choice" value="negroni">
+                                <span class="checkbox-custom"></span>
+                                <span class="checkbox-text">Negroni</span>
+                            </label>
+                            <label class="checkbox-label" style="font-size: 0.9rem;">
+                                <input type="checkbox" class="checkbox-input" name="rooftop-package-cocktail-choice" value="aperol-spritz">
+                                <span class="checkbox-custom"></span>
+                                <span class="checkbox-text">Aperol Spritz</span>
+                            </label>
+                            <label class="checkbox-label" style="font-size: 0.9rem;">
+                                <input type="checkbox" class="checkbox-input" name="rooftop-package-cocktail-choice" value="whiskey-sour">
+                                <span class="checkbox-custom"></span>
+                                <span class="checkbox-text">Whiskey Sour</span>
+                            </label>
+                            <label class="checkbox-label" style="font-size: 0.9rem;">
+                                <input type="checkbox" class="checkbox-input" name="rooftop-package-cocktail-choice" value="daiquiri">
+                                <span class="checkbox-custom"></span>
+                                <span class="checkbox-text">Daiquiri</span>
+                            </label>
+                            <label class="checkbox-label" style="font-size: 0.9rem;">
+                                <input type="checkbox" class="checkbox-input" name="rooftop-package-cocktail-choice" value="old-fashioned">
+                                <span class="checkbox-custom"></span>
+                                <span class="checkbox-text">Old Fashioned</span>
+                            </label>
+                        </div>
                     </div>
                 </div>
                 
@@ -1440,18 +1643,33 @@
                     <span class="summary-label">Add-ons:</span>
                     <span class="summary-value" id="rooftop-summary-addons"></span>
                 </div>
+                <div class="summary-row" style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 0.75rem; margin-top: 0.75rem; font-size: 1.1rem;">
+                    <span class="summary-label"><strong>Total Deposit:</strong></span>
+                    <span class="summary-value" style="color: var(--primary); font-weight: 600;" id="rooftop-summary-total">$0.00</span>
+                </div>
             </div>
             
             <div class="terms-box">
                 <h3>Terms & Conditions</h3>
-                <ul>
-                    <li>Deposit of $50 per person required to secure your booking</li>
-                    <li>Cancellations must be made 48 hours in advance for a full refund</li>
-                    <li>Valid ID required for all guests (18+ only)</li>
-                    <li>Smart casual dress code enforced</li>
-                    <li>Management reserves the right to refuse entry</li>
-                    <li>Responsible service of alcohol applies</li>
-                    <li>Session times are strictly enforced</li>
+                <ul style="line-height: 1.8; padding-left: 1.5rem;">
+                    <li>In line with Crown's Standard, Ocean 12 is dedicated in our pursuit of Responsible Service of Alcohol. Patrons arriving demonstrating signs of intoxication may be refused entry to our venue. In this circumstance, deposits will not be refunded.</li>
+                    <li>Cocktail and Signature packages strictly begin at 8pm. Unless upgraded, both packages finish at 12am. Late arrivals will not have their booking extended.</li>
+                    <li>Karaoke Weekend prices apply to Friday, Saturday and Sunday nights.</li>
+                    <li>Karaoke Weekday prices apply to Tuesday, Wednesday and Thursday nights.</li>
+                    <li>Guests exhibiting signs of intoxication whilst in the venue, will not be served alcohol and may be asked to vacate the venue.</li>
+                    <li>Ocean 12 does not support split bill in our venue; hence guests will not be permitted to pay individually.</li>
+                    <li>Parties that exceed room size capacity may be automatically upgraded to larger room at the cost of guest.</li>
+                    <li>Cancellations must be made 48 hours in advance to qualify for a full refund.</li>
+                    <li>Guests will be held financially responsible for any damages they cause to the venue that require cleaning, repairs or replacement of equipment. This includes but is not exclusive to: broken or damaged Ocean 12 property, damages or disfiguration of the Ocean 12 venue, vandalism, the use of confetti/glitter, or theft of equipment.</li>
+                    <li>All deposits are strictly non-refundable.</li>
+                    <li>Increasing reservations is subject to availability.</li>
+                    <li>Fees for credit card payments apply.</li>
+                    <li>The valid period for all storage alcohol is 3 months, guests are required to show bottle card(s) for any redemption. In this regard, the right of final interpretation belongs to Ocean 12.</li>
+                    <li>Patrons must be over 18 to enter our venue, please make sure everyone brings their ID.</li>
+                    <li>Guests are not permitted to bring outside food, beverages or cigars to Ocean 12.</li>
+                    <li>A 10% final bill VIP surcharge applies to all VIP rooms.</li>
+                    <li>Prices may increase on public holidays and an additional 15% final bill surcharge applies on all public holidays.</li>
+                    <li>Ocean 12 requests that guests notify service staff of any food allergies or intolerances prior to ordering, so that we can accommodate for those needs when preparing your meal. However, it should be noted that Ocean 12 cannot guarantee completely allergen-free meals due to potential trace allergens in the working environment and supplied ingredients.</li>
                 </ul>
             </div>
             
