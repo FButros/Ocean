@@ -1244,7 +1244,7 @@
                     <span class="summary-value" style="color: var(--primary); font-weight: 600;" id="breakdown-deposit">$0.00</span>
                 </div>
                 <div class="summary-row">
-                    <span class="summary-label">Remaining Balance:</span>
+                    <span class="summary-label">Remaining Balance:</span> 
                     <span class="summary-value" id="breakdown-remaining">$0.00</span>
                 </div>
                 <div style="text-align: center; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border);">
@@ -1438,55 +1438,59 @@
                             </div>
                             <div class="addon-card-checkmark">✓</div>
                         </div>
-
-                        <div class="addon-card" data-addon-id="rooftop-addon-5" onclick="toggleAddonCard(this, 'rooftop-addon-5')">
-                            <input type="checkbox" id="rooftop-addon-5" class="addon-card-checkbox" onchange="updateRooftopAddonsTotal()" style="display: none;">
-                            <div class="addon-card-image" style="background-image: url('assets/addons/date-night.jpg');"></div>
-                            <div class="addon-card-content">
-                                <h3 class="addon-card-title">Date Night Share Tower</h3>
-                                <p class="addon-card-price">+$158</p>
-                                <p class="addon-card-description">1 Large Plate + 3 Small signature plates + 2 Signature Cocktails</p>
-                            </div>
-                            <div class="addon-card-checkmark">✓</div>
-                        </div>
-                        
-                        <div class="addon-card" data-addon-id="rooftop-addon-6" onclick="toggleAddonCard(this, 'rooftop-addon-6')">
-                            <input type="checkbox" id="rooftop-addon-6" class="addon-card-checkbox" onchange="updateRooftopAddonsTotal()" style="display: none;">
-                            <div class="addon-card-image" style="background-image: url('assets/addons/dessert.jpg');"></div>
-                            <div class="addon-card-content">
-                                <h3 class="addon-card-title">Dessert Platter for 3</h3>
-                                <p class="addon-card-price">+$159</p>
-                                <p class="addon-card-description">Selection of sweet treats</p>
-                            </div>
-                            <div class="addon-card-checkmark">✓</div>
-                        </div>
-                        
-                        <div class="addon-card" data-addon-id="rooftop-addon-7" onclick="toggleAddonCard(this, 'rooftop-addon-7')">
-                            <input type="checkbox" id="rooftop-addon-7" class="addon-card-checkbox" onchange="updateRooftopAddonsTotal()" style="display: none;">
-                            <div class="addon-card-image" style="background-image: url('assets/addons/champagne.jpg');"></div>
-                            <div class="addon-card-content">
-                                <h3 class="addon-card-title">Champagne on Ice</h3>
-                                <p class="addon-card-price">+$230</p>
-                                <p class="addon-card-description">Awaiting on table</p>
-                            </div>
-                            <div class="addon-card-checkmark">✓</div>
-                        </div>
-                        
-                        <div class="addon-card" data-addon-id="rooftop-addon-8" onclick="toggleAddonCard(this, 'rooftop-addon-8')">
-                            <input type="checkbox" id="rooftop-addon-8" class="addon-card-checkbox" onchange="updateRooftopAddonsTotal()" style="display: none;">
-                            <div class="addon-card-image" style="background-image: url('assets/addons/banquet.jpg');"></div>
-                            <div class="addon-card-content">
-                                <h3 class="addon-card-title">6 x Dish Banquet</h3>
-                                <p class="addon-card-price">+$228</p>
-                                <p class="addon-card-description">Your choice of 6 Large Dishes</p>
-                            </div>
-                            <div class="addon-card-checkmark">✓</div>
-                        </div>
-                        
-                        
                     </div>
                     
+                    <button type="button" class="btn btn-secondary" onclick="toggleRooftopMoreAddons()" style="margin-top: 1.5rem;">
+                        <span id="rooftop-more-addons-text">View More Add-ons ▼</span>
+                    </button>
                     
+                    <div id="rooftop-more-addons" style="display: none; margin-top: 1.5rem;">
+                        <div class="addon-cards-grid">
+                            <div class="addon-card" data-addon-id="rooftop-addon-5" onclick="toggleAddonCard(this, 'rooftop-addon-5')">
+                                <input type="checkbox" id="rooftop-addon-5" class="addon-card-checkbox" onchange="updateRooftopAddonsTotal()" style="display: none;">
+                                <div class="addon-card-image" style="background-image: url('assets/addons/date-night.jpg');"></div>
+                                <div class="addon-card-content">
+                                    <h3 class="addon-card-title">Date Night Share Tower</h3>
+                                    <p class="addon-card-price">+$158</p>
+                                    <p class="addon-card-description">1 Large Plate + 3 Small signature plates + 2 Signature Cocktails</p>
+                                </div>
+                                <div class="addon-card-checkmark">✓</div>
+                            </div>
+                            
+                            <div class="addon-card" data-addon-id="rooftop-addon-6" onclick="toggleAddonCard(this, 'rooftop-addon-6')">
+                                <input type="checkbox" id="rooftop-addon-6" class="addon-card-checkbox" onchange="updateRooftopAddonsTotal()" style="display: none;">
+                                <div class="addon-card-image" style="background-image: url('assets/addons/dessert.jpg');"></div>
+                                <div class="addon-card-content">
+                                    <h3 class="addon-card-title">Dessert Platter for 3</h3>
+                                    <p class="addon-card-price">+$159</p>
+                                    <p class="addon-card-description">Selection of sweet treats</p>
+                                </div>
+                                <div class="addon-card-checkmark">✓</div>
+                            </div>
+                            
+                            <div class="addon-card" data-addon-id="rooftop-addon-7" onclick="toggleAddonCard(this, 'rooftop-addon-7')">
+                                <input type="checkbox" id="rooftop-addon-7" class="addon-card-checkbox" onchange="updateRooftopAddonsTotal()" style="display: none;">
+                                <div class="addon-card-image" style="background-image: url('assets/addons/champagne.jpg');"></div>
+                                <div class="addon-card-content">
+                                    <h3 class="addon-card-title">Champagne on Ice</h3>
+                                    <p class="addon-card-price">+$230</p>
+                                    <p class="addon-card-description">Awaiting on table</p>
+                                </div>
+                                <div class="addon-card-checkmark">✓</div>
+                            </div>
+                            
+                            <div class="addon-card" data-addon-id="rooftop-addon-8" onclick="toggleAddonCard(this, 'rooftop-addon-8')">
+                                <input type="checkbox" id="rooftop-addon-8" class="addon-card-checkbox" onchange="updateRooftopAddonsTotal()" style="display: none;">
+                                <div class="addon-card-image" style="background-image: url('assets/addons/banquet.jpg');"></div>
+                                <div class="addon-card-content">
+                                    <h3 class="addon-card-title">6 x Dish Banquet</h3>
+                                    <p class="addon-card-price">+$228</p>
+                                    <p class="addon-card-description">Your choice of 6 Large Dishes</p>
+                                </div>
+                                <div class="addon-card-checkmark">✓</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="summary-card">
@@ -1598,7 +1602,7 @@
             
             <div class="info-box">
                 <strong>Deposit Information:</strong>
-                You can pay 50% minimum deposit, or use the slider below to adjust the amount up to the full price.
+                You can pay 20% minimum deposit, or use the slider below to adjust the amount up to the full price.
             </div>
             
             <div class="form-group">
@@ -1623,7 +1627,8 @@
                     <span class="summary-value" style="color: var(--primary); font-weight: 600;" id="rooftop-breakdown-deposit">$0.00</span>
                 </div>
                 <div class="summary-row">
-                    <span class="summary-label">Remaining Balance:</span>
+                    <span class="summary-label">Remaining Balance: </span> 
+                    <div class="info-circle" onclick="toggleRooftopInfo(event)">i</div>
                     <span class="summary-value" id="rooftop-breakdown-remaining">$0.00</span>
                 </div>
                 <div style="text-align: center; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border);">
@@ -1717,6 +1722,7 @@
                     <label class="label"><span class="label-text">Date <span style="font-size: 0.75rem; color: var(--text-secondary);">(Closed Mondays)</span></span><span class="required">*</span></label>
                     <input type="date" id="vip-ms-date" required class="input">
                 </div>
+                 <div class="form-group"><label class="label"><span class="label-text">Number of Guests</span><span class="required">*</span></label><input type="number" id="vip-ms-pax" min="4" max="47" value="4" required class="input" placeholder="Enter number of guests"></div>
                 <div class="form-group">
                     <label class="label"><span class="label-text">Time of Arrival</span><span class="required">*</span></label>
                     <select id="vip-ms-time" required class="input">
@@ -1724,15 +1730,7 @@
                         <option value="20:00">8:00 PM</option><option value="20:30">8:30 PM</option><option value="21:00">9:00 PM</option><option value="21:30">9:30 PM</option><option value="22:00">10:00 PM</option><option value="22:30">10:30 PM</option><option value="23:00">11:00 PM</option><option value="23:30">11:30 PM</option><option value="00:00">12:00 AM</option><option value="00:30">12:30 AM</option><option value="01:00">1:00 AM</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label class="label"><span class="label-text">Select Room</span><span class="required">*</span></label>
-                    <div class="radio-group">
-                        <label class="radio-label"><input type="radio" name="vip-ms-room" value="vip999" class="radio-input" required><span class="radio-custom"></span><span class="radio-text">VIP 999 (up to 47 guests) - <strong>$2,000</strong> Sun-Thu | <strong>$3,000</strong> Fri-Sat <span style="color: var(--text-secondary);">+ 10%</span></span></label>
-                        <label class="radio-label"><input type="radio" name="vip-ms-room" value="vip777" class="radio-input"><span class="radio-custom"></span><span class="radio-text">VIP 777 (up to 43 guests) - <strong>$2,000</strong> Sun-Thu | <strong>$3,000</strong> Fri-Sat <span style="color: var(--text-secondary);">+ 10%</span></span></label>
-                        <label class="radio-label"><input type="radio" name="vip-ms-room" value="vip666" class="radio-input"><span class="radio-custom"></span><span class="radio-text">VIP 666 (up to 32 guests) - <strong>$2,000</strong> Sun-Thu | <strong>$3,000</strong> Fri-Sat <span style="color: var(--text-secondary);">+ 10%</span></span></label>
-                        <label class="radio-label"><input type="radio" name="vip-ms-room" value="vip888" class="radio-input"><span class="radio-custom"></span><span class="radio-text">VIP 888 (up to 29 guests) - <strong>$2,000</strong> Sun-Thu | <strong>$3,000</strong> Fri-Sat <span style="color: var(--text-secondary);">+ 10%</span></span></label>
-                    </div>
-                </div>
+                
                 <div class="info-box"><strong>Note:</strong> All VIP rooms include private bathroom, balcony, and dedicated butler service. A 10% surcharge applies to all VIP bookings.</div>
                 <button type="submit" class="btn btn-primary">Continue to Add-ons →</button>
             </form>
@@ -1782,26 +1780,33 @@
                         <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-1')"><input type="checkbox" id="vip-addon-1" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/preorder-dining.png');"></div><div class="addon-card-content"><h3 class="addon-card-title">Preorder Dining</h3><p class="addon-card-price">+$25</p><p class="addon-card-description">Order in advance</p></div><div class="addon-card-checkmark">✓</div></div>
                         <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-2')"><input type="checkbox" id="vip-addon-2" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/preorder-beverages.png');"></div><div class="addon-card-content"><h3 class="addon-card-title">Preorder Beverages</h3><p class="addon-card-price">+$25</p><p class="addon-card-description">Order in advance</p></div><div class="addon-card-checkmark">✓</div></div>
                         <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-3'); toggleVIPCocktailMenu();"><input type="checkbox" id="vip-addon-3" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/preorder-beverages.png');"></div><div class="addon-card-content"><h3 class="addon-card-title">Cocktail on Arrival</h3><p class="addon-card-price">+$25pp</p><p class="addon-card-description">Prepared for arrival</p></div><div class="addon-card-checkmark">✓</div></div>
-                        <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-4')"><input type="checkbox" id="vip-addon-4" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/bluetooth.png');"></div><div class="addon-card-content"><h3 class="addon-card-title">Bluetooth Music</h3><p class="addon-card-price">+$89</p><p class="addon-card-description">Connect your device</p></div><div class="addon-card-checkmark">✓</div></div>
                     </div>
                     <div id="vip-cocktail-menu" style="display: none; margin-top: 1rem;"><div class="cocktail-menu"><label class="label"><span class="label-text">Select Your Cocktails</span></label><div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; margin-top: 0.75rem;"><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Espresso Martini</span></label><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Margarita</span></label><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Mojito</span></label><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Old Fashioned</span></label><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Cosmopolitan</span></label><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Mai Tai</span></label><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Long Island</span></label><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Piña Colada</span></label></div></div></div>
-                    <div class="addon-cards-grid" style="margin-top: 1rem;">
-                        <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-5')"><input type="checkbox" id="vip-addon-5" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/addons/dessert.jpg');"></div><div class="addon-card-content"><h3 class="addon-card-title">Dessert Platter</h3><p class="addon-card-price">+$159</p><p class="addon-card-description">For 3 people</p></div><div class="addon-card-checkmark">✓</div></div>
-                        <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-6')"><input type="checkbox" id="vip-addon-6" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/addons/champagne.jpg');"></div><div class="addon-card-content"><h3 class="addon-card-title">Champagne on Ice</h3><p class="addon-card-price">+$230</p><p class="addon-card-description">Awaiting in room</p></div><div class="addon-card-checkmark">✓</div></div>
-                        <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-7')"><input type="checkbox" id="vip-addon-7" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/addons/banquet.jpg');"></div><div class="addon-card-content"><h3 class="addon-card-title">6 x Dish Banquet</h3><p class="addon-card-price">+$234</p><p class="addon-card-description">6 Large Dishes</p></div><div class="addon-card-checkmark">✓</div></div>
-                        <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-8'); toggleVIPCocktailMenu12();"><input type="checkbox" id="vip-addon-8" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/addons/cocktails.jpg');"></div><div class="addon-card-content"><h3 class="addon-card-title">12 x Cocktail Package</h3><p class="addon-card-price">+$398</p><p class="addon-card-description">Selection of 12</p></div><div class="addon-card-checkmark">✓</div></div>
-                    </div>
-                    <div id="vip-cocktail-menu-12" style="display: none; margin-top: 1rem;"><div class="cocktail-menu"><label class="label"><span class="label-text">Select Your Cocktails (12 Total)</span></label><div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; margin-top: 0.75rem;"><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice-12"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Espresso Martini</span></label><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice-12"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Margarita</span></label><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice-12"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Mojito</span></label><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice-12"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Old Fashioned</span></label><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice-12"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Cosmopolitan</span></label><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice-12"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Mai Tai</span></label><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice-12"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Long Island</span></label><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice-12"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Piña Colada</span></label></div></div></div>
-                    <div class="addon-cards-grid" style="margin-top: 1rem;">
-                        <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-9')"><input type="checkbox" id="vip-addon-9" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/addons/vsop.jpg');"></div><div class="addon-card-content"><h3 class="addon-card-title">VSOP Package</h3><p class="addon-card-price">+$398</p><p class="addon-card-description">VSOP, 2 snacks, 2 soft drinks</p></div><div class="addon-card-checkmark">✓</div></div>
-                        <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-10')"><input type="checkbox" id="vip-addon-10" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/addons/photo.jpg');"></div><div class="addon-card-content"><h3 class="addon-card-title">Photo Moment</h3><p class="addon-card-price">+$400</p><p class="addon-card-description">10-15 photos</p></div><div class="addon-card-checkmark">✓</div></div>
-                        <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-11')"><input type="checkbox" id="vip-addon-11" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/addons/vodka.jpg');"></div><div class="addon-card-content"><h3 class="addon-card-title">Vodka Package</h3><p class="addon-card-price">+$424</p><p class="addon-card-description">Belvedere, snacks & drinks</p></div><div class="addon-card-checkmark">✓</div></div>
-                        <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-12')"><input type="checkbox" id="vip-addon-12" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/addons/decorations-basic.jpg');"></div><div class="addon-card-content"><h3 class="addon-card-title">Decorations Basic</h3><p class="addon-card-price">+$599</p><p class="addon-card-description">Balloon garland & more</p></div><div class="addon-card-checkmark">✓</div></div>
-                    </div>
-                    <div class="addon-cards-grid" style="margin-top: 1rem;">
-                        <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-13')"><input type="checkbox" id="vip-addon-13" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/addons/decorations-premium.jpg');"></div><div class="addon-card-content"><h3 class="addon-card-title">Decorations Premium</h3><p class="addon-card-price">+$999</p><p class="addon-card-description">LED sign & more</p></div><div class="addon-card-checkmark">✓</div></div>
-                        <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-14')"><input type="checkbox" id="vip-addon-14" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/addons/xo.jpg');"></div><div class="addon-card-content"><h3 class="addon-card-title">XO Package</h3><p class="addon-card-price">+$1,016</p><p class="addon-card-description">XO, fruit & snacks</p></div><div class="addon-card-checkmark">✓</div></div>
-                        <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-15')"><input type="checkbox" id="vip-addon-15" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/addons/dom-perignon.jpg');"></div><div class="addon-card-content"><h3 class="addon-card-title">Dom Perignon</h3><p class="addon-card-price">+$1,862</p><p class="addon-card-description">2 x Champagne, fruit & snacks</p></div><div class="addon-card-checkmark">✓</div></div>
+                    
+                    <button type="button" class="btn btn-secondary" onclick="toggleVIPMoreAddons()" style="margin-top: 1.5rem;">
+                        <span id="vip-more-addons-text">View More Add-ons ▼</span>
+                    </button>
+                    
+                    <div id="vip-more-addons" style="display: none; margin-top: 1.5rem;">
+                        <div class="addon-cards-grid">
+                            <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-4')"><input type="checkbox" id="vip-addon-4" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/bluetooth.png');"></div><div class="addon-card-content"><h3 class="addon-card-title">Bluetooth Music</h3><p class="addon-card-price">+$89</p><p class="addon-card-description">Connect your device</p></div><div class="addon-card-checkmark">✓</div></div>
+                            <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-5')"><input type="checkbox" id="vip-addon-5" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/addons/dessert.jpg');"></div><div class="addon-card-content"><h3 class="addon-card-title">Dessert Platter</h3><p class="addon-card-price">+$159</p><p class="addon-card-description">For 3 people</p></div><div class="addon-card-checkmark">✓</div></div>
+                            <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-6')"><input type="checkbox" id="vip-addon-6" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/addons/champagne.jpg');"></div><div class="addon-card-content"><h3 class="addon-card-title">Champagne on Ice</h3><p class="addon-card-price">+$230</p><p class="addon-card-description">Awaiting in room</p></div><div class="addon-card-checkmark">✓</div></div>
+                            <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-7')"><input type="checkbox" id="vip-addon-7" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/addons/banquet.jpg');"></div><div class="addon-card-content"><h3 class="addon-card-title">6 x Dish Banquet</h3><p class="addon-card-price">+$234</p><p class="addon-card-description">6 Large Dishes</p></div><div class="addon-card-checkmark">✓</div></div>
+                            <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-8'); toggleVIPCocktailMenu12();"><input type="checkbox" id="vip-addon-8" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/addons/cocktails.jpg');"></div><div class="addon-card-content"><h3 class="addon-card-title">12 x Cocktail Package</h3><p class="addon-card-price">+$398</p><p class="addon-card-description">Selection of 12</p></div><div class="addon-card-checkmark">✓</div></div>
+                        </div>
+                        <div id="vip-cocktail-menu-12" style="display: none; margin-top: 1rem;"><div class="cocktail-menu"><label class="label"><span class="label-text">Select Your Cocktails (12 Total)</span></label><div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; margin-top: 0.75rem;"><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice-12"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Espresso Martini</span></label><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice-12"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Margarita</span></label><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice-12"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Mojito</span></label><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice-12"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Old Fashioned</span></label><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice-12"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Cosmopolitan</span></label><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice-12"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Mai Tai</span></label><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice-12"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Long Island</span></label><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice-12"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Piña Colada</span></label></div></div></div>
+                        <div class="addon-cards-grid" style="margin-top: 1rem;">
+                            <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-9')"><input type="checkbox" id="vip-addon-9" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/addons/vsop.jpg');"></div><div class="addon-card-content"><h3 class="addon-card-title">VSOP Package</h3><p class="addon-card-price">+$398</p><p class="addon-card-description">VSOP, 2 snacks, 2 soft drinks</p></div><div class="addon-card-checkmark">✓</div></div>
+                            <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-10')"><input type="checkbox" id="vip-addon-10" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/addons/photo.jpg');"></div><div class="addon-card-content"><h3 class="addon-card-title">Photo Moment</h3><p class="addon-card-price">+$400</p><p class="addon-card-description">10-15 photos</p></div><div class="addon-card-checkmark">✓</div></div>
+                            <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-11')"><input type="checkbox" id="vip-addon-11" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/addons/vodka.jpg');"></div><div class="addon-card-content"><h3 class="addon-card-title">Vodka Package</h3><p class="addon-card-price">+$424</p><p class="addon-card-description">Belvedere, snacks & drinks</p></div><div class="addon-card-checkmark">✓</div></div>
+                            <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-12')"><input type="checkbox" id="vip-addon-12" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/addons/decorations-basic.jpg');"></div><div class="addon-card-content"><h3 class="addon-card-title">Decorations Basic</h3><p class="addon-card-price">+$599</p><p class="addon-card-description">Balloon garland & more</p></div><div class="addon-card-checkmark">✓</div></div>
+                        </div>
+                        <div class="addon-cards-grid" style="margin-top: 1rem;">
+                            <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-13')"><input type="checkbox" id="vip-addon-13" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/addons/decorations-premium.jpg');"></div><div class="addon-card-content"><h3 class="addon-card-title">Decorations Premium</h3><p class="addon-card-price">+$999</p><p class="addon-card-description">LED sign & more</p></div><div class="addon-card-checkmark">✓</div></div>
+                            <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-14')"><input type="checkbox" id="vip-addon-14" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/addons/xo.jpg');"></div><div class="addon-card-content"><h3 class="addon-card-title">XO Package</h3><p class="addon-card-price">+$1,016</p><p class="addon-card-description">XO, fruit & snacks</p></div><div class="addon-card-checkmark">✓</div></div>
+                            <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-15')"><input type="checkbox" id="vip-addon-15" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/addons/dom-perignon.jpg');"></div><div class="addon-card-content"><h3 class="addon-card-title">Dom Perignon</h3><p class="addon-card-price">+$1,862</p><p class="addon-card-description">2 x Champagne, fruit & snacks</p></div><div class="addon-card-checkmark">✓</div></div>
+                        </div>
                     </div>
                 </div>
                 <div class="summary-card"><h3>Booking Total</h3><div class="summary-row"><span class="summary-label">Room/Package:</span><span class="summary-value" id="vip-base-cost">$0</span></div><div class="summary-row"><span class="summary-label">Add-ons:</span><span class="summary-value" id="vip-addons-cost">$0</span></div><div class="summary-row deposit-row"><span class="summary-label">Full Booking Total:</span><span class="summary-value deposit-amount" id="vip-total-cost">$0</span></div></div>
@@ -2098,7 +2103,7 @@
                     <span class="summary-value" style="color: var(--primary); font-weight: 600;" id="confirm-deposit">$0.00</span>
                 </div>
                 <div class="summary-row">
-                    <span class="summary-label">Remaining Balance:</span>
+                    <span class="summary-label">Remaining Balance: </span>
                     <span class="summary-value remaining-balance-highlight" id="confirm-remaining">$0.00</span>
                 </div>
                 <div style="text-align: center; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid rgba(255, 255, 255, 0.1);">
@@ -2134,10 +2139,14 @@
     <button onclick="toggleCreditInfo()">Got it</button>
   </div>
 </div>
+
 <div id="rooftopInfoModal" class="info-modal" style="display:none;">
   <div class="info-modal-content">
-    <p id="rooftop-info-text"></p>
-    <button onclick="document.getElementById('rooftopInfoModal').style.display='none'">Got it</button>
+    <p>
+      Say you booked a table for 2, your minimum spend will be <strong>$100</strong>.<br><br>
+      That means your <strong>bill</strong>at the end of the night must be at least <strong>$100</strong>. <br> <strong></strong>Deposit Paying</strong> is what you have to pay to secure your booking, this amount goes to your minimum spend. <br><strong>Remaining Balance</strong> is what you have to spend to reach your minimum spend.
+    </p>
+    <button onclick="toggleRooftopInfo()">Got it</button>
   </div>
 </div>
 </body>

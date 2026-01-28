@@ -1467,14 +1467,10 @@ document.getElementById('vip-minspend-form').addEventListener('submit', function
     bookingData.vip.minSpend.email = document.getElementById('vip-ms-email').value;
     bookingData.vip.minSpend.date = document.getElementById('vip-ms-date').value;
     bookingData.vip.minSpend.time = document.getElementById('vip-ms-time').value;
+    bookingData.vip.minSpend.pax = document.getElementById('vip-ms-pax').value;
+   
     
-    const roomRadio = document.querySelector('input[name="vip-ms-room"]:checked');
-    if (!roomRadio) {
-        alert('Please select a room');
-        return;
-    }
-    bookingData.vip.minSpend.room = roomRadio.value;
-    bookingData.vip.minSpend.pax = PRICING.vip.rooms[roomRadio.value].capacity;
+   
     
     console.log('VIP minspend details:', bookingData.vip.minSpend);
     
@@ -1674,7 +1670,7 @@ function updateVIPTermsSummary() {
                   ' at ' + dateObj.toLocaleTimeString('en-AU', {hour: '2-digit', minute: '2-digit'});
         
         const roomInfo = PRICING.vip.rooms[bookingData.vip.minSpend.room];
-        detailsText = `${roomInfo.name} (up to ${roomInfo.capacity} guests)`;
+        detailsText = `${bookingData.vip.minSpend.pax} guests`;
         addons = bookingData.vip.minSpend.addons.map(a => `${a.name} (+$${a.price})`);
         
         // Calculate total
@@ -1821,7 +1817,7 @@ function updateVIPConfirmation() {
         datetimeText = dateObj.toLocaleDateString('en-AU', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}) +
                       ' at ' + dateObj.toLocaleTimeString('en-AU', {hour: '2-digit', minute: '2-digit'});
         const roomInfo = PRICING.vip.rooms[bookingData.vip.minSpend.room];
-        detailsText = `${roomInfo.name} (up to ${roomInfo.capacity} guests)`;
+        detailsText = `${bookingData.vip.minSpend.pax} guests`;
     } else {
         experienceText = 'VIP Room - Premium Package';
         const dateObj = new Date(bookingData.vip.package.date + 'T' + bookingData.vip.package.time);
@@ -2215,6 +2211,11 @@ function toggleCreditInfo(e) {
   const modal = document.getElementById('creditInfoModal');
   modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
 }
+function toggleRooftopInfo(e) {
+  if (e) e.stopPropagation();
+  const modal = document.getElementById('rooftopInfoModal');
+  modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+}
 
 // Toggle cocktail menu for rooftop "12 x Cocktail Package"
 function toggleRooftopCocktailPackageMenu() {
@@ -2245,7 +2246,8 @@ function resetBooking(){
         email: '',
         phone: '',
         contactHours: '',
-        specialRequests: ''
+        specialRequests: '',
+        addons:[]
     },
         vip: {
             bookingType: '', // 'minspend' or 'package'
@@ -2291,3 +2293,28 @@ function resetBooking(){
     showPage('page-selection');
 }
 
+// Toggle for rooftop more add-ons
+function toggleRooftopMoreAddons() {
+    const moreAddons = document.getElementById('rooftop-more-addons');
+    const btnText = document.getElementById('rooftop-more-addons-text');
+    if (moreAddons.style.display === 'none' || moreAddons.style.display === '') {
+        moreAddons.style.display = 'block';
+        btnText.textContent = 'View Less Add-ons ▲';
+    } else {
+        moreAddons.style.display = 'none';
+        btnText.textContent = 'View More Add-ons ▼';
+    }
+}
+
+// Toggle for VIP more add-ons
+function toggleVIPMoreAddons() {
+    const moreAddons = document.getElementById('vip-more-addons');
+    const btnText = document.getElementById('vip-more-addons-text');
+    if (moreAddons.style.display === 'none' || moreAddons.style.display === '') {
+        moreAddons.style.display = 'block';
+        btnText.textContent = 'View Less Add-ons ▲';
+    } else {
+        moreAddons.style.display = 'none';
+        btnText.textContent = 'View More Add-ons ▼';
+    }
+}
