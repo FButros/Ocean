@@ -1445,3 +1445,13 @@ textarea.input {
         font-size: 16px !important;
     }
 }
+
+#rooftop-total-deposit {
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.summary-row .info-circle {
+    margin-left: 0.5rem;
+    cursor: pointer;
+}

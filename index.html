@@ -1302,7 +1302,27 @@
                     </label>
                     <input type="number" id="rooftop-pax" min="1" required class="input">
                 </div>
-                
+                <div class="form-group">
+                    <label class="label">
+                        <span class="label-text">Smoking Preference</span>
+                        <span class="required">*</span>
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="rooftop-smoking" value="non-smoking" class="radio-input" checked required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Non-Smoking Area (Default)</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="rooftop-smoking" value="smoking" class="radio-input">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Smoking Allowed Area</span>
+                        </label>
+                    </div>
+                    <div class="info-box" style="margin-top: 1rem; font-size: 0.85rem;">
+                        <strong>Note:</strong> Non-smoking is the default and recommended option. Smoking areas are limited and subject to availability.
+                    </div>
+                </div>
                 <div class="form-group">
                     <label class="label">
                         <span class="label-text">Session Time</span>
@@ -1387,7 +1407,7 @@
                     
                     <div class="addon-cards-grid">
                         <div class="addon-card" data-addon-id="rooftop-addon-1" onclick="toggleAddonCard(this, 'rooftop-addon-1')">
-                            <input type="checkbox" id="rooftop-addon-1" class="addon-card-checkbox" style="display: none;">
+                            <input type="checkbox" id="rooftop-addon-1" class="addon-card-checkbox" onchange="updateRooftopAddonsTotal()" style="display: none;">
                             <div class="addon-card-image" style="background-image: url('assets/preorder-dining.png');"></div>
                             <div class="addon-card-content">
                                 <h3 class="addon-card-title">Preorder Dining</h3>
@@ -1398,7 +1418,7 @@
                         </div>
                         
                         <div class="addon-card" data-addon-id="rooftop-addon-2" onclick="toggleAddonCard(this, 'rooftop-addon-2')">
-                            <input type="checkbox" id="rooftop-addon-2" class="addon-card-checkbox" style="display: none;">
+                            <input type="checkbox" id="rooftop-addon-2" class="addon-card-checkbox" onchange="updateRooftopAddonsTotal()" style="display: none;">
                             <div class="addon-card-image" style="background-image: url('assets/preorder-beverages.png');"></div>
                             <div class="addon-card-content">
                                 <h3 class="addon-card-title">Preorder Beverages</h3>
@@ -1409,7 +1429,7 @@
                         </div>
                         
                         <div class="addon-card" data-addon-id="rooftop-addon-4" onclick="toggleAddonCard(this, 'rooftop-addon-4')">
-                            <input type="checkbox" id="rooftop-addon-4" class="addon-card-checkbox" style="display: none;">
+                            <input type="checkbox" id="rooftop-addon-4" class="addon-card-checkbox" onchange="updateRooftopAddonsTotal()" style="display: none;">
                             <div class="addon-card-image" style="background-image: url('assets/addons/share-tower.jpg');"></div>
                             <div class="addon-card-content">
                                 <h3 class="addon-card-title">Share Tower</h3>
@@ -1420,7 +1440,7 @@
                         </div>
 
                         <div class="addon-card" data-addon-id="rooftop-addon-5" onclick="toggleAddonCard(this, 'rooftop-addon-5')">
-                            <input type="checkbox" id="rooftop-addon-5" class="addon-card-checkbox" style="display: none;">
+                            <input type="checkbox" id="rooftop-addon-5" class="addon-card-checkbox" onchange="updateRooftopAddonsTotal()" style="display: none;">
                             <div class="addon-card-image" style="background-image: url('assets/addons/date-night.jpg');"></div>
                             <div class="addon-card-content">
                                 <h3 class="addon-card-title">Date Night Share Tower</h3>
@@ -1431,7 +1451,7 @@
                         </div>
                         
                         <div class="addon-card" data-addon-id="rooftop-addon-6" onclick="toggleAddonCard(this, 'rooftop-addon-6')">
-                            <input type="checkbox" id="rooftop-addon-6" class="addon-card-checkbox" style="display: none;">
+                            <input type="checkbox" id="rooftop-addon-6" class="addon-card-checkbox" onchange="updateRooftopAddonsTotal()" style="display: none;">
                             <div class="addon-card-image" style="background-image: url('assets/addons/dessert.jpg');"></div>
                             <div class="addon-card-content">
                                 <h3 class="addon-card-title">Dessert Platter for 3</h3>
@@ -1442,7 +1462,7 @@
                         </div>
                         
                         <div class="addon-card" data-addon-id="rooftop-addon-7" onclick="toggleAddonCard(this, 'rooftop-addon-7')">
-                            <input type="checkbox" id="rooftop-addon-7" class="addon-card-checkbox" style="display: none;">
+                            <input type="checkbox" id="rooftop-addon-7" class="addon-card-checkbox" onchange="updateRooftopAddonsTotal()" style="display: none;">
                             <div class="addon-card-image" style="background-image: url('assets/addons/champagne.jpg');"></div>
                             <div class="addon-card-content">
                                 <h3 class="addon-card-title">Champagne on Ice</h3>
@@ -1453,7 +1473,7 @@
                         </div>
                         
                         <div class="addon-card" data-addon-id="rooftop-addon-8" onclick="toggleAddonCard(this, 'rooftop-addon-8')">
-                            <input type="checkbox" id="rooftop-addon-8" class="addon-card-checkbox" style="display: none;">
+                            <input type="checkbox" id="rooftop-addon-8" class="addon-card-checkbox" onchange="updateRooftopAddonsTotal()" style="display: none;">
                             <div class="addon-card-image" style="background-image: url('assets/addons/banquet.jpg');"></div>
                             <div class="addon-card-content">
                                 <h3 class="addon-card-title">6 x Dish Banquet</h3>
@@ -1466,12 +1486,23 @@
                         
                     </div>
                     
-                    <div class="addon-cards-grid" style="margin-top: 1.5rem;">
-                        
-                        
+                    
+                </div>
+                
+                <div class="summary-card">
+                    <h3>Booking Total</h3>
+                    <div class="summary-row">
+                        <span class="summary-label">Minimum Spend ($50/person):</span>
+                        <span class="summary-value" id="rt-min-spend-cost">$0</span>
                     </div>
-                    
-                    
+                    <div class="summary-row">
+                        <span class="summary-label">Add-ons:</span>
+                        <span class="summary-value" id="rt-addons-cost">$0</span>
+                    </div>
+                    <div class="summary-row deposit-row">
+                        <span class="summary-label">Full Booking Total:</span>
+                        <span class="summary-value deposit-amount" id="rt-total-cost">$0</span>
+                    </div>
                 </div>
                 
                 <button type="submit" class="btn btn-primary">Continue to Terms →</button>
@@ -1512,9 +1543,9 @@
                     <span class="summary-label">Add-ons:</span>
                     <span class="summary-value" id="rooftop-summary-addons"></span>
                 </div>
-                <div class="summary-row" style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 0.75rem; margin-top: 0.75rem; font-size: 1.1rem;">
-                    <span class="summary-label"><strong>Total Deposit:</strong></span>
-                    <span class="summary-value" style="color: var(--primary); font-weight: 600;" id="rooftop-summary-total">$0.00</span>
+                <div class="summary-row deposit-row" id="rooftop-summary-total-row">
+                    <span class="summary-label">Total:</span>
+                    <span class="summary-value deposit-amount" id="rooftop-summary-total">$0</span>
                 </div>
             </div>
             
@@ -1565,19 +1596,38 @@
         <div class="container">
             <h1>Complete Payment</h1>
             
-            <div class="summary-card">
-                <h3>Payment Summary</h3>
+            <div class="info-box">
+                <strong>Deposit Information:</strong>
+                You can pay 20% minimum deposit, or use the slider below to adjust the amount up to the full price.
+            </div>
+            
+            <div class="form-group">
+                <label class="label">
+                    <span class="label-text">Deposit Amount: $<span id="rooftop-slider-amount">0</span></span>
+                </label>
+                <input type="range" id="rooftop-payment-slider" class="payment-slider" min="20" max="100" value="20" step="1">
+                <div class="slider-labels">
+                    <span>20% (Minimum)</span>
+                    <span>100% (Full Payment)</span>
+                </div>
+            </div>
+            
+            <div class="payment-breakdown-card">
+                <h3 style="font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary); text-align: center;">Payment Breakdown</h3>
                 <div class="summary-row">
-                    <span class="summary-label">Guests:</span>
-                    <span class="summary-value" id="rooftop-payment-pax"></span>
+                    <span class="summary-label">Total Amount:</span>
+                    <span class="summary-value" id="rooftop-breakdown-total">$0.00</span>
+                </div>
+                <div class="summary-row" style="border-top: 1px solid var(--border); padding-top: 0.75rem; margin-top: 0.75rem;">
+                    <span class="summary-label">Deposit (Paying Now):</span>
+                    <span class="summary-value" style="color: var(--primary); font-weight: 600;" id="rooftop-breakdown-deposit">$0.00</span>
                 </div>
                 <div class="summary-row">
-                    <span class="summary-label">Deposit per person:</span>
-                    <span class="summary-value">$50.00</span>
+                    <span class="summary-label">Remaining Balance:</span>
+                    <span class="summary-value" id="rooftop-breakdown-remaining">$0.00</span>
                 </div>
-                <div class="summary-row deposit-row">
-                    <span class="summary-label">Total Deposit:</span>
-                    <span class="summary-value deposit-amount" id="rooftop-deposit-amount">$0.00</span>
+                <div style="text-align: center; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border);">
+                    <span style="font-size: 0.85rem; color: var(--text-secondary);">Balance due on arrival</span>
                 </div>
             </div>
             
@@ -2020,6 +2070,10 @@
                     <span class="summary-label">Details:</span>
                     <span class="summary-value" id="confirm-details"></span>
                 </div>
+                <div class="summary-row" id="smoking-summary-row" style="display: none;">
+    <span class="summary-label">Smoking Preference:</span>
+    <span class="summary-value" id="confirm-rooftop-smoking">Non-Smoking Area (Default)</span>
+</div>
             </div>
             
             <div class="summary-card" id="payment-summary" style="display: none; margin-top: 1.5rem;">
@@ -2069,6 +2123,11 @@
     <button onclick="toggleCreditInfo()">Got it</button>
   </div>
 </div>
-
+<div id="rooftopInfoModal" class="info-modal" style="display:none;">
+  <div class="info-modal-content">
+    <p id="rooftop-info-text"></p>
+    <button onclick="document.getElementById('rooftopInfoModal').style.display='none'">Got it</button>
+  </div>
+</div>
 </body>
 </html>

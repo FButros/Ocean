@@ -1,8 +1,8 @@
 // Global state
 let bookingData = {
     experience: '',
-        vipTour: {},
-        events: {},
+    vipTour: {},
+    events: {},
     // Rooftop specific
     rooftop: {
         date: '',
@@ -11,24 +11,10 @@ let bookingData = {
         name: '',
         phone: '',
         email: '',
-        addons: []
+        addons: [],
+        smoking: 'non-smoking'
     },
     // Karaoke specific
-    // VIP Room specific
-    vip: {
-        date: '',
-        time: '',
-        pax: '',
-        name: '',
-        email: '',
-        phone: '',
-        contactHours: '',
-        specialRequests: ''
-    },
-        vip: {
-            date: '', time: '', pax: '', name: '', email: '', phone: '',
-            contactHours: '', specialRequests: ''
-        },
     karaoke: {
         bookingType: '', // 'night', 'session', or 'package'
         // Night booking
@@ -64,6 +50,17 @@ let bookingData = {
             addons: [],
             allNightUpgrade: false
         }
+    },
+    // VIP Room specific
+    vip: {
+        date: '',
+        time: '',
+        pax: '',
+        name: '',
+        email: '',
+        phone: '',
+        contactHours: '',
+        specialRequests: ''
     }
 };
 
@@ -82,21 +79,6 @@ const PRICING = {
             cocktailPackage: 398
         }
     },
-    // VIP Room specific
-    vip: {
-        date: '',
-        time: '',
-        pax: '',
-        name: '',
-        email: '',
-        phone: '',
-        contactHours: '',
-        specialRequests: ''
-    },
-        vip: {
-            date: '', time: '', pax: '', name: '', email: '', phone: '',
-            contactHours: '', specialRequests: ''
-        },
     karaoke: {
         night: {
             rooms: {
@@ -222,7 +204,7 @@ function selectExperience(experience) {
     console.log('Selected experience:', experience);
     bookingData.experience = experience;
     pageHistory.push('page-selection');
-    
+   
     if (experience === 'karaoke') {
         showPage('page-karaoke-type');
     } else if (experience === 'rooftop') {
@@ -231,15 +213,15 @@ function selectExperience(experience) {
     } else if (experience === 'vip') {
         showPage('page-vip-details');
         document.getElementById('vip-date').min = new Date().toISOString().split('T')[0];
-        
+       
     } else if (experience === 'vip-tour') {
         showPage('page-vip-tour');
         document.getElementById('tour-date').min = new Date().toISOString().split('T')[0];
-        
+       
     } else if (experience === 'events') {
         showPage('page-events');
         document.getElementById('event-date').min = new Date().toISOString().split('T')[0];
-        
+       
     }
 }
 
@@ -252,7 +234,7 @@ function selectKaraokeType(type) {
     console.log('Selected karaoke type:', type);
     bookingData.karaoke.bookingType = type;
     pageHistory.push('page-karaoke-type');
-    
+   
     if (type === 'night') {
         showPage('page-karaoke-night-details');
         document.getElementById('kn-date').min = new Date().toISOString().split('T')[0];
@@ -267,34 +249,34 @@ function selectKaraokeType(type) {
 // === KARAOKE NIGHT BOOKING ===
 document.getElementById('karaoke-night-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    
+   
     bookingData.karaoke.night.name = document.getElementById('kn-name').value;
     bookingData.karaoke.night.phone = document.getElementById('kn-phone').value;
     bookingData.karaoke.night.email = document.getElementById('kn-email').value;
     bookingData.karaoke.night.date = document.getElementById('kn-date').value;
     bookingData.karaoke.night.time = document.getElementById('kn-time').value;
-    
+   
     const roomSizeRadio = document.querySelector('input[name="kn-room-size"]:checked');
     if (!roomSizeRadio) {
         alert('Please select a room size');
         return;
     }
     bookingData.karaoke.night.roomSize = roomSizeRadio.value;
-    
+   
     console.log('Karaoke night details:', bookingData.karaoke.night);
-    
+   
     pageHistory.push('page-karaoke-night-details');
     showPage('page-karaoke-night-upgrades');
 });
 
 document.getElementById('karaoke-night-upgrades-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    
+   
     const roomSizeRadio = document.querySelector('input[name="kn-room-size"]:checked');
     const pax = roomSizeRadio.value === 'small' ? 6 : (roomSizeRadio.value === 'medium' ? 8 : 12);
-    
+   
     bookingData.karaoke.night.addons = [];
-    
+   
     if (document.getElementById('kn-addon-1').checked) {
         bookingData.karaoke.night.addons.push({
             name: 'Decorations Basic Package',
@@ -345,9 +327,9 @@ document.getElementById('karaoke-night-upgrades-form').addEventListener('submit'
             price: PRICING.karaoke.night.addons.bluetoothMusic
         });
     }
-    
+   
     console.log('Karaoke night addons:', bookingData.karaoke.night.addons);
-    
+   
     pageHistory.push('page-karaoke-night-upgrades');
     showPage('page-karaoke-terms');
     updateKaraokeTermsSummary();
@@ -362,11 +344,11 @@ function updateSessionPricing() {
     const timeInput = document.getElementById('ks-time');
     const hoursSelect = document.getElementById('ks-hours');
     const pricingNote = document.getElementById('pricing-note');
-    
+   
     const pax = parseInt(paxSelect.value);
     const date = dateInput.value;
     const time = timeInput.value;
-    
+   
     // Check if pax and date are selected (time is optional for initial load)
     if (!pax || !date) {
         hoursSelect.disabled = true;
@@ -374,11 +356,11 @@ function updateSessionPricing() {
         pricingNote.textContent = '';
         return;
     }
-    
+   
     // Determine if it's a weekend (Friday=5, Saturday=6) or weekday
     const selectedDate = new Date(date + 'T00:00:00');
     const dayOfWeek = selectedDate.getDay(); // 0=Sunday, 1=Monday, ..., 6=Saturday
-    
+   
     // Check if Monday (closed)
     if (dayOfWeek === 1) {
         hoursSelect.disabled = true;
@@ -387,13 +369,13 @@ function updateSessionPricing() {
         pricingNote.style.color = 'var(--error, #ff6b6b)';
         return;
     }
-    
+   
     const isWeekend = (dayOfWeek === 5 || dayOfWeek === 6); // Friday or Saturday
     const priceTable = isWeekend ? PRICING.karaoke.session.weekend : PRICING.karaoke.session.weekday;
-    
+   
     // Get pricing for this number of guests
     const guestPricing = priceTable[pax];
-    
+   
     // Determine closing time based on day of week
     let closingHour;
     if (dayOfWeek === 5 || dayOfWeek === 6) {
@@ -403,30 +385,30 @@ function updateSessionPricing() {
         // Tuesday, Wednesday, Thursday, Sunday: closes at 3:30am
         closingHour = 3.5;
     }
-    
+   
     // Calculate maximum available hours based on start time
     let maxHours = 6; // Default maximum
     if (time) {
         // Parse the selected time
         const [hours, minutes] = time.split(':').map(Number);
-        
+       
         // Convert to 24-hour format considering times after midnight
         let startHour = hours + (minutes / 60);
-        
+       
         // If time is before 8pm, assume it's after midnight (e.g., 1:00 AM)
         if (hours < 8) {
             startHour = hours + 24 + (minutes / 60);
         }
-        
+       
         // Calculate closing time (next day early morning)
         const closingTime = 24 + closingHour;
-        
+       
         // Calculate available hours until closing
         const availableHours = closingTime - startHour;
-        
+       
         // Round down to nearest 0.5 hour and cap at 6
         maxHours = Math.min(6, Math.floor(availableHours * 2) / 2);
-        
+       
         // Minimum is 2 hours
         if (maxHours < 2) {
             hoursSelect.disabled = true;
@@ -436,11 +418,11 @@ function updateSessionPricing() {
             return;
         }
     }
-    
+   
     // Build the hours dropdown with pricing
     hoursSelect.disabled = false;
     hoursSelect.innerHTML = '<option value="">Select duration...</option>';
-    
+   
     // Add options for 2 hours up to maxHours
     for (let hours = 2; hours <= Math.min(6, Math.floor(maxHours)); hours++) {
         const price = guestPricing[hours];
@@ -450,34 +432,34 @@ function updateSessionPricing() {
         option.setAttribute('data-price', price);
         hoursSelect.appendChild(option);
     }
-    
+   
     // Update pricing note
     const dayType = isWeekend ? 'Weekend' : 'Weekday';
     let noteText = `${dayType} pricing for ${pax} guest${pax > 1 ? 's' : ''}`;
-    
+   
     if (time && maxHours < 6) {
         const closingTimeText = closingHour === 4.5 ? '4:30am' : '3:30am';
         noteText += ` (closes at ${closingTimeText})`;
     }
-    
+   
     pricingNote.textContent = noteText;
     pricingNote.style.color = 'var(--text-secondary)';
 }
 
 document.getElementById('karaoke-session-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    
+   
     const hoursSelect = document.getElementById('ks-hours');
     const hours = parseInt(hoursSelect.value);
     if (hours < 2) {
         alert('Minimum 2 hours required for session booking');
         return;
     }
-    
+   
     // Get the price from the selected option's data attribute
     const selectedOption = hoursSelect.options[hoursSelect.selectedIndex];
     const price = parseFloat(selectedOption.getAttribute('data-price'));
-    
+   
     bookingData.karaoke.session.date = document.getElementById('ks-date').value;
     bookingData.karaoke.session.time = document.getElementById('ks-time').value;
     bookingData.karaoke.session.hours = hours;
@@ -486,18 +468,18 @@ document.getElementById('karaoke-session-form').addEventListener('submit', funct
     bookingData.karaoke.session.name = document.getElementById('ks-name').value;
     bookingData.karaoke.session.phone = document.getElementById('ks-phone').value;
     bookingData.karaoke.session.email = document.getElementById('ks-email').value;
-    
+   
     console.log('Karaoke session details:', bookingData.karaoke.session);
-    
+   
     pageHistory.push('page-karaoke-session-details');
     showPage('page-karaoke-session-upgrades');
 });
 
 document.getElementById('karaoke-session-upgrades-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    
+   
     bookingData.karaoke.session.addons = [];
-    
+   
     if (document.getElementById('ks-addon-1').checked) {
         bookingData.karaoke.session.addons.push({
             name: 'Decorations Basic Package',
@@ -580,9 +562,9 @@ document.getElementById('karaoke-session-upgrades-form').addEventListener('submi
             price: PRICING.karaoke.session.addons.bluetoothMusic
         });
     }
-    
+   
     console.log('Karaoke session addons:', bookingData.karaoke.session.addons);
-    
+   
     pageHistory.push('page-karaoke-session-upgrades');
     showPage('page-karaoke-terms');
     updateKaraokeTermsSummary();
@@ -593,10 +575,10 @@ function selectPackage(packageType) {
     console.log('Selected package:', packageType);
     bookingData.karaoke.package.packageType = packageType;
     pageHistory.push('page-karaoke-package-select');
-    
+   
     showPage('page-karaoke-package-details');
     document.getElementById('kp-date').min = new Date().toISOString().split('T')[0];
-    
+   
     // Update title and set min/max pax based on package
     const titles = {
         'cocktail': 'Cocktail Package',
@@ -604,7 +586,7 @@ function selectPackage(packageType) {
         'diamond': 'Diamond Package'
     };
     document.getElementById('kp-package-title').textContent = titles[packageType];
-    
+   
     // Set pax limits
     const paxInput = document.getElementById('kp-pax');
     if (packageType === 'cocktail') {
@@ -624,10 +606,10 @@ function selectPackage(packageType) {
 
 document.getElementById('karaoke-package-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    
+   
     const pax = parseInt(document.getElementById('kp-pax').value);
     const packageType = bookingData.karaoke.package.packageType;
-    
+   
     // Validate pax count
     if (packageType === 'cocktail' && (pax < 3 || pax > 6)) {
         alert('Cocktail Package is for 3-6 guests');
@@ -639,35 +621,35 @@ document.getElementById('karaoke-package-form').addEventListener('submit', funct
         alert('Diamond Package is for 8-14 guests');
         return;
     }
-    
+   
     bookingData.karaoke.package.date = document.getElementById('kp-date').value;
     bookingData.karaoke.package.name = document.getElementById('kp-name').value;
     bookingData.karaoke.package.phone = document.getElementById('kp-phone').value;
     bookingData.karaoke.package.email = document.getElementById('kp-email').value;
     bookingData.karaoke.package.pax = pax;
-    
+   
     console.log('Karaoke package details:', bookingData.karaoke.package);
-    
+   
     pageHistory.push('page-karaoke-package-details');
     showPage('page-karaoke-package-addons');
-    
+   
     // Show/hide all night upgrade option for Signature package
     if (packageType === 'signature') {
         document.getElementById('kp-allnight-option').style.display = 'block';
     } else {
         document.getElementById('kp-allnight-option').style.display = 'none';
     }
-    
+   
     // Initialize total display
     updatePackageTotal();
 });
 
 document.getElementById('karaoke-package-addons-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    
+   
     bookingData.karaoke.package.addons = [];
     const pax = bookingData.karaoke.package.pax;
-    
+   
     // All night upgrade
     if (document.getElementById('kp-addon-allnight') && document.getElementById('kp-addon-allnight').checked) {
         bookingData.karaoke.package.addons.push({
@@ -676,7 +658,7 @@ document.getElementById('karaoke-package-addons-form').addEventListener('submit'
         });
         bookingData.karaoke.package.allNightUpgrade = true;
     }
-    
+   
     // Preorder Dining
     if (document.getElementById('kp-addon-dining').checked) {
         bookingData.karaoke.package.addons.push({
@@ -684,7 +666,7 @@ document.getElementById('karaoke-package-addons-form').addEventListener('submit'
             price: PRICING.karaoke.package.addons.preorderDining
         });
     }
-    
+   
     // Cocktail on Arrival
     if (document.getElementById('kp-addon-cocktail').checked) {
         bookingData.karaoke.package.addons.push({
@@ -692,7 +674,7 @@ document.getElementById('karaoke-package-addons-form').addEventListener('submit'
             price: PRICING.karaoke.package.addons.cocktailOnArrival * pax
         });
     }
-    
+   
     // Bluetooth Music
     if (document.getElementById('kp-addon-bluetooth').checked) {
         bookingData.karaoke.package.addons.push({
@@ -700,7 +682,7 @@ document.getElementById('karaoke-package-addons-form').addEventListener('submit'
             price: PRICING.karaoke.package.addons.bluetoothMusic
         });
     }
-    
+   
     // Dessert Platter
     if (document.getElementById('kp-addon-dessert').checked) {
         bookingData.karaoke.package.addons.push({
@@ -708,7 +690,7 @@ document.getElementById('karaoke-package-addons-form').addEventListener('submit'
             price: PRICING.karaoke.package.addons.dessertPlatter
         });
     }
-    
+   
     // Champagne on Ice
     if (document.getElementById('kp-addon-champagne').checked) {
         bookingData.karaoke.package.addons.push({
@@ -716,7 +698,7 @@ document.getElementById('karaoke-package-addons-form').addEventListener('submit'
             price: PRICING.karaoke.package.addons.champagneOnIce
         });
     }
-    
+   
     // 6 Dish Banquet
     if (document.getElementById('kp-addon-banquet').checked) {
         bookingData.karaoke.package.addons.push({
@@ -724,7 +706,7 @@ document.getElementById('karaoke-package-addons-form').addEventListener('submit'
             price: PRICING.karaoke.package.addons.dishBanquet
         });
     }
-    
+   
     // 12 Cocktail Package
     if (document.getElementById('kp-addon-cocktails12').checked) {
         bookingData.karaoke.package.addons.push({
@@ -732,7 +714,7 @@ document.getElementById('karaoke-package-addons-form').addEventListener('submit'
             price: PRICING.karaoke.package.addons.cocktailPackage
         });
     }
-    
+   
     // VSOP Bottle Package
     if (document.getElementById('kp-addon-vsop').checked) {
         bookingData.karaoke.package.addons.push({
@@ -740,7 +722,7 @@ document.getElementById('karaoke-package-addons-form').addEventListener('submit'
             price: PRICING.karaoke.package.addons.vsopBottle
         });
     }
-    
+   
     // Professional Photo
     if (document.getElementById('kp-addon-photo').checked) {
         bookingData.karaoke.package.addons.push({
@@ -748,7 +730,7 @@ document.getElementById('karaoke-package-addons-form').addEventListener('submit'
             price: PRICING.karaoke.package.addons.professionalPhoto
         });
     }
-    
+   
     // Vodka Bottle Package
     if (document.getElementById('kp-addon-vodka').checked) {
         bookingData.karaoke.package.addons.push({
@@ -756,7 +738,7 @@ document.getElementById('karaoke-package-addons-form').addEventListener('submit'
             price: PRICING.karaoke.package.addons.vodkaBottle
         });
     }
-    
+   
     // Decorations Basic
     if (document.getElementById('kp-addon-deco-basic').checked) {
         bookingData.karaoke.package.addons.push({
@@ -764,7 +746,7 @@ document.getElementById('karaoke-package-addons-form').addEventListener('submit'
             price: PRICING.karaoke.package.addons.decorationsBasic
         });
     }
-    
+   
     // Decorations Premium
     if (document.getElementById('kp-addon-deco-premium').checked) {
         bookingData.karaoke.package.addons.push({
@@ -772,7 +754,7 @@ document.getElementById('karaoke-package-addons-form').addEventListener('submit'
             price: PRICING.karaoke.package.addons.decorationsPremium
         });
     }
-    
+   
     // XO Bottle Package
     if (document.getElementById('kp-addon-xo').checked) {
         bookingData.karaoke.package.addons.push({
@@ -780,7 +762,7 @@ document.getElementById('karaoke-package-addons-form').addEventListener('submit'
             price: PRICING.karaoke.package.addons.xoBottle
         });
     }
-    
+   
     // Dom Perignon Package
     if (document.getElementById('kp-addon-dom').checked) {
         bookingData.karaoke.package.addons.push({
@@ -788,9 +770,9 @@ document.getElementById('karaoke-package-addons-form').addEventListener('submit'
             price: PRICING.karaoke.package.addons.domPerignonPackage
         });
     }
-    
+   
     console.log('Karaoke package addons:', bookingData.karaoke.package.addons);
-    
+   
     pageHistory.push('page-karaoke-package-addons');
     showPage('page-karaoke-terms');
     updateKaraokeTermsSummary();
@@ -799,51 +781,51 @@ document.getElementById('karaoke-package-addons-form').addEventListener('submit'
 // Update karaoke terms summary
 function updateKaraokeTermsSummary() {
     const bookingType = bookingData.karaoke.bookingType;
-    
+   
     let experienceText = 'Karaoke Room';
     let dateText = '';
     let detailsText = '';
     let addons = [];
-    
+   
     if (bookingType === 'night') {
         experienceText = 'Minimum Spend';
         const dateObj = new Date(bookingData.karaoke.night.date + 'T' + bookingData.karaoke.night.time);
-        dateText = dateObj.toLocaleDateString('en-AU', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}) + 
+        dateText = dateObj.toLocaleDateString('en-AU', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}) +
                   ' at ' + dateObj.toLocaleTimeString('en-AU', {hour: '2-digit', minute: '2-digit'});
-        
+       
         const roomSizes = {small: 'Small (6 pax)', medium: 'Medium (8 pax)', large: 'Large (12 pax)'};
         detailsText = roomSizes[bookingData.karaoke.night.roomSize];
         addons = bookingData.karaoke.night.addons.map(a => `${a.name} (+$${a.price})`);
-        
+       
     } else if (bookingType === 'session') {
         experienceText = 'Karaoke - Session Booking';
         const dateObj = new Date(bookingData.karaoke.session.date + 'T' + bookingData.karaoke.session.time);
-        dateText = dateObj.toLocaleDateString('en-AU', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}) + 
+        dateText = dateObj.toLocaleDateString('en-AU', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}) +
                   ' at ' + dateObj.toLocaleTimeString('en-AU', {hour: '2-digit', minute: '2-digit'});
         detailsText = `${bookingData.karaoke.session.hours} hours • ${bookingData.karaoke.session.pax} guests`;
         addons = bookingData.karaoke.session.addons.map(a => `${a.name} (+$${a.price})`);
-        
+       
     } else if (bookingType === 'package') {
         const packageNames = {cocktail: 'Cocktail Package', signature: 'Signature Package', diamond: 'Diamond Package'};
         experienceText = 'Karaoke - ' + packageNames[bookingData.karaoke.package.packageType];
-        
+       
         const dateObj = new Date(bookingData.karaoke.package.date);
         dateText = dateObj.toLocaleDateString('en-AU', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'});
         detailsText = `${bookingData.karaoke.package.pax} guests`;
         addons = bookingData.karaoke.package.addons.map(a => `${a.name} (+$${a.price})`);
     }
-    
+   
     document.getElementById('karaoke-summary-experience').textContent = experienceText;
     document.getElementById('karaoke-summary-date').textContent = dateText;
     document.getElementById('karaoke-summary-details').textContent = detailsText;
-    
+   
     if (addons.length > 0) {
         document.getElementById('karaoke-summary-addons-row').style.display = 'flex';
         document.getElementById('karaoke-summary-addons').textContent = addons.join(', ');
     } else {
         document.getElementById('karaoke-summary-addons-row').style.display = 'none';
     }
-    
+   
     // Calculate and display total
     let total = 0;
     if (bookingType === 'night') {
@@ -860,8 +842,15 @@ function updateKaraokeTermsSummary() {
     } else if (bookingType === 'package') {
         // Get package price based on weekday/weekend and type
         const packageType = bookingData.karaoke.package.packageType;
-        const isWeekend = true; // You can add logic to determine this from the date
-        total = isWeekend ? PRICING.karaoke.package[packageType].weekend : PRICING.karaoke.package[packageType].weekday;
+        const dateObj = new Date(bookingData.karaoke.package.date);
+        const isWeekend = dateObj.getDay() === 5 || dateObj.getDay() === 6;
+        if (packageType === 'cocktail') {
+            total = isWeekend ? PRICING.karaoke.package.cocktail.weekend : PRICING.karaoke.package.cocktail.weekday;
+        } else if (packageType === 'signature') {
+            total = isWeekend ? PRICING.karaoke.package.signature.weekend : PRICING.karaoke.package.signature.weekday;
+        } else if (packageType === 'diamond') {
+            total = isWeekend ? PRICING.karaoke.package.diamond.weekend : PRICING.karaoke.package.diamond.weekday;
+        }
         if (bookingData.karaoke.package.allNightUpgrade && packageType === 'signature') {
             total += PRICING.karaoke.package.signature.allNightUpgrade;
         }
@@ -869,7 +858,7 @@ function updateKaraokeTermsSummary() {
             total += addon.price;
         });
     }
-    
+   
     const totalEl = document.getElementById('karaoke-summary-total');
     if (totalEl) {
         totalEl.textContent = `$${total}`;
@@ -883,7 +872,7 @@ function proceedToKaraokePayment() {
         alert('⚠️ Please accept terms and conditions');
         return;
     }
-    
+   
     pageHistory.push('page-karaoke-terms');
     showPage('page-karaoke-payment');
     updateKaraokePaymentSummary();
@@ -894,39 +883,39 @@ function updateKaraokePaymentSummary() {
     let typeText = '';
     let detailsText = '';
     totalPrice = 0;
-    
+   
     if (bookingType === 'night') {
         typeText = 'Book the Night';
         totalPrice = PRICING.karaoke.night.rooms[bookingData.karaoke.night.roomSize] || 500;
-        
+       
         // Add addon prices
         bookingData.karaoke.night.addons.forEach(addon => {
             totalPrice += addon.price;
         });
-        
+       
         const roomSizes = {small: 'Small (6 pax)', medium: 'Medium (8 pax)', large: 'Large (12 pax)'};
         detailsText = roomSizes[bookingData.karaoke.night.roomSize];
-        
+       
     } else if (bookingType === 'session') {
         typeText = 'Session Booking';
         totalPrice = bookingData.karaoke.session.price || 0;
-        
+       
         // Add addon prices
         bookingData.karaoke.session.addons.forEach(addon => {
             totalPrice += addon.price;
         });
-        
+       
         detailsText = `${bookingData.karaoke.session.hours} hours • ${bookingData.karaoke.session.pax} guests`;
-        
+       
     } else if (bookingType === 'package') {
         const packageNames = {cocktail: 'Cocktail Package', signature: 'Signature Package', diamond: 'Diamond Package'};
         typeText = packageNames[bookingData.karaoke.package.packageType];
-        
+       
         // Calculate package price
         const packageType = bookingData.karaoke.package.packageType;
         const dateObj = new Date(bookingData.karaoke.package.date);
         const isWeekend = dateObj.getDay() === 5 || dateObj.getDay() === 6; // Friday or Saturday
-        
+       
         if (packageType === 'cocktail') {
             totalPrice = isWeekend ? PRICING.karaoke.package.cocktail.weekend : PRICING.karaoke.package.cocktail.weekday;
         } else if (packageType === 'signature') {
@@ -934,44 +923,44 @@ function updateKaraokePaymentSummary() {
         } else if (packageType === 'diamond') {
             totalPrice = isWeekend ? PRICING.karaoke.package.diamond.weekend : PRICING.karaoke.package.diamond.weekday;
         }
-        
+       
         // Add addon prices
         bookingData.karaoke.package.addons.forEach(addon => {
             totalPrice += addon.price;
         });
-        
+       
         detailsText = `${bookingData.karaoke.package.pax} guests`;
     }
-    
+   
     // Setup payment slider
     const slider = document.getElementById('payment-slider');
     const sliderAmount = document.getElementById('slider-amount');
-    
+   
     // Payment breakdown elements
     const breakdownTotal = document.getElementById('breakdown-total');
     const breakdownDeposit = document.getElementById('breakdown-deposit');
     const breakdownRemaining = document.getElementById('breakdown-remaining');
-    
+   
     // Calculate 50% deposit
     const minDeposit = totalPrice * 0.5;
-    
+   
     // Initialize breakdown card
     if (breakdownTotal) breakdownTotal.textContent = `$${totalPrice.toFixed(2)}`;
     if (breakdownDeposit) breakdownDeposit.textContent = `$${minDeposit.toFixed(2)}`;
     if (breakdownRemaining) breakdownRemaining.textContent = `$${(totalPrice - minDeposit).toFixed(2)}`;
-    
+   
     // Update slider
     slider.value = 50;
     sliderAmount.textContent = minDeposit.toFixed(2);
-    
+   
     // Slider event listener
     slider.oninput = function() {
         const percentage = this.value;
         const amount = (totalPrice * percentage / 100);
         const remaining = totalPrice - amount;
-        
+       
         sliderAmount.textContent = amount.toFixed(2);
-        
+       
         // Update breakdown card
         if (breakdownDeposit) breakdownDeposit.textContent = `$${amount.toFixed(2)}`;
         if (breakdownRemaining) breakdownRemaining.textContent = `$${remaining.toFixed(2)}`;
@@ -981,13 +970,13 @@ function updateKaraokePaymentSummary() {
 function processKaraokePayment(method) {
     const buttons = ['karaoke-apple-pay-btn', 'karaoke-google-pay-btn', 'karaoke-card-pay-btn'];
     buttons.forEach(id => document.getElementById(id).disabled = true);
-    
+   
     // Store payment details
     const slider = document.getElementById('payment-slider');
     const percentage = slider ? slider.value : 50;
     const depositAmount = (totalPrice * percentage / 100);
     const remainingBalance = totalPrice - depositAmount;
-    
+   
     // Store in booking data
     bookingData.payment = {
         total: totalPrice,
@@ -995,61 +984,61 @@ function processKaraokePayment(method) {
         remainingBalance: remainingBalance,
         method: method
     };
-    
+   
     setTimeout(() => {
         let methodName = '';
         if (method === 'apple') methodName = 'Apple Pay';
         else if (method === 'google') methodName = 'Google Pay';
         else if (method === 'card') methodName = 'Credit Card (Stripe)';
-        
+       
         alert(`✓ Payment via ${methodName}\n\nPrototype mode - In production, this will process real payments`);
-        
+       
         pageHistory = [];
         showPage('page-confirmation');
         updateKaraokeConfirmation();
-        
+       
         buttons.forEach(id => document.getElementById(id).disabled = false);
     }, 800);
 }
 
 function updateKaraokeConfirmation() {
     const bookingType = bookingData.karaoke.bookingType;
-    
+   
     document.getElementById('booking-ref').textContent = 'KAR-' + Math.random().toString(36).substring(2, 8).toUpperCase();
-    
+   
     let experienceText = 'Karaoke Room';
     let datetimeText = '';
     let detailsText = '';
-    
+   
     if (bookingType === 'night') {
         experienceText = 'Karaoke - Book the Night';
         const dateObj = new Date(bookingData.karaoke.night.date + 'T' + bookingData.karaoke.night.time);
-        datetimeText = dateObj.toLocaleDateString('en-AU', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}) + 
+        datetimeText = dateObj.toLocaleDateString('en-AU', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}) +
                       ' at ' + dateObj.toLocaleTimeString('en-AU', {hour: '2-digit', minute: '2-digit'});
-        
+       
         const roomSizes = {small: 'Small Room (6 pax)', medium: 'Medium Room (8 pax)', large: 'Large Room (12 pax)'};
         detailsText = roomSizes[bookingData.karaoke.night.roomSize];
-        
+       
     } else if (bookingType === 'session') {
         experienceText = 'Karaoke - Session Booking';
         const dateObj = new Date(bookingData.karaoke.session.date + 'T' + bookingData.karaoke.session.time);
-        datetimeText = dateObj.toLocaleDateString('en-AU', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}) + 
+        datetimeText = dateObj.toLocaleDateString('en-AU', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}) +
                       ' at ' + dateObj.toLocaleTimeString('en-AU', {hour: '2-digit', minute: '2-digit'});
         detailsText = `${bookingData.karaoke.session.hours} hours • ${bookingData.karaoke.session.pax} guests`;
-        
+       
     } else if (bookingType === 'package') {
         const packageNames = {cocktail: 'Cocktail Package', signature: 'Signature Package', diamond: 'Diamond Package'};
         experienceText = packageNames[bookingData.karaoke.package.packageType];
-        
+       
         const dateObj = new Date(bookingData.karaoke.package.date);
         datetimeText = dateObj.toLocaleDateString('en-AU', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'});
         detailsText = `${bookingData.karaoke.package.pax} guests`;
     }
-    
+   
     document.getElementById('confirm-experience').textContent = experienceText;
     document.getElementById('confirm-datetime').textContent = datetimeText;
     document.getElementById('confirm-details').textContent = detailsText;
-    
+   
     // Show payment summary if payment details exist
     if (bookingData.payment) {
         const paymentSummary = document.getElementById('payment-summary');
@@ -1069,19 +1058,19 @@ function updateKaraokeConfirmation() {
 // Step 1: Date, Pax, Session
 document.getElementById('rooftop-details-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    
+   
     bookingData.rooftop.date = document.getElementById('rooftop-date').value;
     bookingData.rooftop.pax = document.getElementById('rooftop-pax').value;
-    
+    bookingData.rooftop.smoking = document.querySelector('input[name="rooftop-smoking"]:checked')?.value || 'non-smoking';
     const sessionRadio = document.querySelector('input[name="rooftop-session"]:checked');
     if (!sessionRadio) {
         alert('Please select a session time');
         return;
     }
     bookingData.rooftop.session = sessionRadio.value;
-    
+   
     console.log('Rooftop details:', bookingData.rooftop);
-    
+   
     pageHistory.push('page-rooftop-details');
     showPage('page-rooftop-contact');
 });
@@ -1089,24 +1078,27 @@ document.getElementById('rooftop-details-form').addEventListener('submit', funct
 // Step 2: Customer Details
 document.getElementById('rooftop-contact-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    
+   
     bookingData.rooftop.name = document.getElementById('rooftop-name').value;
     bookingData.rooftop.phone = document.getElementById('rooftop-phone').value;
     bookingData.rooftop.email = document.getElementById('rooftop-email').value;
-    
+   
     console.log('Rooftop contact:', bookingData.rooftop);
-    
+   
     pageHistory.push('page-rooftop-contact');
     showPage('page-rooftop-addons');
+    
+    // Initialize running total on addons page
+    updateRooftopAddonsTotal();
 });
 
 // Step 3: Add-ons
 document.getElementById('rooftop-addons-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    
+   
     // Reset addons array
     bookingData.rooftop.addons = [];
-    
+   
     // Check each add-on
     if (document.getElementById('rooftop-addon-1') && document.getElementById('rooftop-addon-1').checked) {
         bookingData.rooftop.addons.push({
@@ -1114,63 +1106,101 @@ document.getElementById('rooftop-addons-form').addEventListener('submit', functi
             price: PRICING.rooftop.addons.preorderDining
         });
     }
-    
+   
     if (document.getElementById('rooftop-addon-2') && document.getElementById('rooftop-addon-2').checked) {
         bookingData.rooftop.addons.push({
             name: 'Preorder Beverages',
             price: PRICING.rooftop.addons.preorderBeverages
         });
     }
-    
+   
     if (document.getElementById('rooftop-addon-4') && document.getElementById('rooftop-addon-4').checked) {
         bookingData.rooftop.addons.push({
             name: 'Share Tower',
             price: PRICING.rooftop.addons.shareTower
         });
     }
-    
+   
     if (document.getElementById('rooftop-addon-5') && document.getElementById('rooftop-addon-5').checked) {
         bookingData.rooftop.addons.push({
             name: 'Date Night Share Tower',
             price: PRICING.rooftop.addons.dateNightShareTower
         });
     }
-    
+   
     if (document.getElementById('rooftop-addon-6') && document.getElementById('rooftop-addon-6').checked) {
         bookingData.rooftop.addons.push({
             name: 'Dessert Platter for 3',
             price: PRICING.rooftop.addons.dessertPlatter
         });
     }
-    
+   
     if (document.getElementById('rooftop-addon-7') && document.getElementById('rooftop-addon-7').checked) {
         bookingData.rooftop.addons.push({
             name: 'Champagne on Ice',
             price: PRICING.rooftop.addons.champagneOnIce
         });
     }
-    
+   
     if (document.getElementById('rooftop-addon-8') && document.getElementById('rooftop-addon-8').checked) {
         bookingData.rooftop.addons.push({
             name: '6 x Dish Banquet',
             price: PRICING.rooftop.addons.dishBanquet
         });
     }
-    
+   
     if (document.getElementById('rooftop-addon-9') && document.getElementById('rooftop-addon-9').checked) {
         bookingData.rooftop.addons.push({
             name: '12 x Cocktail Package',
             price: PRICING.rooftop.addons.cocktailPackage
         });
     }
-    
+   
     console.log('Rooftop add-ons:', bookingData.rooftop.addons);
-    
+   
     pageHistory.push('page-rooftop-addons');
     showPage('page-rooftop-terms');
     updateRooftopTermsSummary();
 });
 
+// Update rooftop addons running total
+function updateRooftopAddonsTotal() {
+    const pax = parseInt(bookingData.rooftop.pax) || 0;
+    const minSpendCost = pax * PRICING.rooftop.depositPerPerson;
+    
+    // Calculate addons
+    let addonsCost = 0;
+    const addonPrices = {
+        'rooftop-addon-1': PRICING.rooftop.addons.preorderDining,
+        'rooftop-addon-2': PRICING.rooftop.addons.preorderBeverages,
+        'rooftop-addon-4': PRICING.rooftop.addons.shareTower,
+        'rooftop-addon-5': PRICING.rooftop.addons.dateNightShareTower,
+        'rooftop-addon-6': PRICING.rooftop.addons.dessertPlatter,
+        'rooftop-addon-7': PRICING.rooftop.addons.champagneOnIce,
+        'rooftop-addon-8': PRICING.rooftop.addons.dishBanquet,
+        'rooftop-addon-9': PRICING.rooftop.addons.cocktailPackage
+    };
+    
+    for (let addonId in addonPrices) {
+        const checkbox = document.getElementById(addonId);
+        if (checkbox && checkbox.checked) {
+            addonsCost += addonPrices[addonId];
+        }
+    }
+    
+    const total = minSpendCost + addonsCost;
+    
+    // Update display
+    const minSpendEl = document.getElementById('rt-min-spend-cost');
+    const addonsEl = document.getElementById('rt-addons-cost');
+    const totalEl = document.getElementById('rt-total-cost');
+    
+    if (minSpendEl) minSpendEl.textContent = `$${minSpendCost}`;
+    if (addonsEl) addonsEl.textContent = `$${addonsCost}`;
+    if (totalEl) totalEl.textContent = `$${total}`;
+}
+
+// Rooftop terms summary (displays date, session, pax, addons)
 function updateRooftopTermsSummary() {
     const dateObj = new Date(bookingData.rooftop.date);
     const formatted = dateObj.toLocaleDateString('en-AU', {
@@ -1179,31 +1209,39 @@ function updateRooftopTermsSummary() {
         month: 'long',
         day: 'numeric'
     });
-    
+   
     document.getElementById('rooftop-summary-date').textContent = formatted;
     document.getElementById('rooftop-summary-session').textContent = bookingData.rooftop.session;
     document.getElementById('rooftop-summary-pax').textContent = `${bookingData.rooftop.pax} Guests`;
-    
-    // Calculate total
-    const pax = parseInt(bookingData.rooftop.pax);
-    let total = pax * PRICING.rooftop.depositPerPerson;
-    
+   
     // Show add-ons if any selected
     const addons = [];
     if (bookingData.rooftop.addons && bookingData.rooftop.addons.length > 0) {
         bookingData.rooftop.addons.forEach(addon => {
             addons.push(`${addon.name} (+$${addon.price})`);
-            total += addon.price;
         });
-        
+       
         document.getElementById('rooftop-summary-addons-row').style.display = 'flex';
         document.getElementById('rooftop-summary-addons').textContent = addons.join(', ');
     } else {
         document.getElementById('rooftop-summary-addons-row').style.display = 'none';
     }
     
-    // Update total
-    document.getElementById('rooftop-summary-total').textContent = `$${total.toFixed(2)}`;
+    // Calculate and display total (like karaoke)
+    const pax = parseInt(bookingData.rooftop.pax) || 0;
+    let total = pax * PRICING.rooftop.depositPerPerson; // Minimum spend per person
+    
+    if (bookingData.rooftop.addons && bookingData.rooftop.addons.length > 0) {
+        bookingData.rooftop.addons.forEach(addon => {
+            total += addon.price;
+        });
+    }
+    
+    const totalEl = document.getElementById('rooftop-summary-total');
+    if (totalEl) {
+        totalEl.textContent = `$${total}`;
+        document.getElementById('rooftop-summary-total-row').style.display = 'flex';
+    }
 }
 
 // Step 4: Terms - Proceed to Payment
@@ -1212,25 +1250,60 @@ function proceedToRooftopPayment() {
         alert('⚠️ Please accept terms and conditions');
         return;
     }
-    
+   
     pageHistory.push('page-rooftop-terms');
     showPage('page-rooftop-payment');
     updateRooftopPaymentSummary();
 }
 
+// Global variable for rooftop total price
+let rooftopTotalPrice = 0;
+
 function updateRooftopPaymentSummary() {
-    const pax = parseInt(bookingData.rooftop.pax);
-    let totalDeposit = pax * PRICING.rooftop.depositPerPerson;
+    const pax = parseInt(bookingData.rooftop.pax) || 0;
     
-    // Add addon costs
+    // Calculate total (min spend + addons)
+    rooftopTotalPrice = pax * PRICING.rooftop.depositPerPerson;
+    
     if (bookingData.rooftop.addons && bookingData.rooftop.addons.length > 0) {
         bookingData.rooftop.addons.forEach(addon => {
-            totalDeposit += addon.price;
+            rooftopTotalPrice += addon.price;
         });
     }
     
-    document.getElementById('rooftop-payment-pax').textContent = `${pax} Guests`;
-    document.getElementById('rooftop-deposit-amount').textContent = `$${totalDeposit.toFixed(2)}`;
+    // Setup payment slider
+    const slider = document.getElementById('rooftop-payment-slider');
+    const sliderAmount = document.getElementById('rooftop-slider-amount');
+    
+    // Payment breakdown elements
+    const breakdownTotal = document.getElementById('rooftop-breakdown-total');
+    const breakdownDeposit = document.getElementById('rooftop-breakdown-deposit');
+    const breakdownRemaining = document.getElementById('rooftop-breakdown-remaining');
+    
+    // Calculate 50% deposit
+    const minDeposit = rooftopTotalPrice * 0.5;
+    
+    // Initialize breakdown card
+    if (breakdownTotal) breakdownTotal.textContent = `$${rooftopTotalPrice.toFixed(2)}`;
+    if (breakdownDeposit) breakdownDeposit.textContent = `$${minDeposit.toFixed(2)}`;
+    if (breakdownRemaining) breakdownRemaining.textContent = `$${(rooftopTotalPrice - minDeposit).toFixed(2)}`;
+    
+    // Update slider
+    slider.value = 20;
+    sliderAmount.textContent = minDeposit.toFixed(2);
+    
+    // Slider event listener
+    slider.oninput = function() {
+        const percentage = this.value;
+        const amount = (rooftopTotalPrice * percentage / 100);
+        const remaining = rooftopTotalPrice - amount;
+        
+        sliderAmount.textContent = amount.toFixed(2);
+        
+        // Update breakdown card
+        if (breakdownDeposit) breakdownDeposit.textContent = `$${amount.toFixed(2)}`;
+        if (breakdownRemaining) breakdownRemaining.textContent = `$${remaining.toFixed(2)}`;
+    };
 }
 
 // Step 5: Payment Processing
@@ -1238,27 +1311,55 @@ function processRooftopPayment(method) {
     const buttons = ['rooftop-apple-pay-btn', 'rooftop-google-pay-btn', 'rooftop-card-pay-btn'];
     buttons.forEach(id => document.getElementById(id).disabled = true);
     
+    // Store payment details
+    const slider = document.getElementById('rooftop-payment-slider');
+    const percentage = slider ? slider.value : 50;
+    const depositAmount = (rooftopTotalPrice * percentage / 100);
+    const remainingBalance = rooftopTotalPrice - depositAmount;
+    
+    // Store in booking data
+    bookingData.payment = {
+        total: rooftopTotalPrice,
+        depositPaid: depositAmount,
+        remainingBalance: remainingBalance,
+        method: method
+    };
+   
     setTimeout(() => {
         let methodName = '';
         if (method === 'apple') methodName = 'Apple Pay';
         else if (method === 'google') methodName = 'Google Pay';
         else if (method === 'card') methodName = 'Credit Card (Stripe)';
-        
+       
         alert(`✓ Payment via ${methodName}\n\nPrototype mode - In production, this will process real payments`);
-        
+       
         pageHistory = [];
         showPage('page-confirmation');
         updateRooftopConfirmation();
-        
+       
         buttons.forEach(id => document.getElementById(id).disabled = false);
     }, 800);
 }
 
+function showRooftopInfo(type) {
+    let text = '';
+    if (type === 'min-spend') {
+        text = 'Total Minimum Spend is calculated at <strong>$50 per person</strong>. This is the minimum amount your group is expected to spend on food and beverages during your visit. It helps us reserve the space exclusively for you.';
+    } else if (type === 'deposit') {
+        text = 'The Required Deposit is <strong>20% of the Total Minimum Spend</strong>. This amount is charged to secure your booking and is non-refundable unless cancelled within the allowed policy window.';
+    } else if (type === 'total-deposit') {
+        text = 'Total Deposit Required Now = Required Deposit + price of any selected add-ons. This is the full amount charged to your card today to confirm the booking.';
+    }
+   
+    document.getElementById('rooftop-info-text').innerHTML = text;
+    document.getElementById('rooftopInfoModal').style.display = 'flex';
+}
+
 function updateRooftopConfirmation() {
     document.getElementById('booking-ref').textContent = 'RTB-' + Math.random().toString(36).substring(2, 8).toUpperCase();
-    
+   
     document.getElementById('confirm-experience').textContent = 'Rooftop Bar';
-    
+   
     const dateObj = new Date(bookingData.rooftop.date);
     const formatted = dateObj.toLocaleDateString('en-AU', {
         weekday: 'long',
@@ -1266,71 +1367,36 @@ function updateRooftopConfirmation() {
         month: 'long',
         day: 'numeric'
     }) + ' • ' + bookingData.rooftop.session;
-    
+    const smokingPref = bookingData.rooftop.smoking === 'smoking'
+        ? 'Smoking Allowed Area'
+        : 'Non-Smoking Area';
+    document.getElementById('confirm-rooftop-smoking').textContent = smokingPref;
     document.getElementById('confirm-datetime').textContent = formatted;
     document.getElementById('confirm-details').textContent = `${bookingData.rooftop.pax} Guests`;
-}
-
-// ========================================
-// GENERAL FUNCTIONS
-// ========================================
-
-function addToCalendar() {
-    alert('📅 Calendar feature coming in production!');
-}
-
-function resetBooking() {
-    bookingData = {
-        experience: '',
-        vipTour: {},
-        events: {},
-        payment: null,
-        rooftop: {
-            date: '', pax: '', session: '', name: '', phone: '', email: '',
-            cocktailsOnEntry: false, windowSeat: false
-        },
-    // VIP Room specific
-    vip: {
-        date: '',
-        time: '',
-        pax: '',
-        name: '',
-        email: '',
-        phone: '',
-        contactHours: '',
-        specialRequests: ''
-    },
-        vip: {
-            date: '', time: '', pax: '', name: '', email: '', phone: '',
-            contactHours: '', specialRequests: ''
-        },
-        karaoke: {
-            bookingType: '',
-            night: { name: '', phone: '', email: '', date: '', time: '', roomSize: '', addons: [] },
-            session: { date: '', time: '', hours: '', pax: '', name: '', phone: '', email: '', addons: [] },
-            package: { packageType: '', date: '', name: '', phone: '', email: '', pax: '', addons: [], allNightUpgrade: false }
+    if (bookingData.experience === 'rooftop') {
+        document.getElementById('smoking-summary-row').style.display = 'flex';
+    } else {
+        document.getElementById('smoking-summary-row').style.display = 'none';
+    }
+    
+    // Show payment summary if payment details exist (like karaoke)
+    if (bookingData.payment) {
+        const paymentSummary = document.getElementById('payment-summary');
+        if (paymentSummary) {
+            paymentSummary.style.display = 'block';
+            document.getElementById('confirm-total').textContent = `$${bookingData.payment.total.toFixed(2)}`;
+            document.getElementById('confirm-deposit').textContent = `$${bookingData.payment.depositPaid.toFixed(2)}`;
+            document.getElementById('confirm-remaining').textContent = `$${bookingData.payment.remainingBalance.toFixed(2)}`;
         }
-    };
-    
-    // Reset all forms
-    const forms = document.querySelectorAll('form');
-    forms.forEach(form => form.reset());
-    
-    // Hide payment summary
-    const paymentSummary = document.getElementById('payment-summary');
-    if (paymentSummary) paymentSummary.style.display = 'none';
-    
-    pageHistory = [];
-    showPage('page-selection');
+    }
 }
 
 // ========================================
 // VIP ROOM BOOKING FLOW
 // ========================================
-
 document.getElementById('vip-details-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    
+   
     bookingData.vip.date = document.getElementById('vip-date').value;
     bookingData.vip.time = document.getElementById('vip-time').value;
     bookingData.vip.pax = document.getElementById('vip-pax').value;
@@ -1339,9 +1405,9 @@ document.getElementById('vip-details-form').addEventListener('submit', function(
     bookingData.vip.phone = document.getElementById('vip-phone').value;
     bookingData.vip.contactHours = document.getElementById('vip-contact-hours').value;
     bookingData.vip.specialRequests = document.getElementById('vip-requests').value;
-    
+   
     console.log('VIP room details:', bookingData.vip);
-    
+   
     pageHistory.push('page-vip-details');
     showPage('page-vip-rooms');
 });
@@ -1354,9 +1420,9 @@ function submitVIPRequest() {
 
 function updateVIPConfirmation() {
     document.getElementById('booking-ref').textContent = 'VIP-' + Math.random().toString(36).substring(2, 8).toUpperCase();
-    
+   
     document.getElementById('confirm-experience').textContent = 'VIP Room Request';
-    
+   
     const dateObj = new Date(bookingData.vip.date + 'T' + bookingData.vip.time);
     const formatted = dateObj.toLocaleDateString('en-AU', {
         weekday: 'long',
@@ -1364,7 +1430,7 @@ function updateVIPConfirmation() {
         month: 'long',
         day: 'numeric'
     }) + ' at ' + dateObj.toLocaleTimeString('en-AU', {hour: '2-digit', minute: '2-digit'});
-    
+   
     document.getElementById('confirm-datetime').textContent = formatted;
     document.getElementById('confirm-details').textContent = `${bookingData.vip.pax} Guests • Awaiting Staff Confirmation`;
 }
@@ -1372,10 +1438,9 @@ function updateVIPConfirmation() {
 // ========================================
 // VIP TOUR BOOKING FLOW
 // ========================================
-
 document.getElementById('vip-tour-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    
+   
     bookingData.vipTour = {
         date: document.getElementById('tour-date').value,
         time: document.getElementById('tour-time').value,
@@ -1383,9 +1448,9 @@ document.getElementById('vip-tour-form').addEventListener('submit', function(e) 
         phone: document.getElementById('tour-phone').value,
         email: document.getElementById('tour-email').value
     };
-    
+   
     console.log('VIP Tour details:', bookingData.vipTour);
-    
+   
     pageHistory = [];
     showPage('page-confirmation');
     updateVIPTourConfirmation();
@@ -1393,9 +1458,9 @@ document.getElementById('vip-tour-form').addEventListener('submit', function(e) 
 
 function updateVIPTourConfirmation() {
     document.getElementById('booking-ref').textContent = 'TOUR-' + Math.random().toString(36).substring(2, 8).toUpperCase();
-    
+   
     document.getElementById('confirm-experience').textContent = 'Venue Tour';
-    
+   
     const dateObj = new Date(bookingData.vipTour.date + 'T' + bookingData.vipTour.time);
     const formatted = dateObj.toLocaleDateString('en-AU', {
         weekday: 'long',
@@ -1403,7 +1468,7 @@ function updateVIPTourConfirmation() {
         month: 'long',
         day: 'numeric'
     }) + ' at ' + dateObj.toLocaleTimeString('en-AU', {hour: '2-digit', minute: '2-digit'});
-    
+   
     document.getElementById('confirm-datetime').textContent = formatted;
     document.getElementById('confirm-details').textContent = '15-minute tour • Free';
 }
@@ -1411,10 +1476,9 @@ function updateVIPTourConfirmation() {
 // ========================================
 // EVENTS BOOKING FLOW
 // ========================================
-
 document.getElementById('events-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    
+   
     bookingData.events = {
         date: document.getElementById('event-date').value,
         time: document.getElementById('event-time').value,
@@ -1425,9 +1489,9 @@ document.getElementById('events-form').addEventListener('submit', function(e) {
         phone: document.getElementById('event-phone').value,
         email: document.getElementById('event-email').value
     };
-    
+   
     console.log('Event details:', bookingData.events);
-    
+   
     pageHistory = [];
     showPage('page-confirmation');
     updateEventsConfirmation();
@@ -1435,7 +1499,7 @@ document.getElementById('events-form').addEventListener('submit', function(e) {
 
 function updateEventsConfirmation() {
     document.getElementById('booking-ref').textContent = 'EVT-' + Math.random().toString(36).substring(2, 8).toUpperCase();
-    
+   
     // Get event type display name
     const eventTypeMap = {
         'corporate': 'Corporate Function',
@@ -1449,10 +1513,10 @@ function updateEventsConfirmation() {
         'team-building': 'Team Building',
         'other': 'Other Celebration'
     };
-    
+   
     const eventTypeName = eventTypeMap[bookingData.events.eventType] || bookingData.events.eventType;
     document.getElementById('confirm-experience').textContent = 'Event: ' + eventTypeName;
-    
+   
     const dateObj = new Date(bookingData.events.date + 'T' + bookingData.events.time);
     const formatted = dateObj.toLocaleDateString('en-AU', {
         weekday: 'long',
@@ -1460,20 +1524,25 @@ function updateEventsConfirmation() {
         month: 'long',
         day: 'numeric'
     }) + ' at ' + dateObj.toLocaleTimeString('en-AU', {hour: '2-digit', minute: '2-digit'});
-    
+   
     document.getElementById('confirm-datetime').textContent = formatted;
     document.getElementById('confirm-details').textContent = `${bookingData.events.guests} Guests • Events team will contact you`;
 }
+
+// ========================================
+// GENERAL UTILITY FUNCTIONS
+// ========================================
+
 // Toggle addon card selection
 function toggleAddonCard(card, checkboxId) {
     const checkbox = document.getElementById(checkboxId);
-    
+   
     // Toggle checkbox state
     checkbox.checked = !checkbox.checked;
-    
+   
     // Toggle card visual state
     card.classList.toggle('selected');
-    
+   
     // Trigger change event to update totals
     checkbox.dispatchEvent(new Event('change'));
 }
@@ -1527,13 +1596,13 @@ function toggleSessionCocktailMenu() {
 // Update karaoke night running total
 function updateKaraokeNightTotal() {
     // Get room cost
-    const roomSizeRadio = document.querySelector('input[name="kn-room-size"]:checked');
+    const roomSizeRadio = document.querySelector('input[name="kn-room-size"]');
     let roomCost = 0;
     if (roomSizeRadio) {
         const roomSize = roomSizeRadio.value;
         roomCost = PRICING.karaoke.night.rooms[roomSize] || 0;
     }
-    
+   
     // Calculate addons
     let addonsCost = 0;
     const addonPrices = {
@@ -1546,7 +1615,7 @@ function updateKaraokeNightTotal() {
         'kn-addon-7': PRICING.karaoke.night.addons.professionalPhoto,
         'kn-addon-8': PRICING.karaoke.night.addons.bluetoothMusic
     };
-    
+   
     for (let addonId in addonPrices) {
         const checkbox = document.getElementById(addonId);
         if (checkbox && checkbox.checked) {
@@ -1559,14 +1628,14 @@ function updateKaraokeNightTotal() {
             }
         }
     }
-    
+   
     const total = roomCost + addonsCost;
-    
+   
     // Update display
     const roomCostEl = document.getElementById('kn-room-cost');
     const addonsCostEl = document.getElementById('kn-addons-cost');
     const totalCostEl = document.getElementById('kn-total-cost');
-    
+   
     if (roomCostEl) roomCostEl.textContent = `$${roomCost}`;
     if (addonsCostEl) addonsCostEl.textContent = `$${addonsCost}`;
     if (totalCostEl) totalCostEl.textContent = `$${total}`;
@@ -1583,23 +1652,23 @@ document.addEventListener('DOMContentLoaded', function() {
 // Disable Mondays on date inputs
 function disableMondays(dateInput) {
     if (!dateInput) return;
-    
+   
     // Clear the value if Monday is selected (without showing alert)
     dateInput.addEventListener('input', function() {
         const selectedDate = new Date(this.value + 'T00:00:00');
         const dayOfWeek = selectedDate.getDay();
-        
+       
         // If Monday (0 = Sunday, 1 = Monday, etc.)
         if (dayOfWeek === 1) {
             this.value = '';
         }
     });
-    
+   
     // Also handle the change event for browsers that use change instead of input
     dateInput.addEventListener('change', function() {
         const selectedDate = new Date(this.value + 'T00:00:00');
         const dayOfWeek = selectedDate.getDay();
-        
+       
         if (dayOfWeek === 1) {
             this.value = '';
         }
@@ -1618,14 +1687,14 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('tour-date'),
         document.getElementById('event-date')
     ];
-    
+   
     // Apply Monday restriction to all date inputs
     dateInputs.forEach(input => {
         if (input) {
             disableMondays(input);
         }
     });
-    
+   
     // Set minimum date to today for all inputs
     const today = new Date().toISOString().split('T')[0];
     dateInputs.forEach(input => {
@@ -1634,6 +1703,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
 // Toggle more add-ons for package
 function togglePackageMoreAddons() {
     const moreAddons = document.getElementById('package-more-addons');
@@ -1671,13 +1741,13 @@ function updatePackageTotal() {
     const packageType = bookingData.karaoke.package.packageType;
     const date = bookingData.karaoke.package.date;
     const pax = parseInt(bookingData.karaoke.package.pax) || 0;
-    
+   
     let packageCost = 0;
     if (packageType && date) {
         const dateObj = new Date(date);
         const dayOfWeek = dateObj.getDay();
         const isWeekend = (dayOfWeek === 5 || dayOfWeek === 6); // Friday or Saturday
-        
+       
         if (packageType === 'cocktail') {
             packageCost = isWeekend ? PRICING.karaoke.package.cocktail.weekend : PRICING.karaoke.package.cocktail.weekday;
         } else if (packageType === 'signature') {
@@ -1686,7 +1756,7 @@ function updatePackageTotal() {
             packageCost = isWeekend ? PRICING.karaoke.package.diamond.weekend : PRICING.karaoke.package.diamond.weekday;
         }
     }
-    
+   
     // Calculate addons
     let addonsCost = 0;
     const addonPrices = {
@@ -1706,27 +1776,70 @@ function updatePackageTotal() {
         'kp-addon-xo': PRICING.karaoke.package.addons.xoBottle,
         'kp-addon-dom': PRICING.karaoke.package.addons.domPerignonPackage
     };
-    
+   
     for (let addonId in addonPrices) {
         const checkbox = document.getElementById(addonId);
         if (checkbox && checkbox.checked) {
             addonsCost += addonPrices[addonId];
         }
     }
-    
-    
+   
+   
     const total = packageCost + addonsCost;
-    
+   
     // Update display
     const packageCostEl = document.getElementById('kp-package-cost');
     const addonsCostEl = document.getElementById('kp-addons-cost');
     const totalCostEl = document.getElementById('kp-total-cost');
-    
+   
     if (packageCostEl) packageCostEl.textContent = `$${packageCost}`;
     if (addonsCostEl) addonsCostEl.textContent = `$${addonsCost}`;
     if (totalCostEl) totalCostEl.textContent = `$${total}`;
 }
-
+function resetBooking() {
+    bookingData = {
+        experience: '',
+        vipTour: {},
+        events: {},
+        payment: null,
+        rooftop: {
+            date: '', pax: '', session: '', name: '', phone: '', email: '',smoking: '',
+            cocktailsOnEntry: false, windowSeat: false
+        },
+    // VIP Room specific
+    vip: {
+        date: '',
+        time: '',
+        pax: '',
+        name: '',
+        email: '',
+        phone: '',
+        contactHours: '',
+        specialRequests: ''
+    },
+        vip: {
+            date: '', time: '', pax: '', name: '', email: '', phone: '',
+            contactHours: '', specialRequests: ''
+        },
+        karaoke: {
+            bookingType: '',
+            night: { name: '', phone: '', email: '', date: '', time: '', roomSize: '', addons: [] },
+            session: { date: '', time: '', hours: '', pax: '', name: '', phone: '', email: '', addons: [] },
+            package: { packageType: '', date: '', name: '', phone: '', email: '', pax: '', addons: [], allNightUpgrade: false }
+        }
+    };
+    
+    // Reset all forms
+    const forms = document.querySelectorAll('form');
+    forms.forEach(form => form.reset());
+    
+    // Hide payment summary
+    const paymentSummary = document.getElementById('payment-summary');
+    if (paymentSummary) paymentSummary.style.display = 'none';
+    
+    pageHistory = [];
+    showPage('page-selection');
+}
 function toggleCreditInfo(e) {
   if (e) e.stopPropagation();
   const modal = document.getElementById('creditInfoModal');
