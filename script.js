@@ -53,14 +53,28 @@ let bookingData = {
     },
     // VIP Room specific
     vip: {
-        date: '',
-        time: '',
-        pax: '',
-        name: '',
-        email: '',
-        phone: '',
-        contactHours: '',
-        specialRequests: ''
+        bookingType: '', // 'minspend' or 'package'
+        // Minimum spend booking
+        minSpend: {
+            name: '',
+            phone: '',
+            email: '',
+            date: '',
+            time: '',
+            room: '',
+            pax: '',
+            addons: []
+        },
+        // Package booking
+        package: {
+            name: '',
+            phone: '',
+            email: '',
+            date: '',
+            time: '',
+            pax: '',
+            addons: []
+        }
     }
 };
 
@@ -176,6 +190,41 @@ const PRICING = {
                 domPerignonPackage: 1862
             }
         }
+    },
+    vip: {
+        // Minimum spend pricing (same for all rooms)
+        minSpend: {
+            weekday: 2000, // Sun-Thu
+            weekend: 3000, // Fri-Sat
+            surcharge: 0.10 // 10% surcharge
+        },
+        rooms: {
+            'vip999': { name: 'VIP 999', capacity: 47 },
+            'vip888': { name: 'VIP 888', capacity: 29 },
+            'vip777': { name: 'VIP 777', capacity: 43 },
+            'vip666': { name: 'VIP 666', capacity: 32 }
+        },
+        package: {
+            weekday: 1780,
+            weekend: 2228
+        },
+        addons: {
+            preorderDining: 25,
+            preorderBeverages: 25,
+            cocktailOnArrival: 25, // per person
+            bluetoothMusic: 89,
+            dessertPlatter: 159,
+            champagneOnIce: 230,
+            dishBanquet: 234,
+            cocktailPackage: 398,
+            vsopBottle: 398,
+            professionalPhoto: 400,
+            vodkaBottle: 424,
+            decorationsBasic: 599,
+            decorationsPremium: 999,
+            xoBottle: 1016,
+            domPerignonPackage: 1862
+        }
     }
 };
 
@@ -211,8 +260,7 @@ function selectExperience(experience) {
         showPage('page-rooftop-details');
         document.getElementById('rooftop-date').min = new Date().toISOString().split('T')[0];
     } else if (experience === 'vip') {
-        showPage('page-vip-details');
-        document.getElementById('vip-date').min = new Date().toISOString().split('T')[0];
+        showPage('page-vip-type');
        
     } else if (experience === 'vip-tour') {
         showPage('page-vip-tour');
@@ -1281,7 +1329,7 @@ function updateRooftopPaymentSummary() {
     const breakdownRemaining = document.getElementById('rooftop-breakdown-remaining');
     
     // Calculate 50% deposit
-    const minDeposit = rooftopTotalPrice * 0.5;
+    const minDeposit = rooftopTotalPrice * 0.2;
     
     // Initialize breakdown card
     if (breakdownTotal) breakdownTotal.textContent = `$${rooftopTotalPrice.toFixed(2)}`;
@@ -1394,45 +1442,410 @@ function updateRooftopConfirmation() {
 // ========================================
 // VIP ROOM BOOKING FLOW
 // ========================================
-document.getElementById('vip-details-form').addEventListener('submit', function(e) {
+
+// Select VIP booking type
+function selectVIPType(type) {
+    console.log('Selected VIP type:', type);
+    bookingData.vip.bookingType = type;
+    pageHistory.push('page-vip-type');
+    
+    if (type === 'minspend') {
+        showPage('page-vip-minspend-details');
+        document.getElementById('vip-ms-date').min = new Date().toISOString().split('T')[0];
+    } else if (type === 'package') {
+        showPage('page-vip-package-details');
+        document.getElementById('vip-pkg-date').min = new Date().toISOString().split('T')[0];
+    }
+}
+
+// === VIP MINIMUM SPEND BOOKING ===
+document.getElementById('vip-minspend-form').addEventListener('submit', function(e) {
     e.preventDefault();
-   
-    bookingData.vip.date = document.getElementById('vip-date').value;
-    bookingData.vip.time = document.getElementById('vip-time').value;
-    bookingData.vip.pax = document.getElementById('vip-pax').value;
-    bookingData.vip.name = document.getElementById('vip-name').value;
-    bookingData.vip.email = document.getElementById('vip-email').value;
-    bookingData.vip.phone = document.getElementById('vip-phone').value;
-    bookingData.vip.contactHours = document.getElementById('vip-contact-hours').value;
-    bookingData.vip.specialRequests = document.getElementById('vip-requests').value;
-   
-    console.log('VIP room details:', bookingData.vip);
-   
-    pageHistory.push('page-vip-details');
-    showPage('page-vip-rooms');
+    
+    bookingData.vip.minSpend.name = document.getElementById('vip-ms-name').value;
+    bookingData.vip.minSpend.phone = document.getElementById('vip-ms-phone').value;
+    bookingData.vip.minSpend.email = document.getElementById('vip-ms-email').value;
+    bookingData.vip.minSpend.date = document.getElementById('vip-ms-date').value;
+    bookingData.vip.minSpend.time = document.getElementById('vip-ms-time').value;
+    
+    const roomRadio = document.querySelector('input[name="vip-ms-room"]:checked');
+    if (!roomRadio) {
+        alert('Please select a room');
+        return;
+    }
+    bookingData.vip.minSpend.room = roomRadio.value;
+    bookingData.vip.minSpend.pax = PRICING.vip.rooms[roomRadio.value].capacity;
+    
+    console.log('VIP minspend details:', bookingData.vip.minSpend);
+    
+    pageHistory.push('page-vip-minspend-details');
+    showPage('page-vip-addons');
+    updateVIPAddonsTotal();
 });
 
-function submitVIPRequest() {
-    pageHistory = [];
-    showPage('page-confirmation');
-    updateVIPConfirmation();
+// === VIP PACKAGE BOOKING ===
+document.getElementById('vip-package-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    bookingData.vip.package.name = document.getElementById('vip-pkg-name').value;
+    bookingData.vip.package.phone = document.getElementById('vip-pkg-phone').value;
+    bookingData.vip.package.email = document.getElementById('vip-pkg-email').value;
+    bookingData.vip.package.date = document.getElementById('vip-pkg-date').value;
+    bookingData.vip.package.time = document.getElementById('vip-pkg-time').value;
+    bookingData.vip.package.pax = document.getElementById('vip-pkg-pax').value;
+    
+    console.log('VIP package details:', bookingData.vip.package);
+    
+    pageHistory.push('page-vip-package-details');
+    showPage('page-vip-addons');
+    updateVIPAddonsTotal();
+});
+
+// VIP Add-ons form submission
+document.getElementById('vip-addons-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const bookingType = bookingData.vip.bookingType;
+    const addonsArray = [];
+    const pax = bookingType === 'minspend' 
+        ? bookingData.vip.minSpend.pax 
+        : parseInt(bookingData.vip.package.pax) || 1;
+    
+    // Check each add-on
+    if (document.getElementById('vip-addon-1')?.checked) {
+        addonsArray.push({ name: 'Preorder Dining', price: PRICING.vip.addons.preorderDining });
+    }
+    if (document.getElementById('vip-addon-2')?.checked) {
+        addonsArray.push({ name: 'Preorder Beverages', price: PRICING.vip.addons.preorderBeverages });
+    }
+    if (document.getElementById('vip-addon-3')?.checked) {
+        addonsArray.push({ 
+            name: `Cocktail on Arrival (${pax} x $25)`, 
+            price: PRICING.vip.addons.cocktailOnArrival * pax 
+        });
+    }
+    if (document.getElementById('vip-addon-4')?.checked) {
+        addonsArray.push({ name: 'Bluetooth Music', price: PRICING.vip.addons.bluetoothMusic });
+    }
+    if (document.getElementById('vip-addon-5')?.checked) {
+        addonsArray.push({ name: 'Dessert Platter for 3', price: PRICING.vip.addons.dessertPlatter });
+    }
+    if (document.getElementById('vip-addon-6')?.checked) {
+        addonsArray.push({ name: 'Champagne on Ice', price: PRICING.vip.addons.champagneOnIce });
+    }
+    if (document.getElementById('vip-addon-7')?.checked) {
+        addonsArray.push({ name: '6 x Dish Banquet', price: PRICING.vip.addons.dishBanquet });
+    }
+    if (document.getElementById('vip-addon-8')?.checked) {
+        addonsArray.push({ name: '12 x Cocktail Package', price: PRICING.vip.addons.cocktailPackage });
+    }
+    if (document.getElementById('vip-addon-9')?.checked) {
+        addonsArray.push({ name: 'VSOP Bottle Package', price: PRICING.vip.addons.vsopBottle });
+    }
+    if (document.getElementById('vip-addon-10')?.checked) {
+        addonsArray.push({ name: 'Professional Photo Moment', price: PRICING.vip.addons.professionalPhoto });
+    }
+    if (document.getElementById('vip-addon-11')?.checked) {
+        addonsArray.push({ name: 'Vodka Bottle Package', price: PRICING.vip.addons.vodkaBottle });
+    }
+    if (document.getElementById('vip-addon-12')?.checked) {
+        addonsArray.push({ name: 'Decorations Basic Package', price: PRICING.vip.addons.decorationsBasic });
+    }
+    if (document.getElementById('vip-addon-13')?.checked) {
+        addonsArray.push({ name: 'Decorations Premium Package', price: PRICING.vip.addons.decorationsPremium });
+    }
+    if (document.getElementById('vip-addon-14')?.checked) {
+        addonsArray.push({ name: 'XO Bottle Package', price: PRICING.vip.addons.xoBottle });
+    }
+    if (document.getElementById('vip-addon-15')?.checked) {
+        addonsArray.push({ name: 'Dom Perignon Package', price: PRICING.vip.addons.domPerignonPackage });
+    }
+    
+    if (bookingType === 'minspend') {
+        bookingData.vip.minSpend.addons = addonsArray;
+    } else {
+        bookingData.vip.package.addons = addonsArray;
+    }
+    
+    console.log('VIP addons:', addonsArray);
+    
+    pageHistory.push('page-vip-addons');
+    showPage('page-vip-terms');
+    updateVIPTermsSummary();
+});
+
+// Update VIP addons running total
+function updateVIPAddonsTotal() {
+    const bookingType = bookingData.vip.bookingType;
+    let baseCost = 0;
+    let pax = 1;
+    
+    if (bookingType === 'minspend') {
+        const date = bookingData.vip.minSpend.date;
+        if (date) {
+            const dateObj = new Date(date + 'T00:00:00');
+            const dayOfWeek = dateObj.getDay();
+            const isWeekend = (dayOfWeek === 5 || dayOfWeek === 6);
+            const basePrice = isWeekend ? PRICING.vip.minSpend.weekend : PRICING.vip.minSpend.weekday;
+            baseCost = basePrice * (1 + PRICING.vip.minSpend.surcharge);
+        }
+        pax = bookingData.vip.minSpend.pax || 1;
+    } else {
+        const date = bookingData.vip.package.date;
+        if (date) {
+            const dateObj = new Date(date + 'T00:00:00');
+            const dayOfWeek = dateObj.getDay();
+            const isWeekend = (dayOfWeek === 5 || dayOfWeek === 6);
+            baseCost = isWeekend ? PRICING.vip.package.weekend : PRICING.vip.package.weekday;
+        }
+        pax = parseInt(bookingData.vip.package.pax) || 1;
+    }
+    
+    // Calculate addons
+    let addonsCost = 0;
+    const addonPrices = {
+        'vip-addon-1': PRICING.vip.addons.preorderDining,
+        'vip-addon-2': PRICING.vip.addons.preorderBeverages,
+        'vip-addon-3': PRICING.vip.addons.cocktailOnArrival * pax,
+        'vip-addon-4': PRICING.vip.addons.bluetoothMusic,
+        'vip-addon-5': PRICING.vip.addons.dessertPlatter,
+        'vip-addon-6': PRICING.vip.addons.champagneOnIce,
+        'vip-addon-7': PRICING.vip.addons.dishBanquet,
+        'vip-addon-8': PRICING.vip.addons.cocktailPackage,
+        'vip-addon-9': PRICING.vip.addons.vsopBottle,
+        'vip-addon-10': PRICING.vip.addons.professionalPhoto,
+        'vip-addon-11': PRICING.vip.addons.vodkaBottle,
+        'vip-addon-12': PRICING.vip.addons.decorationsBasic,
+        'vip-addon-13': PRICING.vip.addons.decorationsPremium,
+        'vip-addon-14': PRICING.vip.addons.xoBottle,
+        'vip-addon-15': PRICING.vip.addons.domPerignonPackage
+    };
+    
+    for (let addonId in addonPrices) {
+        const checkbox = document.getElementById(addonId);
+        if (checkbox && checkbox.checked) {
+            addonsCost += addonPrices[addonId];
+        }
+    }
+    
+    const total = baseCost + addonsCost;
+    
+    // Update display
+    const baseCostEl = document.getElementById('vip-base-cost');
+    const addonsEl = document.getElementById('vip-addons-cost');
+    const totalEl = document.getElementById('vip-total-cost');
+    
+    if (baseCostEl) baseCostEl.textContent = `$${baseCost.toFixed(0)}`;
+    if (addonsEl) addonsEl.textContent = `$${addonsCost}`;
+    if (totalEl) totalEl.textContent = `$${total.toFixed(0)}`;
+}
+
+// Toggle VIP cocktail menus
+function toggleVIPCocktailMenu() {
+    const checkbox = document.getElementById('vip-addon-3');
+    const menu = document.getElementById('vip-cocktail-menu');
+    if (checkbox && menu) {
+        menu.style.display = checkbox.checked ? 'block' : 'none';
+    }
+}
+
+function toggleVIPCocktailMenu12() {
+    const checkbox = document.getElementById('vip-addon-8');
+    const menu = document.getElementById('vip-cocktail-menu-12');
+    if (checkbox && menu) {
+        menu.style.display = checkbox.checked ? 'block' : 'none';
+    }
+}
+
+// VIP Terms Summary
+function updateVIPTermsSummary() {
+    const bookingType = bookingData.vip.bookingType;
+    
+    let experienceText = '';
+    let dateText = '';
+    let detailsText = '';
+    let addons = [];
+    let total = 0;
+    
+    if (bookingType === 'minspend') {
+        experienceText = 'VIP Room - Minimum Spend';
+        const dateObj = new Date(bookingData.vip.minSpend.date + 'T' + bookingData.vip.minSpend.time);
+        dateText = dateObj.toLocaleDateString('en-AU', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}) +
+                  ' at ' + dateObj.toLocaleTimeString('en-AU', {hour: '2-digit', minute: '2-digit'});
+        
+        const roomInfo = PRICING.vip.rooms[bookingData.vip.minSpend.room];
+        detailsText = `${roomInfo.name} (up to ${roomInfo.capacity} guests)`;
+        addons = bookingData.vip.minSpend.addons.map(a => `${a.name} (+$${a.price})`);
+        
+        // Calculate total
+        const dayOfWeek = new Date(bookingData.vip.minSpend.date + 'T00:00:00').getDay();
+        const isWeekend = (dayOfWeek === 5 || dayOfWeek === 6);
+        const basePrice = isWeekend ? PRICING.vip.minSpend.weekend : PRICING.vip.minSpend.weekday;
+        total = basePrice * (1 + PRICING.vip.minSpend.surcharge);
+        bookingData.vip.minSpend.addons.forEach(addon => { total += addon.price; });
+        
+    } else {
+        experienceText = 'VIP Room - Premium Package';
+        const dateObj = new Date(bookingData.vip.package.date + 'T' + bookingData.vip.package.time);
+        dateText = dateObj.toLocaleDateString('en-AU', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}) +
+                  ' at ' + dateObj.toLocaleTimeString('en-AU', {hour: '2-digit', minute: '2-digit'});
+        
+        detailsText = `${bookingData.vip.package.pax} guests`;
+        addons = bookingData.vip.package.addons.map(a => `${a.name} (+$${a.price})`);
+        
+        // Calculate total
+        const dayOfWeek = new Date(bookingData.vip.package.date + 'T00:00:00').getDay();
+        const isWeekend = (dayOfWeek === 5 || dayOfWeek === 6);
+        total = isWeekend ? PRICING.vip.package.weekend : PRICING.vip.package.weekday;
+        bookingData.vip.package.addons.forEach(addon => { total += addon.price; });
+    }
+    
+    document.getElementById('vip-summary-experience').textContent = experienceText;
+    document.getElementById('vip-summary-date').textContent = dateText;
+    document.getElementById('vip-summary-details').textContent = detailsText;
+    
+    if (addons.length > 0) {
+        document.getElementById('vip-summary-addons-row').style.display = 'flex';
+        document.getElementById('vip-summary-addons').textContent = addons.join(', ');
+    } else {
+        document.getElementById('vip-summary-addons-row').style.display = 'none';
+    }
+    
+    document.getElementById('vip-summary-total').textContent = `$${total.toFixed(0)}`;
+}
+
+// Proceed to VIP Payment
+function proceedToVIPPayment() {
+    if (!document.getElementById('vip-terms-accept').checked) {
+        alert('⚠️ Please accept terms and conditions');
+        return;
+    }
+    
+    pageHistory.push('page-vip-terms');
+    showPage('page-vip-payment');
+    updateVIPPaymentSummary();
+}
+
+// Global variable for VIP total price
+let vipTotalPrice = 0;
+
+function updateVIPPaymentSummary() {
+    const bookingType = bookingData.vip.bookingType;
+    
+    if (bookingType === 'minspend') {
+        const dayOfWeek = new Date(bookingData.vip.minSpend.date + 'T00:00:00').getDay();
+        const isWeekend = (dayOfWeek === 5 || dayOfWeek === 6);
+        const basePrice = isWeekend ? PRICING.vip.minSpend.weekend : PRICING.vip.minSpend.weekday;
+        vipTotalPrice = basePrice * (1 + PRICING.vip.minSpend.surcharge);
+        bookingData.vip.minSpend.addons.forEach(addon => { vipTotalPrice += addon.price; });
+    } else {
+        const dayOfWeek = new Date(bookingData.vip.package.date + 'T00:00:00').getDay();
+        const isWeekend = (dayOfWeek === 5 || dayOfWeek === 6);
+        vipTotalPrice = isWeekend ? PRICING.vip.package.weekend : PRICING.vip.package.weekday;
+        bookingData.vip.package.addons.forEach(addon => { vipTotalPrice += addon.price; });
+    }
+    
+    // Setup payment slider
+    const slider = document.getElementById('vip-payment-slider');
+    const sliderAmount = document.getElementById('vip-slider-amount');
+    
+    const breakdownTotal = document.getElementById('vip-breakdown-total');
+    const breakdownDeposit = document.getElementById('vip-breakdown-deposit');
+    const breakdownRemaining = document.getElementById('vip-breakdown-remaining');
+    
+    const minDeposit = vipTotalPrice * 0.5;
+    
+    if (breakdownTotal) breakdownTotal.textContent = `$${vipTotalPrice.toFixed(2)}`;
+    if (breakdownDeposit) breakdownDeposit.textContent = `$${minDeposit.toFixed(2)}`;
+    if (breakdownRemaining) breakdownRemaining.textContent = `$${(vipTotalPrice - minDeposit).toFixed(2)}`;
+    
+    slider.value = 50;
+    sliderAmount.textContent = minDeposit.toFixed(2);
+    
+    slider.oninput = function() {
+        const percentage = this.value;
+        const amount = (vipTotalPrice * percentage / 100);
+        const remaining = vipTotalPrice - amount;
+        
+        sliderAmount.textContent = amount.toFixed(2);
+        
+        if (breakdownDeposit) breakdownDeposit.textContent = `$${amount.toFixed(2)}`;
+        if (breakdownRemaining) breakdownRemaining.textContent = `$${remaining.toFixed(2)}`;
+    };
+}
+
+function processVIPPayment(method) {
+    const buttons = ['vip-apple-pay-btn', 'vip-google-pay-btn', 'vip-card-pay-btn'];
+    buttons.forEach(id => document.getElementById(id).disabled = true);
+    
+    const slider = document.getElementById('vip-payment-slider');
+    const percentage = slider ? slider.value : 50;
+    const depositAmount = (vipTotalPrice * percentage / 100);
+    const remainingBalance = vipTotalPrice - depositAmount;
+    
+    bookingData.payment = {
+        total: vipTotalPrice,
+        depositPaid: depositAmount,
+        remainingBalance: remainingBalance,
+        method: method
+    };
+    
+    setTimeout(() => {
+        let methodName = '';
+        if (method === 'apple') methodName = 'Apple Pay';
+        else if (method === 'google') methodName = 'Google Pay';
+        else if (method === 'card') methodName = 'Credit Card (Stripe)';
+        
+        alert(`✓ Payment via ${methodName}\n\nPrototype mode - In production, this will process real payments`);
+        
+        pageHistory = [];
+        showPage('page-confirmation');
+        updateVIPConfirmation();
+        
+        buttons.forEach(id => document.getElementById(id).disabled = false);
+    }, 800);
 }
 
 function updateVIPConfirmation() {
+    const bookingType = bookingData.vip.bookingType;
+    
     document.getElementById('booking-ref').textContent = 'VIP-' + Math.random().toString(36).substring(2, 8).toUpperCase();
-   
-    document.getElementById('confirm-experience').textContent = 'VIP Room Request';
-   
-    const dateObj = new Date(bookingData.vip.date + 'T' + bookingData.vip.time);
-    const formatted = dateObj.toLocaleDateString('en-AU', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    }) + ' at ' + dateObj.toLocaleTimeString('en-AU', {hour: '2-digit', minute: '2-digit'});
-   
-    document.getElementById('confirm-datetime').textContent = formatted;
-    document.getElementById('confirm-details').textContent = `${bookingData.vip.pax} Guests • Awaiting Staff Confirmation`;
+    
+    let experienceText = '';
+    let datetimeText = '';
+    let detailsText = '';
+    
+    if (bookingType === 'minspend') {
+        experienceText = 'VIP Room - Minimum Spend';
+        const dateObj = new Date(bookingData.vip.minSpend.date + 'T' + bookingData.vip.minSpend.time);
+        datetimeText = dateObj.toLocaleDateString('en-AU', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}) +
+                      ' at ' + dateObj.toLocaleTimeString('en-AU', {hour: '2-digit', minute: '2-digit'});
+        const roomInfo = PRICING.vip.rooms[bookingData.vip.minSpend.room];
+        detailsText = `${roomInfo.name} (up to ${roomInfo.capacity} guests)`;
+    } else {
+        experienceText = 'VIP Room - Premium Package';
+        const dateObj = new Date(bookingData.vip.package.date + 'T' + bookingData.vip.package.time);
+        datetimeText = dateObj.toLocaleDateString('en-AU', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}) +
+                      ' at ' + dateObj.toLocaleTimeString('en-AU', {hour: '2-digit', minute: '2-digit'});
+        detailsText = `${bookingData.vip.package.pax} guests`;
+    }
+    
+    document.getElementById('confirm-experience').textContent = experienceText;
+    document.getElementById('confirm-datetime').textContent = datetimeText;
+    document.getElementById('confirm-details').textContent = detailsText;
+    
+    // Hide smoking row for VIP
+    document.getElementById('smoking-summary-row').style.display = 'none';
+    
+    if (bookingData.payment) {
+        const paymentSummary = document.getElementById('payment-summary');
+        if (paymentSummary) {
+            paymentSummary.style.display = 'block';
+            document.getElementById('confirm-total').textContent = `$${bookingData.payment.total.toFixed(2)}`;
+            document.getElementById('confirm-deposit').textContent = `$${bookingData.payment.depositPaid.toFixed(2)}`;
+            document.getElementById('confirm-remaining').textContent = `$${bookingData.payment.remainingBalance.toFixed(2)}`;
+        }
+    }
 }
 
 // ========================================
@@ -1796,14 +2209,31 @@ function updatePackageTotal() {
     if (addonsCostEl) addonsCostEl.textContent = `$${addonsCost}`;
     if (totalCostEl) totalCostEl.textContent = `$${total}`;
 }
-function resetBooking() {
+
+function toggleCreditInfo(e) {
+  if (e) e.stopPropagation();
+  const modal = document.getElementById('creditInfoModal');
+  modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+}
+
+// Toggle cocktail menu for rooftop "12 x Cocktail Package"
+function toggleRooftopCocktailPackageMenu() {
+    const checkbox = document.getElementById('rooftop-addon-9');
+    const menu = document.getElementById('rooftop-cocktail-package-menu');
+    if (checkbox && menu) {
+        menu.style.display = checkbox.checked ? 'block' : 'none';
+    }
+}
+
+function resetBooking(){
+    
     bookingData = {
         experience: '',
         vipTour: {},
         events: {},
         payment: null,
         rooftop: {
-            date: '', pax: '', session: '', name: '', phone: '', email: '',smoking: '',
+            date: '', pax: '', session: '', name: '', phone: '', email: '', smoking:"",
             cocktailsOnEntry: false, windowSeat: false
         },
     // VIP Room specific
@@ -1818,8 +2248,28 @@ function resetBooking() {
         specialRequests: ''
     },
         vip: {
-            date: '', time: '', pax: '', name: '', email: '', phone: '',
-            contactHours: '', specialRequests: ''
+            bookingType: '', // 'minspend' or 'package'
+        // Minimum spend booking
+        minSpend: {
+            name: '',
+            phone: '',
+            email: '',
+            date: '',
+            time: '',
+            room: '',
+            pax: '',
+            addons: []
+        },
+        // Package booking
+        package: {
+            name: '',
+            phone: '',
+            email: '',
+            date: '',
+            time: '',
+            pax: '',
+            addons: []
+        }
         },
         karaoke: {
             bookingType: '',
@@ -1840,17 +2290,4 @@ function resetBooking() {
     pageHistory = [];
     showPage('page-selection');
 }
-function toggleCreditInfo(e) {
-  if (e) e.stopPropagation();
-  const modal = document.getElementById('creditInfoModal');
-  modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
-}
 
-// Toggle cocktail menu for rooftop "12 x Cocktail Package"
-function toggleRooftopCocktailPackageMenu() {
-    const checkbox = document.getElementById('rooftop-addon-9');
-    const menu = document.getElementById('rooftop-cocktail-package-menu');
-    if (checkbox && menu) {
-        menu.style.display = checkbox.checked ? 'block' : 'none';
-    }
-}

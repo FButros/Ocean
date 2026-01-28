@@ -1598,7 +1598,7 @@
             
             <div class="info-box">
                 <strong>Deposit Information:</strong>
-                You can pay 20% minimum deposit, or use the slider below to adjust the amount up to the full price.
+                You can pay 50% minimum deposit, or use the slider below to adjust the amount up to the full price.
             </div>
             
             <div class="form-group">
@@ -1654,8 +1654,8 @@
         </div>
     </div>
 
-    <!-- VIP ROOM: Details Form -->
-    <div id="page-vip-details" class="page">
+    <!-- VIP ROOM: Booking Type Selection -->
+    <div id="page-vip-type" class="page">
         <div class="header-small">
             <button class="back-btn" onclick="goBack()">← Back</button>
             <img src="https://images.squarespace-cdn.com/content/v1/65dec516adff7d2580b90124/37d9d0fb-8085-41bd-9f5c-aa354f22470c/012+Logo+Transparent.ai.png?format=1500w" alt="Ocean 12" class="logo-small">
@@ -1663,176 +1663,187 @@
         </div>
         
         <div class="container">
-            <h1>VIP Room Booking</h1>
+            <h1>Book a VIP Room</h1>
             
-            <div class="info-box">
+            <div class="info-box" style="margin-bottom: 2rem;">
                 <strong>OCEAN 12's VIP Rooms</strong>
                 <p style="margin-top: 0.75rem; line-height: 1.6;">
-                    Transform your gathering into an extraordinary experience with our VIP rooms. Each elegantly designed space features advanced karaoke systems, superior audio-visual technology, private bathroom, balcony, and dedicated butler service.
-                </p>
-                <p style="margin-top: 0.75rem; line-height: 1.6; color: var(--primary);">
-                    <strong>All reservations will be confirmed by OCEAN 12 Staff via phone call.</strong>
+                    Transform your gathering into an extraordinary experience. Each elegantly designed space features advanced karaoke systems, superior audio-visual technology, private bathroom, balcony, and dedicated butler service.
                 </p>
             </div>
             
-            <form id="vip-details-form" class="form">
-                <div class="form-group">
-                    <label class="label">
-                        <span class="label-text">Desired Date <span style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 300;">(Closed Mondays)</span></span>
-                        <span class="required">*</span>
-                    </label>
-                    <input type="date" id="vip-date" required class="input">
+            <div class="selection-grid">
+                <div class="selection-card" onclick="selectVIPType('minspend')">
+                    <div class="icon"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>
+                    <h2>Book<br>Minimum Spend</h2>
+                    <p>COMMIT TO MINIMUM SPEND AND RECEIVE THAT VALUE AS CREDIT TO USE ON FOOD AND BEVERAGE</p>
                 </div>
                 
+                <div class="selection-card" onclick="selectVIPType('package')">
+                    <div class="icon"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+                    <h2>Book a<br>Package</h2>
+                    <p>PREMIUM ALL-INCLUSIVE VIP PACKAGE VALUED AT OVER $3,000</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIP MINIMUM SPEND: Details -->
+    <div id="page-vip-minspend-details" class="page">
+        <div class="header-small">
+            <button class="back-btn" onclick="goBack()">← Back</button>
+            <img src="https://images.squarespace-cdn.com/content/v1/65dec516adff7d2580b90124/37d9d0fb-8085-41bd-9f5c-aa354f22470c/012+Logo+Transparent.ai.png?format=1500w" alt="Ocean 12" class="logo-small">
+            <div style="width: 80px;"></div>
+        </div>
+        <div class="info-circle" onclick="toggleCreditInfo(event)">i</div>
+        
+        <div class="container">
+            <h1>VIP Minimum Spend</h1>
+            
+            <form id="vip-minspend-form" class="form">
                 <div class="form-group">
-                    <label class="label">
-                        <span class="label-text">Desired Time</span>
-                        <span class="required">*</span>
-                    </label>
-                    <select id="vip-time" required class="input">
+                    <label class="label"><span class="label-text">Full Name</span><span class="required">*</span></label>
+                    <input type="text" id="vip-ms-name" required class="input">
+                </div>
+                <div class="form-group">
+                    <label class="label"><span class="label-text">Phone Number</span><span class="required">*</span></label>
+                    <input type="tel" id="vip-ms-phone" required class="input" placeholder="+61 4XX XXX XXX">
+                </div>
+                <div class="form-group">
+                    <label class="label"><span class="label-text">Email Address</span><span class="required">*</span></label>
+                    <input type="email" id="vip-ms-email" required class="input">
+                </div>
+                <div class="form-group">
+                    <label class="label"><span class="label-text">Date <span style="font-size: 0.75rem; color: var(--text-secondary);">(Closed Mondays)</span></span><span class="required">*</span></label>
+                    <input type="date" id="vip-ms-date" required class="input">
+                </div>
+                <div class="form-group">
+                    <label class="label"><span class="label-text">Time of Arrival</span><span class="required">*</span></label>
+                    <select id="vip-ms-time" required class="input">
                         <option value="">Select time...</option>
-                        <option value="20:00">8:00 PM</option>
-                        <option value="20:30">8:30 PM</option>
-                        <option value="21:00">9:00 PM</option>
-                        <option value="21:30">9:30 PM</option>
-                        <option value="22:00">10:00 PM</option>
-                        <option value="22:30">10:30 PM</option>
-                        <option value="23:00">11:00 PM</option>
-                        <option value="23:30">11:30 PM</option>
-                        <option value="00:00">12:00 AM</option>
-                        <option value="00:30">12:30 AM</option>
-                        <option value="01:00">1:00 AM</option>
+                        <option value="20:00">8:00 PM</option><option value="20:30">8:30 PM</option><option value="21:00">9:00 PM</option><option value="21:30">9:30 PM</option><option value="22:00">10:00 PM</option><option value="22:30">10:30 PM</option><option value="23:00">11:00 PM</option><option value="23:30">11:30 PM</option><option value="00:00">12:00 AM</option><option value="00:30">12:30 AM</option><option value="01:00">1:00 AM</option>
                     </select>
                 </div>
-                
                 <div class="form-group">
-                    <label class="label">
-                        <span class="label-text">Number of Guests</span>
-                        <span class="required">*</span>
-                    </label>
-                    <input type="number" id="vip-pax" min="1" max="47" required class="input" placeholder="Max 47 guests">
+                    <label class="label"><span class="label-text">Select Room</span><span class="required">*</span></label>
+                    <div class="radio-group">
+                        <label class="radio-label"><input type="radio" name="vip-ms-room" value="vip999" class="radio-input" required><span class="radio-custom"></span><span class="radio-text">VIP 999 (up to 47 guests) - <strong>$2,000</strong> Sun-Thu | <strong>$3,000</strong> Fri-Sat <span style="color: var(--text-secondary);">+ 10%</span></span></label>
+                        <label class="radio-label"><input type="radio" name="vip-ms-room" value="vip777" class="radio-input"><span class="radio-custom"></span><span class="radio-text">VIP 777 (up to 43 guests) - <strong>$2,000</strong> Sun-Thu | <strong>$3,000</strong> Fri-Sat <span style="color: var(--text-secondary);">+ 10%</span></span></label>
+                        <label class="radio-label"><input type="radio" name="vip-ms-room" value="vip666" class="radio-input"><span class="radio-custom"></span><span class="radio-text">VIP 666 (up to 32 guests) - <strong>$2,000</strong> Sun-Thu | <strong>$3,000</strong> Fri-Sat <span style="color: var(--text-secondary);">+ 10%</span></span></label>
+                        <label class="radio-label"><input type="radio" name="vip-ms-room" value="vip888" class="radio-input"><span class="radio-custom"></span><span class="radio-text">VIP 888 (up to 29 guests) - <strong>$2,000</strong> Sun-Thu | <strong>$3,000</strong> Fri-Sat <span style="color: var(--text-secondary);">+ 10%</span></span></label>
+                    </div>
                 </div>
-                
-                <div class="form-group">
-                    <label class="label">
-                        <span class="label-text">Full Name</span>
-                        <span class="required">*</span>
-                    </label>
-                    <input type="text" id="vip-name" required class="input">
-                </div>
-                
-                <div class="form-group">
-                    <label class="label">
-                        <span class="label-text">Email Address</span>
-                        <span class="required">*</span>
-                    </label>
-                    <input type="email" id="vip-email" required class="input">
-                </div>
-                
-                <div class="form-group">
-                    <label class="label">
-                        <span class="label-text">Phone Number</span>
-                        <span class="required">*</span>
-                    </label>
-                    <input type="tel" id="vip-phone" required class="input" placeholder="+61 4XX XXX XXX">
-                </div>
-                
-                <div class="form-group">
-                    <label class="label">
-                        <span class="label-text">Best Hours to Contact (6pm - 10pm)</span>
-                        <span class="required">*</span>
-                    </label>
-                    <input type="text" id="vip-contact-hours" required class="input" placeholder="e.g., 7pm - 9pm">
-                </div>
-                
-                <div class="form-group">
-                    <label class="label">
-                        <span class="label-text">Special Requests or Room Preference (Optional)</span>
-                    </label>
-                    <textarea id="vip-requests" rows="4" class="input" placeholder="While we'll do our best to accommodate room requests, placement is based on capacity."></textarea>
-                </div>
-                
-                <button type="submit" class="btn btn-primary">Continue to Room Information →</button>
+                <div class="info-box"><strong>Note:</strong> All VIP rooms include private bathroom, balcony, and dedicated butler service. A 10% surcharge applies to all VIP bookings.</div>
+                <button type="submit" class="btn btn-primary">Continue to Add-ons →</button>
             </form>
         </div>
     </div>
 
-    <!-- VIP ROOM: Room Selection Info -->
-    <div id="page-vip-rooms" class="page">
+    <!-- VIP PACKAGE: Details -->
+    <div id="page-vip-package-details" class="page">
         <div class="header-small">
             <button class="back-btn" onclick="goBack()">← Back</button>
             <img src="https://images.squarespace-cdn.com/content/v1/65dec516adff7d2580b90124/37d9d0fb-8085-41bd-9f5c-aa354f22470c/012+Logo+Transparent.ai.png?format=1500w" alt="Ocean 12" class="logo-small">
             <div style="width: 80px;"></div>
         </div>
-        
         <div class="container">
-            <h1>VIP Room Options</h1>
-            
-            <div class="info-box">
-                <strong>Important Information</strong>
-                <ul style="margin-top: 0.75rem;">
-                    <li>Reservations are confirmed by staff via phone call</li>
-                    <li>Bookings are first come, first serve</li>
-                    <li>Room placement based on group capacity (PAX)</li>
-                    <li>If rooms are full, your card will not be charged</li>
-                    <li>Each room includes: Private bathroom, balcony, and dedicated butler service</li>
-                </ul>
+            <h1>VIP Premium Package</h1>
+            <div class="summary-card" style="margin-bottom: 2rem;">
+                <h3 style="color: var(--primary); margin-bottom: 1rem;">Premium VIP Package</h3>
+                <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary); margin-bottom: 0.5rem;">$1,780 <span style="font-size: 1rem; font-weight: normal;">Weekday</span> | $2,228 <span style="font-size: 1rem; font-weight: normal;">Weekend</span></div>
+                <div style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1rem;">Valued at over $3,000 • Limited Reservations</div>
+                <ul style="text-align: left; padding-left: 1.5rem; line-height: 1.8; color: var(--text-primary);"><li>Your choice of 3 spirit bottles</li><li>2 x Moët & Chandon</li><li>15 x Large plates</li><li>9 x Mixers</li><li>Private butler</li><li>Private bathroom</li><li>All night karaoke</li></ul>
             </div>
-            
-            <div class="vip-room-grid">
-                <div class="vip-room-card">
-                    <h3>VIP999</h3>
-                    <div class="vip-capacity">Up to 47 guests</div>
-                    <div class="vip-pricing">
-                        <div>Sun-Thu: $2,000 + 10%</div>
-                        <div>Fri-Sat: $3,000 + 10%</div>
+            <form id="vip-package-form" class="form">
+                <div class="form-group"><label class="label"><span class="label-text">Full Name</span><span class="required">*</span></label><input type="text" id="vip-pkg-name" required class="input"></div>
+                <div class="form-group"><label class="label"><span class="label-text">Phone Number</span><span class="required">*</span></label><input type="tel" id="vip-pkg-phone" required class="input" placeholder="+61 4XX XXX XXX"></div>
+                <div class="form-group"><label class="label"><span class="label-text">Email Address</span><span class="required">*</span></label><input type="email" id="vip-pkg-email" required class="input"></div>
+                <div class="form-group"><label class="label"><span class="label-text">Date <span style="font-size: 0.75rem; color: var(--text-secondary);">(Closed Mondays)</span></span><span class="required">*</span></label><input type="date" id="vip-pkg-date" required class="input"></div>
+                <div class="form-group"><label class="label"><span class="label-text">Time of Arrival</span><span class="required">*</span></label><select id="vip-pkg-time" required class="input"><option value="">Select time...</option><option value="20:00">8:00 PM</option><option value="20:30">8:30 PM</option><option value="21:00">9:00 PM</option><option value="21:30">9:30 PM</option><option value="22:00">10:00 PM</option><option value="22:30">10:30 PM</option><option value="23:00">11:00 PM</option><option value="23:30">11:30 PM</option><option value="00:00">12:00 AM</option><option value="00:30">12:30 AM</option><option value="01:00">1:00 AM</option></select></div>
+                <div class="form-group"><label class="label"><span class="label-text">Number of Guests</span><span class="required">*</span></label><input type="number" id="vip-pkg-pax" min="4" max="47" value="4" required class="input" placeholder="Enter number of guests"></div>
+                <button type="submit" class="btn btn-primary">Continue to Add-ons →</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- VIP: Add-ons -->
+    <div id="page-vip-addons" class="page">
+        <div class="header-small">
+            <button class="back-btn" onclick="goBack()">← Back</button>
+            <img src="https://images.squarespace-cdn.com/content/v1/65dec516adff7d2580b90124/37d9d0fb-8085-41bd-9f5c-aa354f22470c/012+Logo+Transparent.ai.png?format=1500w" alt="Ocean 12" class="logo-small">
+            <div style="width: 80px;"></div>
+        </div>
+        <div class="container">
+            <h1>Upgrades & Add-ons</h1>
+            <form id="vip-addons-form" class="form">
+                <div class="form-group">
+                    <label class="label"><span class="label-text">Optional Add-ons</span></label>
+                    <div class="addon-cards-grid">
+                        <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-1')"><input type="checkbox" id="vip-addon-1" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/preorder-dining.png');"></div><div class="addon-card-content"><h3 class="addon-card-title">Preorder Dining</h3><p class="addon-card-price">+$25</p><p class="addon-card-description">Order in advance</p></div><div class="addon-card-checkmark">✓</div></div>
+                        <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-2')"><input type="checkbox" id="vip-addon-2" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/preorder-beverages.png');"></div><div class="addon-card-content"><h3 class="addon-card-title">Preorder Beverages</h3><p class="addon-card-price">+$25</p><p class="addon-card-description">Order in advance</p></div><div class="addon-card-checkmark">✓</div></div>
+                        <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-3'); toggleVIPCocktailMenu();"><input type="checkbox" id="vip-addon-3" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/preorder-beverages.png');"></div><div class="addon-card-content"><h3 class="addon-card-title">Cocktail on Arrival</h3><p class="addon-card-price">+$25pp</p><p class="addon-card-description">Prepared for arrival</p></div><div class="addon-card-checkmark">✓</div></div>
+                        <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-4')"><input type="checkbox" id="vip-addon-4" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/bluetooth.png');"></div><div class="addon-card-content"><h3 class="addon-card-title">Bluetooth Music</h3><p class="addon-card-price">+$89</p><p class="addon-card-description">Connect your device</p></div><div class="addon-card-checkmark">✓</div></div>
+                    </div>
+                    <div id="vip-cocktail-menu" style="display: none; margin-top: 1rem;"><div class="cocktail-menu"><label class="label"><span class="label-text">Select Your Cocktails</span></label><div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; margin-top: 0.75rem;"><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Espresso Martini</span></label><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Margarita</span></label><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Mojito</span></label><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Old Fashioned</span></label><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Cosmopolitan</span></label><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Mai Tai</span></label><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Long Island</span></label><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Piña Colada</span></label></div></div></div>
+                    <div class="addon-cards-grid" style="margin-top: 1rem;">
+                        <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-5')"><input type="checkbox" id="vip-addon-5" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/addons/dessert.jpg');"></div><div class="addon-card-content"><h3 class="addon-card-title">Dessert Platter</h3><p class="addon-card-price">+$159</p><p class="addon-card-description">For 3 people</p></div><div class="addon-card-checkmark">✓</div></div>
+                        <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-6')"><input type="checkbox" id="vip-addon-6" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/addons/champagne.jpg');"></div><div class="addon-card-content"><h3 class="addon-card-title">Champagne on Ice</h3><p class="addon-card-price">+$230</p><p class="addon-card-description">Awaiting in room</p></div><div class="addon-card-checkmark">✓</div></div>
+                        <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-7')"><input type="checkbox" id="vip-addon-7" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/addons/banquet.jpg');"></div><div class="addon-card-content"><h3 class="addon-card-title">6 x Dish Banquet</h3><p class="addon-card-price">+$234</p><p class="addon-card-description">6 Large Dishes</p></div><div class="addon-card-checkmark">✓</div></div>
+                        <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-8'); toggleVIPCocktailMenu12();"><input type="checkbox" id="vip-addon-8" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/addons/cocktails.jpg');"></div><div class="addon-card-content"><h3 class="addon-card-title">12 x Cocktail Package</h3><p class="addon-card-price">+$398</p><p class="addon-card-description">Selection of 12</p></div><div class="addon-card-checkmark">✓</div></div>
+                    </div>
+                    <div id="vip-cocktail-menu-12" style="display: none; margin-top: 1rem;"><div class="cocktail-menu"><label class="label"><span class="label-text">Select Your Cocktails (12 Total)</span></label><div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; margin-top: 0.75rem;"><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice-12"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Espresso Martini</span></label><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice-12"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Margarita</span></label><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice-12"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Mojito</span></label><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice-12"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Old Fashioned</span></label><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice-12"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Cosmopolitan</span></label><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice-12"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Mai Tai</span></label><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice-12"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Long Island</span></label><label class="checkbox-label" style="margin: 0;"><input type="checkbox" class="checkbox-input" name="vip-cocktail-choice-12"><span class="checkbox-custom"></span><span class="checkbox-text" style="font-size: 0.85rem;">Piña Colada</span></label></div></div></div>
+                    <div class="addon-cards-grid" style="margin-top: 1rem;">
+                        <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-9')"><input type="checkbox" id="vip-addon-9" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/addons/vsop.jpg');"></div><div class="addon-card-content"><h3 class="addon-card-title">VSOP Package</h3><p class="addon-card-price">+$398</p><p class="addon-card-description">VSOP, 2 snacks, 2 soft drinks</p></div><div class="addon-card-checkmark">✓</div></div>
+                        <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-10')"><input type="checkbox" id="vip-addon-10" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/addons/photo.jpg');"></div><div class="addon-card-content"><h3 class="addon-card-title">Photo Moment</h3><p class="addon-card-price">+$400</p><p class="addon-card-description">10-15 photos</p></div><div class="addon-card-checkmark">✓</div></div>
+                        <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-11')"><input type="checkbox" id="vip-addon-11" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/addons/vodka.jpg');"></div><div class="addon-card-content"><h3 class="addon-card-title">Vodka Package</h3><p class="addon-card-price">+$424</p><p class="addon-card-description">Belvedere, snacks & drinks</p></div><div class="addon-card-checkmark">✓</div></div>
+                        <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-12')"><input type="checkbox" id="vip-addon-12" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/addons/decorations-basic.jpg');"></div><div class="addon-card-content"><h3 class="addon-card-title">Decorations Basic</h3><p class="addon-card-price">+$599</p><p class="addon-card-description">Balloon garland & more</p></div><div class="addon-card-checkmark">✓</div></div>
+                    </div>
+                    <div class="addon-cards-grid" style="margin-top: 1rem;">
+                        <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-13')"><input type="checkbox" id="vip-addon-13" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/addons/decorations-premium.jpg');"></div><div class="addon-card-content"><h3 class="addon-card-title">Decorations Premium</h3><p class="addon-card-price">+$999</p><p class="addon-card-description">LED sign & more</p></div><div class="addon-card-checkmark">✓</div></div>
+                        <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-14')"><input type="checkbox" id="vip-addon-14" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/addons/xo.jpg');"></div><div class="addon-card-content"><h3 class="addon-card-title">XO Package</h3><p class="addon-card-price">+$1,016</p><p class="addon-card-description">XO, fruit & snacks</p></div><div class="addon-card-checkmark">✓</div></div>
+                        <div class="addon-card" onclick="toggleAddonCard(this, 'vip-addon-15')"><input type="checkbox" id="vip-addon-15" class="addon-card-checkbox" onchange="updateVIPAddonsTotal()" style="display: none;"><div class="addon-card-image" style="background-image: url('assets/addons/dom-perignon.jpg');"></div><div class="addon-card-content"><h3 class="addon-card-title">Dom Perignon</h3><p class="addon-card-price">+$1,862</p><p class="addon-card-description">2 x Champagne, fruit & snacks</p></div><div class="addon-card-checkmark">✓</div></div>
                     </div>
                 </div>
-                
-                <div class="vip-room-card">
-                    <h3>VIP888</h3>
-                    <div class="vip-capacity">Up to 29 guests</div>
-                    <div class="vip-pricing">
-                        <div>Sun-Thu: $2,000 + 10%</div>
-                        <div>Fri-Sat: $3,000 + 10%</div>
-                    </div>
-                </div>
-                
-                <div class="vip-room-card">
-                    <h3>VIP777</h3>
-                    <div class="vip-capacity">Up to 43 guests</div>
-                    <div class="vip-pricing">
-                        <div>Sun-Thu: $2,000 + 10%</div>
-                        <div>Fri-Sat: $3,000 + 10%</div>
-                    </div>
-                </div>
-                
-                <div class="vip-room-card">
-                    <h3>VIP666</h3>
-                    <div class="vip-capacity">Up to 32 guests</div>
-                    <div class="vip-pricing">
-                        <div>Sun-Thu: $2,000 + 10%</div>
-                        <div>Fri-Sat: $3,000 + 10%</div>
-                    </div>
-                </div>
-                
-                <div class="vip-room-card highlight">
-                    <h3>VIP168</h3>
-                    <div class="vip-capacity">Up to 29 guests</div>
-                    <div class="vip-feature">No Smoking Balcony</div>
-                    <div class="vip-pricing">
-                        <div>Sun-Thu: $1,500 + 10%</div>
-                        <div>Fri-Sat: $2,000 + 10%</div>
-                    </div>
-                </div>
+                <div class="summary-card"><h3>Booking Total</h3><div class="summary-row"><span class="summary-label">Room/Package:</span><span class="summary-value" id="vip-base-cost">$0</span></div><div class="summary-row"><span class="summary-label">Add-ons:</span><span class="summary-value" id="vip-addons-cost">$0</span></div><div class="summary-row deposit-row"><span class="summary-label">Full Booking Total:</span><span class="summary-value deposit-amount" id="vip-total-cost">$0</span></div></div>
+                <button type="submit" class="btn btn-primary">Continue to Terms →</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- VIP: Terms -->
+    <div id="page-vip-terms" class="page">
+        <div class="header-small">
+            <button class="back-btn" onclick="goBack()">← Back</button>
+            <img src="https://images.squarespace-cdn.com/content/v1/65dec516adff7d2580b90124/37d9d0fb-8085-41bd-9f5c-aa354f22470c/012+Logo+Transparent.ai.png?format=1500w" alt="Ocean 12" class="logo-small">
+            <div style="width: 80px;"></div>
+        </div>
+        <div class="container">
+            <h1>Review & Terms</h1>
+            <div class="summary-card"><h3>Booking Summary</h3><div class="summary-row"><span class="summary-label">Experience:</span><span class="summary-value" id="vip-summary-experience">VIP Room</span></div><div class="summary-row"><span class="summary-label">Date & Time:</span><span class="summary-value" id="vip-summary-date"></span></div><div class="summary-row"><span class="summary-label">Details:</span><span class="summary-value" id="vip-summary-details"></span></div><div class="summary-row" id="vip-summary-addons-row" style="display: none;"><span class="summary-label">Add-ons:</span><span class="summary-value" id="vip-summary-addons"></span></div><div class="summary-row deposit-row"><span class="summary-label">Total:</span><span class="summary-value deposit-amount" id="vip-summary-total">$0</span></div></div>
+            <div class="terms-box"><h3>Terms & Conditions</h3><ul><li>In line with Crown's Standard, Ocean 12 is dedicated in our pursuit of Responsible Service of Alcohol. Patrons arriving demonstrating signs of intoxication may be refused entry.</li><li>Guests exhibiting signs of intoxication whilst in the venue, will not be served alcohol and may be asked to vacate.</li><li>Ocean 12 does not support split bill; guests will not be permitted to pay individually.</li><li>Cancellations must be made 48 hours in advance to qualify for a full refund.</li><li>Guests will be held financially responsible for any damages.</li><li>All deposits are strictly non-refundable.</li><li>A 10% final bill VIP surcharge applies to all VIP rooms.</li><li>Prices may increase on public holidays with an additional 15% surcharge.</li><li>Patrons must be over 18 to enter our venue, please bring ID.</li><li>Guests are not permitted to bring outside food, beverages or cigars.</li></ul></div>
+            <div class="checkbox-group"><label class="checkbox-label"><input type="checkbox" id="vip-terms-accept" class="checkbox-input"><span class="checkbox-custom"></span><span class="checkbox-text">I accept the terms and conditions</span></label></div>
+            <button onclick="proceedToVIPPayment()" class="btn btn-primary">Proceed to Payment →</button>
+        </div>
+    </div>
+
+    <!-- VIP: Payment -->
+    <div id="page-vip-payment" class="page">
+        <div class="header-small">
+            <button class="back-btn" onclick="goBack()">← Back</button>
+            <img src="https://images.squarespace-cdn.com/content/v1/65dec516adff7d2580b90124/37d9d0fb-8085-41bd-9f5c-aa354f22470c/012+Logo+Transparent.ai.png?format=1500w" alt="Ocean 12" class="logo-small">
+            <div style="width: 80px;"></div>
+        </div>
+        <div class="container">
+            <h1>Complete Payment</h1>
+            <div class="info-box"><strong>Deposit Information:</strong> You can pay 50% minimum deposit, or use the slider below to adjust the amount up to the full price.</div>
+            <div class="form-group"><label class="label"><span class="label-text">Deposit Amount: $<span id="vip-slider-amount">0</span></span></label><input type="range" id="vip-payment-slider" class="payment-slider" min="50" max="100" value="50" step="1"><div class="slider-labels"><span>50% (Minimum)</span><span>100% (Full Payment)</span></div></div>
+            <div class="payment-breakdown-card"><h3 style="font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary); text-align: center;">Payment Breakdown</h3><div class="summary-row"><span class="summary-label">Total Amount:</span><span class="summary-value" id="vip-breakdown-total">$0.00</span></div><div class="summary-row" style="border-top: 1px solid var(--border); padding-top: 0.75rem; margin-top: 0.75rem;"><span class="summary-label">Deposit (Paying Now):</span><span class="summary-value" style="color: var(--primary); font-weight: 600;" id="vip-breakdown-deposit">$0.00</span></div><div class="summary-row"><span class="summary-label">Remaining Balance:</span><span class="summary-value" id="vip-breakdown-remaining">$0.00</span></div><div style="text-align: center; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border);"><span style="font-size: 0.85rem; color: var(--text-secondary);">Balance due on arrival</span></div></div>
+            <div class="payment-methods">
+                <button onclick="processVIPPayment('apple')" id="vip-apple-pay-btn" class="payment-btn apple-pay-btn"><span class="payment-icon">🍎</span><span>Pay with Apple Pay</span></button>
+                <button onclick="processVIPPayment('google')" id="vip-google-pay-btn" class="payment-btn google-pay-btn"><span class="payment-icon">G</span><span>Pay with Google Pay</span></button>
+                <button onclick="processVIPPayment('card')" id="vip-card-pay-btn" class="payment-btn card-pay-btn"><span class="payment-icon">💳</span><span>Pay with Credit Card</span></button>
             </div>
-            
-            <div style="margin-top: 2rem; text-align: center; color: var(--text-muted); font-size: 0.95rem;">
-                <p>For tailored events, visit <a href="https://ocean12.com.au/events" style="color: var(--primary);">ocean12.com.au/events</a></p>
-                <p>or email <a href="/cdn-cgi/l/email-protection#e7829182899394a78884828689d6d5c984888ac98692" style="color: var(--primary);"><span class="__cf_email__" data-cfemail="016477646f7572416e6264606f30332f626e6c2f6074">[email&#160;protected]</span></a></p>
-            </div>
-            
-            <button onclick="submitVIPRequest()" class="btn btn-primary">Submit VIP Room Request</button>
+            <div class="secure-note">🔒 Secure payment processing via Stripe</div>
         </div>
     </div>
 
