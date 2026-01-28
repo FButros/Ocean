@@ -260,8 +260,13 @@ function selectExperience(experience) {
         showPage('page-rooftop-details');
         document.getElementById('rooftop-date').min = new Date().toISOString().split('T')[0];
     } else if (experience === 'vip') {
+        
+       if (!sessionStorage.getItem('vipWelcomeShown')) {
+        showVIPWelcome();
+        sessionStorage.setItem('vipWelcomeShown', 'true');
+    } else {
         showPage('page-vip-type');
-       
+    }
     } else if (experience === 'vip-tour') {
         showPage('page-vip-tour');
         document.getElementById('tour-date').min = new Date().toISOString().split('T')[0];
@@ -2316,5 +2321,57 @@ function toggleVIPMoreAddons() {
     } else {
         moreAddons.style.display = 'none';
         btnText.textContent = 'View More Add-ons ▼';
+    }
+}
+
+// VIP Welcome Animation
+function showVIPWelcome() {
+    const overlay = document.getElementById('vipWelcomeOverlay');
+    const particlesContainer = document.getElementById('vipParticles');
+    
+    // Clear any existing particles
+    particlesContainer.innerHTML = '';
+    
+    // Show overlay
+    overlay.classList.add('active');
+    
+    // Create gold particles
+    createVIPParticles(particlesContainer);
+    
+    // After animation, fade out and show VIP page
+    setTimeout(() => {
+        overlay.classList.add('fade-out');
+        
+        setTimeout(() => {
+            overlay.classList.remove('active', 'fade-out');
+            particlesContainer.innerHTML = '';
+            showPage('page-vip-type');
+        }, 500);
+    }, 2500);
+}
+
+function createVIPParticles(container) {
+    const particleCount = 50;
+    
+    for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'vip-particle' + (Math.random() > 0.5 ? ' sparkle' : '');
+        
+        // Random position across the screen
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = '-20px';
+        
+        // Random delay for staggered effect
+        particle.style.animationDelay = (Math.random() * 2) + 's';
+        
+        // Random size variation
+        const size = 4 + Math.random() * 8;
+        particle.style.width = size + 'px';
+        particle.style.height = size + 'px';
+        
+        // Random animation duration
+        particle.style.animationDuration = (2 + Math.random() * 2) + 's';
+        
+        container.appendChild(particle);
     }
 }
