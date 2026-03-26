@@ -96,9 +96,16 @@ const PRICING = {
     karaoke: {
         night: {
             rooms: {
-                small: 400,
-                medium: 600,
-                large: 800
+                weekday: {
+                    small: 300,
+                    medium: 600,
+                    large: 800
+                },
+                weekend: {
+                    small: 500,
+                    medium: 800,
+                    large: 1000
+                }
             },
             addons: {
                 decorationsBasic: 599,
@@ -523,9 +530,10 @@ document.getElementById('karaoke-session-form').addEventListener('submit', funct
     bookingData.karaoke.session.email = document.getElementById('ks-email').value;
    
     console.log('Karaoke session details:', bookingData.karaoke.session);
-   
+
     pageHistory.push('page-karaoke-session-details');
     showPage('page-karaoke-session-upgrades');
+    updateKaraokeSessionTotal();
 });
 
 document.getElementById('karaoke-session-upgrades-form').addEventListener('submit', function(e) {
@@ -882,7 +890,13 @@ function updateKaraokeTermsSummary() {
     // Calculate and display total
     let total = 0;
     if (bookingType === 'night') {
-        total = PRICING.karaoke.night.rooms[bookingData.karaoke.night.roomSize] || 0;
+        // Determine if the booking is on a weekday or weekend
+        const dateObj = new Date(bookingData.karaoke.night.date + 'T00:00:00');
+        const dayOfWeek = dateObj.getDay(); // 0=Sunday, 1=Monday, ..., 6=Saturday
+        const isWeekend = (dayOfWeek === 5 || dayOfWeek === 6); // Friday or Saturday
+        const priceCategory = isWeekend ? 'weekend' : 'weekday';
+
+        total = PRICING.karaoke.night.rooms[priceCategory][bookingData.karaoke.night.roomSize] || 0;
         bookingData.karaoke.night.addons.forEach(addon => {
             total += addon.price;
         });
@@ -1219,8 +1233,8 @@ document.getElementById('rooftop-addons-form').addEventListener('submit', functi
 // Update rooftop addons running total
 function updateRooftopAddonsTotal() {
     const pax = parseInt(bookingData.rooftop.pax) || 0;
-    const minSpendCost = pax * PRICING.rooftop.depositPerPerson;
-    
+    const preAuthAmount = pax * PRICING.rooftop.depositPerPerson;
+
     // Calculate addons
     let addonsCost = 0;
     const addonPrices = {
@@ -1233,24 +1247,35 @@ function updateRooftopAddonsTotal() {
         'rooftop-addon-8': PRICING.rooftop.addons.dishBanquet,
         'rooftop-addon-9': PRICING.rooftop.addons.cocktailPackage
     };
-    
+
+    let hasAddons = false;
     for (let addonId in addonPrices) {
         const checkbox = document.getElementById(addonId);
         if (checkbox && checkbox.checked) {
             addonsCost += addonPrices[addonId];
+            hasAddons = true;
         }
     }
-    
-    const total = minSpendCost + addonsCost;
-    
-    // Update display
+
+    // NEW LOGIC: If addons selected, only charge addons (100% payment). Otherwise, pre-auth $50/person
     const minSpendEl = document.getElementById('rt-min-spend-cost');
     const addonsEl = document.getElementById('rt-addons-cost');
     const totalEl = document.getElementById('rt-total-cost');
-    
-    if (minSpendEl) minSpendEl.textContent = `$${minSpendCost}`;
-    if (addonsEl) addonsEl.textContent = `$${addonsCost}`;
-    if (totalEl) totalEl.textContent = `$${total}`;
+    const minSpendLabelEl = document.querySelector('#page-rooftop-addons .summary-card .summary-row:first-child .summary-label');
+
+    if (hasAddons) {
+        // If addons selected: Only show addons as payment (no pre-auth)
+        if (minSpendEl) minSpendEl.textContent = '$0';
+        if (addonsEl) addonsEl.textContent = `$${addonsCost}`;
+        if (totalEl) totalEl.textContent = `$${addonsCost}`;
+        if (minSpendLabelEl) minSpendLabelEl.textContent = 'Pre-authorization (waived with add-ons):';
+    } else {
+        // If no addons: Show pre-authorization amount
+        if (minSpendEl) minSpendEl.textContent = `$${preAuthAmount}`;
+        if (addonsEl) addonsEl.textContent = '$0';
+        if (totalEl) totalEl.textContent = `$${preAuthAmount}`;
+        if (minSpendLabelEl) minSpendLabelEl.textContent = 'Pre-authorization ($50/person):';
+    }
 }
 
 // Rooftop terms summary (displays date, session, pax, addons)
@@ -1280,20 +1305,47 @@ function updateRooftopTermsSummary() {
         document.getElementById('rooftop-summary-addons-row').style.display = 'none';
     }
     
-    // Calculate and display total (like karaoke)
+    // Calculate and display total with NEW LOGIC
     const pax = parseInt(bookingData.rooftop.pax) || 0;
-    let total = pax * PRICING.rooftop.depositPerPerson; // Minimum spend per person
-    
-    if (bookingData.rooftop.addons && bookingData.rooftop.addons.length > 0) {
+    const preAuthAmount = pax * PRICING.rooftop.depositPerPerson;
+    let total = 0;
+    let hasAddons = bookingData.rooftop.addons && bookingData.rooftop.addons.length > 0;
+
+    if (hasAddons) {
+        // If addons selected: Only charge addons (100% payment, no pre-auth)
         bookingData.rooftop.addons.forEach(addon => {
             total += addon.price;
         });
+    } else {
+        // If no addons: Pre-authorization of $50/person
+        total = preAuthAmount;
     }
-    
+
     const totalEl = document.getElementById('rooftop-summary-total');
+    const totalLabelEl = document.querySelector('#page-rooftop-terms .deposit-row .summary-label');
+
     if (totalEl) {
         totalEl.textContent = `$${total}`;
         document.getElementById('rooftop-summary-total-row').style.display = 'flex';
+    }
+
+    // Update label based on whether addons are selected
+    if (totalLabelEl) {
+        if (hasAddons) {
+            totalLabelEl.textContent = 'Payment Required (100%):';
+        } else {
+            totalLabelEl.textContent = 'Pre-authorization Required:';
+        }
+    }
+
+    // Update the payment note based on whether addons are selected
+    const paymentNoteEl = document.getElementById('rooftop-payment-note');
+    if (paymentNoteEl) {
+        if (hasAddons) {
+            paymentNoteEl.innerHTML = '<strong>Note:</strong> Your selected add-ons will be charged at 100% payment in full to secure your booking. No pre-authorization is required.';
+        } else {
+            paymentNoteEl.innerHTML = '<strong>Note:</strong> A pre-authorization of $50 per person will be charged to secure your booking.';
+        }
     }
 }
 
@@ -1314,49 +1366,55 @@ let rooftopTotalPrice = 0;
 
 function updateRooftopPaymentSummary() {
     const pax = parseInt(bookingData.rooftop.pax) || 0;
-    
-    // Calculate total (min spend + addons)
-    rooftopTotalPrice = pax * PRICING.rooftop.depositPerPerson;
-    
-    if (bookingData.rooftop.addons && bookingData.rooftop.addons.length > 0) {
+    const preAuthAmount = pax * PRICING.rooftop.depositPerPerson;
+    let hasAddons = bookingData.rooftop.addons && bookingData.rooftop.addons.length > 0;
+
+    // NEW LOGIC: If addons, charge 100% of addons. Otherwise, pre-auth $50/person
+    if (hasAddons) {
+        // Calculate total addons cost
+        rooftopTotalPrice = 0;
         bookingData.rooftop.addons.forEach(addon => {
             rooftopTotalPrice += addon.price;
         });
+    } else {
+        // Pre-authorization amount
+        rooftopTotalPrice = preAuthAmount;
     }
-    
+
     // Setup payment slider
     const slider = document.getElementById('rooftop-payment-slider');
     const sliderAmount = document.getElementById('rooftop-slider-amount');
-    
+
     // Payment breakdown elements
     const breakdownTotal = document.getElementById('rooftop-breakdown-total');
     const breakdownDeposit = document.getElementById('rooftop-breakdown-deposit');
     const breakdownRemaining = document.getElementById('rooftop-breakdown-remaining');
-    
-    // Calculate 50% deposit
-    const minDeposit = rooftopTotalPrice * 0.2;
-    
-    // Initialize breakdown card
-    if (breakdownTotal) breakdownTotal.textContent = `$${rooftopTotalPrice.toFixed(2)}`;
-    if (breakdownDeposit) breakdownDeposit.textContent = `$${minDeposit.toFixed(2)}`;
-    if (breakdownRemaining) breakdownRemaining.textContent = `$${(rooftopTotalPrice - minDeposit).toFixed(2)}`;
-    
-    // Update slider
-    slider.value = 20;
-    sliderAmount.textContent = minDeposit.toFixed(2);
-    
-    // Slider event listener
-    slider.oninput = function() {
-        const percentage = this.value;
-        const amount = (rooftopTotalPrice * percentage / 100);
-        const remaining = rooftopTotalPrice - amount;
-        
-        sliderAmount.textContent = amount.toFixed(2);
-        
-        // Update breakdown card
-        if (breakdownDeposit) breakdownDeposit.textContent = `$${amount.toFixed(2)}`;
-        if (breakdownRemaining) breakdownRemaining.textContent = `$${remaining.toFixed(2)}`;
-    };
+
+    if (hasAddons) {
+        // For addons: 100% payment required, no slider needed
+        if (breakdownTotal) breakdownTotal.textContent = `$${rooftopTotalPrice.toFixed(2)}`;
+        if (breakdownDeposit) breakdownDeposit.textContent = `$${rooftopTotalPrice.toFixed(2)}`;
+        if (breakdownRemaining) breakdownRemaining.textContent = '$0.00';
+
+        // Hide or disable slider for 100% payment
+        if (slider) {
+            slider.value = 100;
+            slider.disabled = true;
+        }
+        if (sliderAmount) sliderAmount.textContent = rooftopTotalPrice.toFixed(2);
+    } else {
+        // For pre-authorization: Show full amount as pre-auth (100%)
+        if (breakdownTotal) breakdownTotal.textContent = `$${rooftopTotalPrice.toFixed(2)}`;
+        if (breakdownDeposit) breakdownDeposit.textContent = `$${rooftopTotalPrice.toFixed(2)}`;
+        if (breakdownRemaining) breakdownRemaining.textContent = '$0.00';
+
+        // Set slider to 100% for pre-auth
+        if (slider) {
+            slider.value = 100;
+            slider.disabled = true;
+        }
+        if (sliderAmount) sliderAmount.textContent = rooftopTotalPrice.toFixed(2);
+    }
 }
 
 // Step 5: Payment Processing
@@ -2009,12 +2067,24 @@ function toggleSessionCocktailMenu() {
 
 // Update karaoke night running total
 function updateKaraokeNightTotal() {
+    // Get the booking date to determine weekday/weekend pricing
+    const dateInput = document.getElementById('kn-date');
+    let isWeekend = false;
+
+    if (dateInput && dateInput.value) {
+        const selectedDate = new Date(dateInput.value + 'T00:00:00');
+        const dayOfWeek = selectedDate.getDay(); // 0=Sunday, 1=Monday, ..., 6=Saturday
+        // Weekend is Friday(5) and Saturday(6)
+        isWeekend = (dayOfWeek === 5 || dayOfWeek === 6);
+    }
+
     // Get room cost
-    const roomSizeRadio = document.querySelector('input[name="kn-room-size"]');
+    const roomSizeRadio = document.querySelector('input[name="kn-room-size"]:checked');
     let roomCost = 0;
     if (roomSizeRadio) {
         const roomSize = roomSizeRadio.value;
-        roomCost = PRICING.karaoke.night.rooms[roomSize] || 0;
+        const priceCategory = isWeekend ? 'weekend' : 'weekday';
+        roomCost = PRICING.karaoke.night.rooms[priceCategory][roomSize] || 0;
     }
    
     // Calculate addons
@@ -2055,11 +2125,70 @@ function updateKaraokeNightTotal() {
     if (totalCostEl) totalCostEl.textContent = `$${total}`;
 }
 
-// Update total when room size changes
+// Update total when room size or date changes
 document.addEventListener('DOMContentLoaded', function() {
     const roomRadios = document.querySelectorAll('input[name="kn-room-size"]');
     roomRadios.forEach(radio => {
         radio.addEventListener('change', updateKaraokeNightTotal);
+    });
+
+    // Add listener for date changes (affects weekday/weekend pricing)
+    const dateInput = document.getElementById('kn-date');
+    if (dateInput) {
+        dateInput.addEventListener('change', updateKaraokeNightTotal);
+    }
+
+    // Call once on load to show initial totals if values already selected
+    updateKaraokeNightTotal();
+});
+
+// Update karaoke session running total
+function updateKaraokeSessionTotal() {
+    // Get session price from bookingData (set when they selected duration)
+    let sessionCost = bookingData.karaoke.session.price || 0;
+
+    // Calculate addons
+    let addonsCost = 0;
+    const addonPrices = {
+        'ks-addon-1': PRICING.karaoke.session.addons.decorationsBasic,
+        'ks-addon-2': PRICING.karaoke.session.addons.decorationsPremium,
+        'ks-addon-3': PRICING.karaoke.session.addons.cocktailPackage,
+        'ks-addon-4': PRICING.karaoke.session.addons.champagneOnIce,
+        'ks-addon-5': PRICING.karaoke.session.addons.vsopBottle,
+        'ks-addon-6': PRICING.karaoke.session.addons.vodkaBottle,
+        'ks-addon-7': PRICING.karaoke.session.addons.xoBottle,
+        'ks-addon-8': PRICING.karaoke.session.addons.domPerignonPackage,
+        'ks-addon-9': PRICING.karaoke.session.addons.dishBanquet,
+        'ks-addon-10': PRICING.karaoke.session.addons.preorderDining,
+        'ks-addon-11': PRICING.karaoke.session.addons.preorderBeverages,
+        'ks-addon-12': PRICING.karaoke.session.addons.professionalPhoto,
+        'ks-addon-13': PRICING.karaoke.session.addons.bluetoothMusic
+    };
+
+    for (let addonId in addonPrices) {
+        const checkbox = document.getElementById(addonId);
+        if (checkbox && checkbox.checked) {
+            addonsCost += addonPrices[addonId];
+        }
+    }
+
+    const total = sessionCost + addonsCost;
+
+    // Update display
+    const sessionCostEl = document.getElementById('ks-session-cost');
+    const addonsCostEl = document.getElementById('ks-addons-cost');
+    const totalCostEl = document.getElementById('ks-total-cost');
+
+    if (sessionCostEl) sessionCostEl.textContent = `$${sessionCost}`;
+    if (addonsCostEl) addonsCostEl.textContent = `$${addonsCost}`;
+    if (totalCostEl) totalCostEl.textContent = `$${total}`;
+}
+
+// Update total when session addons change
+document.addEventListener('DOMContentLoaded', function() {
+    const sessionAddonCheckboxes = document.querySelectorAll('#page-karaoke-session-upgrades input[type="checkbox"]');
+    sessionAddonCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', updateKaraokeSessionTotal);
     });
 });
 
